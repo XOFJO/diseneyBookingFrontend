@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import SearchForm from "../components/search/SearchForm";
 
-function HomePage() {
+const HomePage = () => {
   return (
-    <div>HomePage</div>
-  )
-}
+    <div>
+      <h1>欢迎来到迪士尼酒店预订系统</h1>
+      <SearchForm />
+    </div>
+  );
+};
 
-export default HomePage
+export default HomePage;
