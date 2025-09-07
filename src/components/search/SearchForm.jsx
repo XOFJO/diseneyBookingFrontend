@@ -31,7 +31,7 @@ function SearchForm() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto backdrop-blur-xl border border-white/20 relative overflow-hidden"
+      className="rounded-3xl shadow-2xl p-10 max-w-5xl mx-auto backdrop-blur-xl border border-white/20 relative overflow-hidden"
       style={{
         background: 'rgba(255, 255, 255, 0.1)',
         backdropFilter: 'blur(20px)',
@@ -44,32 +44,6 @@ function SearchForm() {
       <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 opacity-80 animate-pulse shadow-lg shadow-blue-400/50"></div>
       <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gradient-to-r from-blue-300 to-cyan-300 animate-pulse"></div>
       
-      {/* Tab Navigation */}
-      {/* <div className="flex mb-8 bg-black/40 rounded-xl p-1 border border-red-500/20">
-        {['Tickets & Packages', 'Hotels'].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all duration-300 relative ${
-              activeTab === tab
-                ? 'text-yellow-400 bg-gradient-to-r from-red-600/50 to-red-700/50 shadow-lg border border-red-400/30'
-                : 'text-gray-300 hover:text-yellow-300 hover:bg-red-900/20'
-            }`}
-            style={{
-              textShadow: activeTab === tab ? '0 0 10px rgba(251, 191, 36, 0.5)' : 'none'
-            }}
-          >
-            {tab}
-            {activeTab === tab && (
-              <motion.div
-                layoutId="activeTab"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full shadow-lg shadow-yellow-400/50"
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              />
-            )}
-          </button>
-        ))}
-      </div> */}
 
       {/* Hotel Selection */}
       <motion.div
@@ -88,7 +62,7 @@ function SearchForm() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
       >
         <DateRangePicker
           checkIn={formData.checkIn}
@@ -138,26 +112,6 @@ function SearchForm() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
           <span className="text-lg relative z-10">🔍 Search for prices</span>
-        </motion.button>
-
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          className="text-yellow-400 hover:text-yellow-300 font-medium flex items-center space-x-2 transition-colors duration-200 relative"
-          style={{
-            textShadow: '0 0 5px rgba(251, 191, 36, 0.5)'
-          }}
-        >
-          <span>⚡ View all products</span>
-          <motion.svg 
-            className="w-4 h-4" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-            whileHover={{ x: 3 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </motion.svg>
         </motion.button>
       </motion.div>
     </motion.div>

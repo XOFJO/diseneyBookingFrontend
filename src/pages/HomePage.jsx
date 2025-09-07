@@ -9,14 +9,15 @@ const HomePage = () => {
         backgroundImage: 'url(/src/assets/image.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        paddingTop: '15vh'
       }}
     >
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40"></div>
       
       {/* Center content area */}
-      <div className="relative z-10 w-full max-w-lg">
+      <div className="relative z-10 w-full max-w-6xl">
         <SearchForm />
       </div>
     </div>
