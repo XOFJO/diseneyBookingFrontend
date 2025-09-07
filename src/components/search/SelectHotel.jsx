@@ -76,7 +76,7 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
                     }`
                   }
                 >
-                  {({ selected: isSelected, active }) => (
+                  {({ selected: isSelected }) => (
                     <motion.div
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
