@@ -5,7 +5,6 @@ import DateRangePicker from './DateRangePicker'
 import GuestSelector from './GuestSelector'
 
 function SearchForm() {
-  const [activeTab, setActiveTab] = useState('Hotels')
   const [formData, setFormData] = useState({
     selectedHotel: null,
     checkIn: '',
@@ -32,8 +31,11 @@ function SearchForm() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-gradient-to-br from-gray-900 via-red-900/20 to-gray-900 rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto backdrop-blur-lg border-2 border-red-500/30 relative overflow-hidden"
+      className="rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto backdrop-blur-lg border-2 border-red-500/30 relative overflow-hidden"
       style={{
+        background: 'linear-gradient(-45deg, #1a1a1a, #dc2626, #f59e0b, #ef4444)',
+        backgroundSize: '400% 400%',
+        animation: 'gradientShift 8s ease-in-out infinite',
         boxShadow: '0 0 50px rgba(220, 38, 38, 0.3), inset 0 0 50px rgba(0, 0, 0, 0.5)'
       }}
     >
