@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'motion/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarDays, faMoon, faRocket } from '@fortawesome/free-solid-svg-icons'
 
 function DateRangePicker({ checkIn, checkOut, onDateChange }) {
   const [nights, setNights] = useState(1)
@@ -41,7 +43,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
         className="space-y-2"
       >
         <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
-          📅 Check In Date
+          <FontAwesomeIcon icon={faCalendarDays} className="mr-2" />Check In Date
         </label>
         <div className="relative group">
           <motion.div
@@ -61,16 +63,13 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
               }}
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-              <motion.svg 
+              <motion.div 
                 className="h-5 w-5 text-red-400 group-hover:text-yellow-400 transition-colors"
                 whileHover={{ scale: 1.2, rotate: 10 }}
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
                 style={{ filter: 'drop-shadow(0 0 3px rgba(220, 38, 38, 0.7))' }}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </motion.svg>
+                <FontAwesomeIcon icon={faCalendarDays} className="h-5 w-5" />
+              </motion.div>
             </div>
           </motion.div>
           {checkIn && (
@@ -80,7 +79,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
               className="absolute -bottom-6 left-0 text-xs text-yellow-400 font-medium"
               style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}
             >
-              ⚡ {new Date(checkIn).toLocaleDateString('en-US', { 
+              <FontAwesomeIcon icon={faRocket} className="mr-1" />{new Date(checkIn).toLocaleDateString('en-US', { 
                 weekday: 'short', 
                 month: 'short', 
                 day: 'numeric' 
@@ -99,7 +98,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
       >
         <div className="flex items-center justify-between mb-3">
           <label className="block text-sm font-medium text-yellow-400" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
-            📅 Check Out Date
+            <FontAwesomeIcon icon={faCalendarDays} className="mr-2" />Check Out Date
           </label>
           {nights > 0 && (
             <motion.span 
@@ -112,7 +111,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
                 boxShadow: '0 0 10px rgba(220, 38, 38, 0.3)'
               }}
             >
-              🌙 {nights} Night{nights > 1 ? 's' : ''}
+              <FontAwesomeIcon icon={faMoon} className="mr-1" />{nights} Night{nights > 1 ? 's' : ''}
             </motion.span>
           )}
         </div>
@@ -153,7 +152,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
               className="absolute -bottom-6 left-0 text-xs text-yellow-400 font-medium"
               style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}
             >
-              🚀 {new Date(checkOut).toLocaleDateString('en-US', { 
+              <FontAwesomeIcon icon={faRocket} className="mr-1" />{new Date(checkOut).toLocaleDateString('en-US', { 
                 weekday: 'short', 
                 month: 'short', 
                 day: 'numeric' 

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Disclosure } from '@headlessui/react'
 import { motion, AnimatePresence } from 'motion/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMinus, faPlus, faHotel, faUsers, faChild, faBed, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 function GuestSelector({ guests, children, rooms, onGuestChange }) {
   const updateGuests = (newGuests) => {
@@ -24,7 +26,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
       transition={{ delay: 0.3 }}
     >
       <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
-        👥 Room and Guest
+        <FontAwesomeIcon icon={faUsers} className="mr-2" />Room and Guest
       </label>
       
       <Disclosure>
@@ -41,7 +43,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ type: "spring", stiffness: 500, damping: 25 }}
                 >
-                  🛏️
+                  <FontAwesomeIcon icon={faBed} className="text-2xl" />
                 </motion.span>
                 <div className="flex items-center space-x-2">
                   <span className="font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>{rooms} Room</span>
@@ -55,16 +57,14 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                 </div>
               </motion.div>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                <motion.svg
-                  className="h-5 w-5 text-red-400 group-hover:text-yellow-400"
+                <motion.div
                   animate={{ rotate: open ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+                  className="h-5 w-5 text-red-400 group-hover:text-yellow-400"
                   style={{ filter: 'drop-shadow(0 0 3px rgba(220, 38, 38, 0.7))' }}
                 >
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </motion.svg>
+                  <FontAwesomeIcon icon={faChevronDown} className="h-5 w-5" />
+                </motion.div>
               </span>
             </Disclosure.Button>
             
@@ -82,7 +82,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                     {/* Rooms */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <span className="text-xl">🏨</span>
+                        <FontAwesomeIcon icon={faHotel} className="text-xl text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }} />
                         <div>
                           <span className="font-medium text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}>Rooms</span>
                         </div>
@@ -97,9 +97,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                           style={{ boxShadow: '0 0 10px rgba(220, 38, 38, 0.3)' }}
                           disabled={rooms <= 1}
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                          </svg>
+                          <FontAwesomeIcon icon={faMinus} className="w-4 h-4" />
                         </motion.button>
                         <motion.span 
                           key={rooms}
@@ -119,9 +117,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                           style={{ boxShadow: '0 0 10px rgba(220, 38, 38, 0.3)' }}
                           disabled={rooms >= 5}
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                          </svg>
+                          <FontAwesomeIcon icon={faPlus} className="w-4 h-4" />
                         </motion.button>
                       </div>
                     </div>
@@ -129,7 +125,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                     {/* Adults */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <span className="text-xl">👥</span>
+                        <FontAwesomeIcon icon={faUsers} className="text-xl text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }} />
                         <div>
                           <span className="font-medium text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}>Adults</span>
                           <p className="text-sm text-red-400/80" style={{ textShadow: '0 0 3px rgba(220, 38, 38, 0.3)' }}>Ages 18+</p>
@@ -145,9 +141,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                           style={{ boxShadow: '0 0 10px rgba(220, 38, 38, 0.3)' }}
                           disabled={guests <= 1}
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                          </svg>
+                          <FontAwesomeIcon icon={faMinus} className="w-4 h-4" />
                         </motion.button>
                         <motion.span 
                           key={guests}
@@ -167,9 +161,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                           style={{ boxShadow: '0 0 10px rgba(220, 38, 38, 0.3)' }}
                           disabled={guests >= 8}
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                          </svg>
+                          <FontAwesomeIcon icon={faPlus} className="w-4 h-4" />
                         </motion.button>
                       </div>
                     </div>
@@ -177,7 +169,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                     {/* Children */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <span className="text-xl">👶</span>
+                        <FontAwesomeIcon icon={faChild} className="text-xl text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }} />
                         <div>
                           <span className="font-medium text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}>Children</span>
                           <p className="text-sm text-red-400/80" style={{ textShadow: '0 0 3px rgba(220, 38, 38, 0.3)' }}>Ages 0-17</p>
@@ -193,9 +185,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                           style={{ boxShadow: '0 0 10px rgba(220, 38, 38, 0.3)' }}
                           disabled={children <= 0}
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                          </svg>
+                          <FontAwesomeIcon icon={faMinus} className="w-4 h-4" />
                         </motion.button>
                         <motion.span 
                           key={children}
@@ -215,9 +205,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                           style={{ boxShadow: '0 0 10px rgba(220, 38, 38, 0.3)' }}
                           disabled={children >= 4}
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                          </svg>
+                          <FontAwesomeIcon icon={faPlus} className="w-4 h-4" />
                         </motion.button>
                       </div>
                     </div>

@@ -1,13 +1,15 @@
 import React from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHotel, faBuilding, faShield, faUmbrella, faBolt, faChevronDown, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 const hotels = [
-  { id: 'all', name: 'All Hotels', icon: '🏨' },
-  { id: 'stark-tower', name: 'Stark Tower Hotel', icon: '🏢' },
-  { id: 'avengers-compound', name: 'Avengers Compound Resort', icon: '🛡️' },
-  { id: 'malibu-mansion', name: 'Malibu Tech Mansion', icon: '🏖️' },
-  { id: 'arc-reactor-suite', name: 'Arc Reactor Premium Suite', icon: '⚡' },
+  { id: 'all', name: 'All Hotels', icon: faHotel },
+  { id: 'stark-tower', name: 'Stark Tower Hotel', icon: faBuilding },
+  { id: 'avengers-compound', name: 'Avengers Compound Resort', icon: faShield },
+  { id: 'malibu-mansion', name: 'Malibu Tech Mansion', icon: faUmbrella },
+  { id: 'arc-reactor-suite', name: 'Arc Reactor Premium Suite', icon: faBolt },
 ]
 
 function SelectHotel({ selectedHotel, onHotelChange }) {
@@ -20,7 +22,7 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
       className="mb-6"
     >
       <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
-        🏨 Select Hotel
+        <FontAwesomeIcon icon={faHotel} className="mr-2" />Select Hotel
       </label>
       
       <Listbox value={selected} onChange={onHotelChange}>
@@ -36,24 +38,22 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 500, damping: 25 }}
               >
-                {selected.icon}
+                <FontAwesomeIcon icon={selected.icon} />
               </motion.span>
               <span className="block truncate font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
                 {selected.name}
               </span>
             </motion.div>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-              <motion.svg
-                className="h-5 w-5 text-red-400 group-hover:text-yellow-400"
+              <motion.div
                 animate={{ rotate: 0 }}
                 whileHover={{ rotate: 180 }}
                 transition={{ duration: 0.2 }}
-                viewBox="0 0 20 20"
-                fill="currentColor"
+                className="h-5 w-5 text-red-400 group-hover:text-yellow-400"
                 style={{ filter: 'drop-shadow(0 0 3px rgba(220, 38, 38, 0.7))' }}
               >
-                <path fillRule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-              </motion.svg>
+                <FontAwesomeIcon icon={faChevronDown} className="h-5 w-5" />
+              </motion.div>
             </span>
           </Listbox.Button>
           
@@ -89,24 +89,22 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
                           whileHover={{ scale: 1.3, rotate: 10 }}
                           transition={{ type: "spring", stiffness: 400, damping: 25 }}
                         >
-                          {hotel.icon}
+                          <FontAwesomeIcon icon={hotel.icon} />
                         </motion.span>
                         <span className={`block truncate font-medium ${isSelected ? 'text-yellow-400' : ''}`} style={{ textShadow: isSelected ? '0 0 5px rgba(251, 191, 36, 0.5)' : '0 0 3px rgba(255, 255, 255, 0.2)' }}>
                           {hotel.name}
                         </span>
                       </div>
                       {isSelected && (
-                        <motion.svg
+                        <motion.div
                           initial={{ scale: 0, rotate: -180 }}
                           animate={{ scale: 1, rotate: 0 }}
                           transition={{ type: "spring", stiffness: 500, damping: 25 }}
                           className="h-5 w-5 text-yellow-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
                           style={{ filter: 'drop-shadow(0 0 3px rgba(251, 191, 36, 0.7))' }}
                         >
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </motion.svg>
+                          <FontAwesomeIcon icon={faCheck} className="h-5 w-5" />
+                        </motion.div>
                       )}
                     </motion.div>
                   )}

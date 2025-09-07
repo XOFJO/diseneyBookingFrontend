@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'motion/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import SelectHotel from './SelectHotel'
 import DateRangePicker from './DateRangePicker'
 import GuestSelector from './GuestSelector'
@@ -111,7 +113,7 @@ function SearchForm() {
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-          <span className="text-lg relative z-10">🔍 Search for prices</span>
+          <span className="text-lg relative z-10"><FontAwesomeIcon icon={faSearch} className="mr-2" />Search for prices</span>
         </motion.button>
       </motion.div>
     </motion.div>
