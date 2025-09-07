@@ -1,8 +1,11 @@
 import React from 'react'
+import SelectHotel from './SelectHotel' 
 
 function SearchForm() {
   return (
-    <div>SearchForm</div>
+    <div>
+      <SelectHotel />
+    </div>
   )
 }
 
