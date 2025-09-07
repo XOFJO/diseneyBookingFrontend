@@ -1,14 +1,19 @@
-
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import HotelListPage from "./pages/HotelListPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center color">
-      <h1 className="text-4xl font-bold text-red-600">
-        Hello Tailwind CSS!
-      </h1>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        {/* 定义路由 */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/hotels" element={<HotelListPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
