@@ -40,8 +40,8 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
         transition={{ delay: 0.1 }}
         className="space-y-2"
       >
-        <label className="block text-sm font-medium text-gray-700 mb-3">
-          Check In Date
+        <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
+          📅 Check In Date
         </label>
         <div className="relative group">
           <motion.div
@@ -54,15 +54,20 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
               value={checkIn}
               onChange={handleCheckInChange}
               min={today}
-              className="w-full px-4 py-4 border-2 border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-blue-200 text-gray-900 font-medium bg-white group-hover:shadow-md"
+              className="w-full px-4 py-4 border-2 border-red-500/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400/60 text-white font-medium bg-gradient-to-r from-gray-900/80 to-red-900/20 group-hover:shadow-lg backdrop-blur-sm"
+              style={{ 
+                boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)',
+                colorScheme: 'dark'
+              }}
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
               <motion.svg 
-                className="h-5 w-5 text-gray-400 group-hover:text-blue-500 transition-colors"
-                whileHover={{ scale: 1.1 }}
+                className="h-5 w-5 text-red-400 group-hover:text-yellow-400 transition-colors"
+                whileHover={{ scale: 1.2, rotate: 10 }}
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
+                style={{ filter: 'drop-shadow(0 0 3px rgba(220, 38, 38, 0.7))' }}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </motion.svg>
@@ -72,9 +77,10 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             <motion.div
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="absolute -bottom-6 left-0 text-xs text-blue-600 font-medium"
+              className="absolute -bottom-6 left-0 text-xs text-yellow-400 font-medium"
+              style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}
             >
-              {new Date(checkIn).toLocaleDateString('en-US', { 
+              ⚡ {new Date(checkIn).toLocaleDateString('en-US', { 
                 weekday: 'short', 
                 month: 'short', 
                 day: 'numeric' 
@@ -92,16 +98,21 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
         className="space-y-2"
       >
         <div className="flex items-center justify-between mb-3">
-          <label className="block text-sm font-medium text-gray-700">
-            Check Out Date
+          <label className="block text-sm font-medium text-yellow-400" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
+            📅 Check Out Date
           </label>
           {nights > 0 && (
             <motion.span 
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium"
+              whileHover={{ scale: 1.1 }}
+              className="text-xs bg-gradient-to-r from-red-600 to-red-700 text-yellow-400 px-3 py-1 rounded-full font-bold border border-yellow-400/30"
+              style={{ 
+                textShadow: '0 0 5px rgba(251, 191, 36, 0.5)',
+                boxShadow: '0 0 10px rgba(220, 38, 38, 0.3)'
+              }}
             >
-              {nights} Night{nights > 1 ? 's' : ''}
+              🌙 {nights} Night{nights > 1 ? 's' : ''}
             </motion.span>
           )}
         </div>
@@ -116,15 +127,20 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
               value={checkOut}
               onChange={handleCheckOutChange}
               min={checkIn || tomorrow}
-              className="w-full px-4 py-4 border-2 border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-blue-200 text-gray-900 font-medium bg-white group-hover:shadow-md"
+              className="w-full px-4 py-4 border-2 border-red-500/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400/60 text-white font-medium bg-gradient-to-r from-gray-900/80 to-red-900/20 group-hover:shadow-lg backdrop-blur-sm"
+              style={{ 
+                boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)',
+                colorScheme: 'dark'
+              }}
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
               <motion.svg 
-                className="h-5 w-5 text-gray-400 group-hover:text-blue-500 transition-colors"
-                whileHover={{ scale: 1.1 }}
+                className="h-5 w-5 text-red-400 group-hover:text-yellow-400 transition-colors"
+                whileHover={{ scale: 1.2, rotate: -10 }}
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
+                style={{ filter: 'drop-shadow(0 0 3px rgba(220, 38, 38, 0.7))' }}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </motion.svg>
@@ -134,9 +150,10 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             <motion.div
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="absolute -bottom-6 left-0 text-xs text-blue-600 font-medium"
+              className="absolute -bottom-6 left-0 text-xs text-yellow-400 font-medium"
+              style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}
             >
-              {new Date(checkOut).toLocaleDateString('en-US', { 
+              🚀 {new Date(checkOut).toLocaleDateString('en-US', { 
                 weekday: 'short', 
                 month: 'short', 
                 day: 'numeric' 
