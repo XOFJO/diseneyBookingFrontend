@@ -31,12 +31,13 @@ function SearchForm() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto backdrop-blur-lg border-2 border-red-500/30 relative overflow-hidden"
+      className="rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto backdrop-blur-xl border border-white/20 relative overflow-hidden"
       style={{
-        background: 'linear-gradient(-45deg, #1a1a1a, #dc2626, #f59e0b, #ef4444)',
-        backgroundSize: '400% 400%',
-        animation: 'gradientShift 8s ease-in-out infinite',
-        boxShadow: '0 0 50px rgba(220, 38, 38, 0.3), inset 0 0 50px rgba(0, 0, 0, 0.5)'
+        background: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        boxShadow: '0 8px 32px rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.1)',
+        border: '1px solid rgba(255, 255, 255, 0.18)'
       }}
     >
       {/* Arc Reactor Effect */}
