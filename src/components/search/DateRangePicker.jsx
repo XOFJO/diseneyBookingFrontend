@@ -10,6 +10,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
 
   const today = new Date()
 
+
   // Calendar helper functions
   const getDaysInMonth = (date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
@@ -169,10 +170,15 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute z-50 mt-2 w-84 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl"
+            <Popover.Panel className="fixed z-50 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl"
               style={{ 
                 boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)',
-                width: '320px'
+                width: '320px',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                maxHeight: '90vh',
+                overflowY: 'auto'
               }}
             >
               {/* Calendar Header */}
@@ -274,10 +280,15 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute z-50 mt-2 w-84 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl"
+            <Popover.Panel className="fixed z-50 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl"
               style={{ 
                 boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)',
-                width: '320px'
+                width: '320px',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                maxHeight: '90vh',
+                overflowY: 'auto'
               }}
             >
               {/* Calendar Header */}
