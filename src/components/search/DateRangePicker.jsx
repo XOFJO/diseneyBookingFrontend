@@ -151,7 +151,8 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
         </label>
         
         <Popover className="relative">
-          <Popover.Button className="w-full px-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 hover:bg-white/25 hover:border-white/40 text-gray-900 font-medium group hover:shadow-lg text-left"
+          <Popover.Button className="w-full px-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 hover:bg-white/25 hover:border-white/40 text-yellow-400 font-medium group hover:shadow-lg text-left"
+            style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.3)' }}
           >
             <div className="flex items-center justify-between">
               <span>{checkIn ? new Date(checkIn).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select check-in date'}</span>
@@ -258,7 +259,8 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
         </div>
         
         <Popover className="relative">
-          <Popover.Button className="w-full px-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 hover:bg-white/25 hover:border-white/40 text-gray-900 font-medium group hover:shadow-lg text-left"
+          <Popover.Button className="w-full px-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 hover:bg-white/25 hover:border-white/40 text-yellow-400 font-medium group hover:shadow-lg text-left"
+            style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.3)' }}
           >
             <div className="flex items-center justify-between">
               <span>{checkOut ? new Date(checkOut).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select check-out date'}</span>
