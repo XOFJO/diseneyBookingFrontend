@@ -248,16 +248,71 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
           )}
         </div>
         
-        <div className="px-4 py-4 border-2 border-red-500/40 rounded-xl text-white font-medium bg-gradient-to-r from-gray-900/80 to-red-900/20 backdrop-blur-sm"
-          style={{ 
-            boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)'
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <span>{checkOut ? new Date(checkOut).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select check-out date'}</span>
-            <FontAwesomeIcon icon={faCalendarDays} className="h-5 w-5 text-red-400" />
-          </div>
-        </div>
+        <Popover className="relative">
+          <Popover.Button className="w-full px-4 py-4 border-2 border-red-500/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400/60 text-white font-medium bg-gradient-to-r from-gray-900/80 to-red-900/20 group hover:shadow-lg backdrop-blur-sm text-left"
+            style={{ 
+              boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)'
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <span>{checkOut ? new Date(checkOut).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select check-out date'}</span>
+              <FontAwesomeIcon icon={faCalendarDays} className="h-5 w-5 text-red-400 group-hover:text-yellow-400" />
+            </div>
+          </Popover.Button>
+          
+          <Transition
+            enter="transition duration-200 ease-out"
+            enterFrom="transform scale-95 opacity-0"
+            enterTo="transform scale-100 opacity-100"
+            leave="transition duration-75 ease-out"
+            leaveFrom="transform scale-100 opacity-100"
+            leaveTo="transform scale-95 opacity-0"
+          >
+            <Popover.Panel className="absolute z-50 mt-2 w-84 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl"
+              style={{ 
+                boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)',
+                width: '320px'
+              }}
+            >
+              {/* Calendar Header */}
+              <div className="flex items-center justify-between mb-4">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
+                  className="p-2 rounded-lg hover:bg-red-600/30 text-red-400 hover:text-yellow-400 transition-colors"
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </motion.button>
+                <h3 className="text-yellow-400 font-semibold">
+                  {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                </h3>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
+                  className="p-2 rounded-lg hover:bg-red-600/30 text-red-400 hover:text-yellow-400 transition-colors"
+                >
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </motion.button>
+              </div>
+              
+              {/* Days of week header */}
+              <div className="grid grid-cols-7 gap-2 mb-3">
+                {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
+                  <div key={day} className="text-center text-xs text-gray-400 py-2 font-medium w-10">
+                    {day}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Calendar Grid */}
+              <div className="grid grid-cols-7 gap-2">
+                {renderCalendar()}
+              </div>
+            </Popover.Panel>
+          </Transition>
+        </Popover>
         
         {checkOut && (
           <motion.div
