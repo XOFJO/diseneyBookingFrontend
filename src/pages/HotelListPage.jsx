@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from '../components/layout/Header'
 import HotelFilter from '../components/search/HotelFilter'
+import HotelCard from '../components/hotel/HotelCard'
 
 function HotelListPage() {
   return (
@@ -11,11 +12,19 @@ function HotelListPage() {
       {/* 筛选栏 */}
       <HotelFilter />
       
-      {/* 内容层，居中 */}
-      <div className="pt-36 z-10 flex flex-col items-center relative w-full max-w-7xl mx-auto px-6">
+      {/* 内容层 */}
+      <div className="pt-36">
         {/* 页面内容 */}
-        <div className="w-full">
+        <div>
           {/* 这里将会放置酒店列表内容 */}
+          <HotelCard
+            image="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            name="豪华乐园景观房"
+            description="享受迪士尼乐园的绝佳景观，配备2张双人床，可入住3位成人，房间宽敞舒适"
+            price={3154}
+            address="上海市浦东新区迪士尼大道"
+            themes={["乐园景观", "亲子", "高档"]}
+          />
         </div>
       </div>
     </div>
