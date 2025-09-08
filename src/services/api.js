@@ -1,8 +1,9 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://api.example.com", 
+  baseURL: "https://disneybookingbackend-production.up.railway.app", 
   timeout: 10000,
 });
 
 export default apiClient;
+
