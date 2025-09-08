@@ -25,7 +25,7 @@ const themes = [
 
 function HotelFilter() {
     const [selectedCity, setSelectedCity] = useState(cities[0])
-    const [selectedThemes, setSelectedThemes] = useState([themes[0]]) // 改为数组
+    const [selectedThemes, setSelectedThemes] = useState([]) // 默认不选任何主题
     const { searchHotels, loading } = useHotels()
 
     const handleThemeChange = (newSelectedThemes) => {
