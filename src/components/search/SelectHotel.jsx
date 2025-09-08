@@ -16,7 +16,7 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
+        <label className="block text-sm font-medium text-gray-700 mb-3">
           <FontAwesomeIcon icon={faHotel} className="mr-2" />Select Hotel
         </label>
         <div className="text-red-400 p-4 rounded-xl bg-red-900/20 border border-red-500/40">
@@ -32,13 +32,13 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
       animate={{ opacity: 1, y: 0 }}
       className="mb-6"
     >
-      <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
+      <label className="block text-sm font-medium text-gray-700 mb-3">
         <FontAwesomeIcon icon={faHotel} className="mr-2" />Select Hotel
       </label>
       
       <Listbox value={selected} onChange={onHotelChange}>
         <div className="relative">
-          <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-gray-900/80 to-red-900/20 border-2 border-red-500/40 py-4 pl-4 pr-10 text-left shadow-lg hover:border-yellow-400/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm" style={{ boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)' }}>
+          <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 py-4 pl-4 pr-10 text-left shadow-lg hover:bg-white/25 hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 group">
             <motion.div 
               className="flex items-center space-x-3"
               whileHover={{ x: 2 }}
@@ -51,7 +51,7 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
               >
                 <FontAwesomeIcon icon={loading ? faSpinner : selected.icon} className={loading ? 'animate-spin' : ''} />
               </motion.span>
-              <span className="block truncate font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
+              <span className="block truncate font-medium text-gray-900 group-hover:text-gray-800 transition-colors">
                 {loading ? 'Loading hotels...' : selected.name}
               </span>
             </motion.div>
@@ -60,8 +60,7 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
                 animate={{ rotate: 0 }}
                 whileHover={{ rotate: 180 }}
                 transition={{ duration: 0.2 }}
-                className="h-5 w-5 text-red-400 group-hover:text-yellow-400"
-                style={{ filter: 'drop-shadow(0 0 3px rgba(220, 38, 38, 0.7))' }}
+                className="h-5 w-5 text-gray-600 group-hover:text-gray-800"
               >
                 <FontAwesomeIcon icon={faChevronDown} className="h-5 w-5" />
               </motion.div>

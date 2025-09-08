@@ -31,21 +31,29 @@ function SearchForm() {
   return (
     <div className="max-w-5xl mx-auto">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        initial={{ 
+          opacity: 0, 
+          y: 20,
+          scale: 1,
+          boxShadow: '0 8px 32px rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.1)'
+        }}
+        animate={{ 
+          opacity: 1, 
+          y: 0,
+          scale: 1,
+          boxShadow: '0 8px 32px rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.1)'
+        }}
         style={{
           background: 'rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          boxShadow: '0 8px 32px rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.1)',
           border: '1px solid rgba(255, 255, 255, 0.18)'
         }}
         whileHover={{ 
           scale: 1.05,
           boxShadow: '0 20px 60px rgba(31, 38, 135, 0.5), 0 0 40px rgba(220, 38, 38, 0.3)'
         }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
         className="rounded-3xl shadow-2xl p-10 backdrop-blur-xl relative overflow-hidden transition-all duration-500 cursor-pointer group"
       >
         {/* Animated Gradient Border */}
