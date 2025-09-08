@@ -1,8 +1,11 @@
 import React from 'react'
+import HotelList from '../components/hotel/HotelList'   
 
 function HotelListPage() {
   return (
-    <div>HotelListPage</div>
+    <div style={{color: 'red'}}>
+      123
+    </div>
   )
 }
 
