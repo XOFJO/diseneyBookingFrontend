@@ -1,55 +1,97 @@
-import React from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import RoomCard from "./RoomCard";
+import RoomDetails from "./RoomDetails";
 
 function RoomList() {
-  // 临时固定数据，之后会从后端接口获取
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+
+  // Iron Man themed mock room data
   const mockRooms = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      name: "豪华乐园景观房",
-      description: "享受迪士尼乐园的绝佳景观，配备2张双人床，可入住3位成人，房间宽敞舒适，设施齐全",
-      price: 3154,
-      theme: "乐园景观",
-      rating: 4.7
+      name: 'Signature Guest Room',
+      price: 2130.40,
+      image: '/api/placeholder/400/300',
+      description: 'Unwind in a thoughtfully designed space featuring plush bedding, curated amenities, and just the right touch of elegance for a restful stay.',
+      features: ['Climate Control', 'Foam Mattress', 'Convertible beds', 'Smart Lock', 'Fast WiFi'],
+      available: 5
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      name: "迪士尼城堡主题套房",
-      description: "独特的城堡主题装修，一室一厅布局，适合情侣入住，浪漫氛围浓厚，拥有私人阳台",
-      price: 4280,
-      theme: "城堡主题",
-      rating: 4.9
+      name: 'Arc Reactor Suite',
+      price: 3500.00,
+      image: '/api/placeholder/400/300',
+      description: 'Experience luxury in our premium suite with panoramic city views and cutting-edge technology inspired by Stark Industries.',
+      features: ['City View', 'King Bed', 'Mini Bar', 'Smart Home', 'Premium WiFi', 'Holographic Display'],
+      available: 2
+    },
+    {
+      id: 3,
+      name: 'Mark 85 Presidential',
+      price: 5200.75,
+      image: '/api/placeholder/400/300',
+      description: 'The ultimate luxury experience with personalized service and exclusive amenities fit for a superhero.',
+      features: ['Ocean View', 'Butler Service', 'Private Balcony', 'Jacuzzi', 'Premium Everything', 'AI Assistant'],
+      available: 1
     }
   ];
 
-  const handleViewRoom = (roomId) => {
-    console.log('查看房间详情:', roomId);
-    // 这里之后会添加跳转到房间详情页的逻辑
+  const handleBookNow = (roomId) => {
+    console.log('Booking room:', roomId);
+    // Add booking logic here
   };
 
-  const handleReview = (roomId) => {
-    console.log('查看评论:', roomId);
-    // 这里之后会添加查看评论的逻辑
+  const handleViewDetails = (room) => {
+    setSelectedRoom(room);
+    setIsDetailsOpen(true);
+  };
+
+  const closeDetails = () => {
+    setIsDetailsOpen(false);
+    setSelectedRoom(null);
   };
 
   return (
-    <div className="fixed left-1/2 top-48 -translate-x-1/2 z-10 w-full max-w-4xl px-4">
-      {mockRooms.map((room) => (
-        <div key={room.id} className="mb-4">
-          <RoomCard
-            image={room.image}
-            name={room.name}
-            description={room.description}
-            price={room.price}
-            theme={room.theme}
-            rating={room.rating}
-            onViewRoom={() => handleViewRoom(room.id)}
-            onReview={() => handleReview(room.id)}
-          />
-        </div>
-      ))}
+    <div className="max-w-7xl mx-auto px-6 py-12">
+      <motion.h3 
+        className="text-3xl font-bold text-yellow-400 mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        Results based on your preferences
+      </motion.h3>
+      
+      <div className="space-y-8">
+        {mockRooms.map((room, index) => (
+          <motion.div
+            key={room.id}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.2 }}
+          >
+            <RoomCard
+              image={room.image}
+              name={room.name}
+              description={room.description}
+              price={room.price.toFixed(2)}
+              features={room.features}
+              available={room.available}
+              onBookNow={() => handleBookNow(room.id)}
+              onViewDetails={() => handleViewDetails(room)}
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Room Details Modal */}
+      <RoomDetails 
+        room={selectedRoom}
+        isOpen={isDetailsOpen}
+        onClose={closeDetails}
+      />
     </div>
   );
 }

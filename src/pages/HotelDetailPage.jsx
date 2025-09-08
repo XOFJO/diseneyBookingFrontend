@@ -1,27 +1,54 @@
 import React from 'react'
-import Header from '../components/layout/Header'
-import RoomSelector from '../components/search/RoomSelector'
-import RoomList from '../components/room/RoomList'
+import { motion } from 'framer-motion'
+import RoomForm from '../components/room/RoomForm'
 
 function HotelDetailPage() {
   return (
     <div className="relative w-full min-h-screen">
-      {/* 背景层 */}
-      <div className="fixed inset-0 w-full min-h-screen bg-gradient-to-r from-gray-900/95 via-red-900/90 to-gray-900/95 backdrop-blur-lg -z-10 pointer-events-none" />
+      {/* Animated Background */}
+      <motion.div 
+        className="fixed inset-0 w-full min-h-screen bg-gradient-to-br from-black via-red-950 to-gray-900 -z-10"
+        animate={{
+          background: [
+            "linear-gradient(135deg, #000000 0%, #7f1d1d 50%, #1f2937 100%)",
+            "linear-gradient(135deg, #1f2937 0%, #7f1d1d 50%, #000000 100%)",
+            "linear-gradient(135deg, #7f1d1d 0%, #000000 50%, #1f2937 100%)"
+          ]
+        }}
+        transition={{ 
+          duration: 8, 
+          repeat: Infinity, 
+          repeatType: "reverse" 
+        }}
+      />
       
-      {/* Header */}
-      <Header />
+      {/* Floating particles effect */}
+      <div className="fixed inset-0 -z-5 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-yellow-400/20 rounded-full"
+            initial={{
+              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
+              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
+            }}
+            animate={{
+              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
+              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
+            }}
+            transition={{
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "linear"
+            }}
+          />
+        ))}
+      </div>
       
-      {/* Room Selector */}
-      <RoomSelector />
-      
-      {/* 内容层 */}
-      <div className="pt-40">
-        {/* 页面内容 */}
-        <div>
-          {/* 房间列表内容 */}
-          <RoomList />
-        </div>
+      {/* Main Content */}
+      <div className="relative z-10 p-6 flex items-center justify-center min-h-screen">
+        <RoomForm />
       </div>
     </div>
   )
