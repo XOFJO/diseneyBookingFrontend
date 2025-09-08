@@ -2,7 +2,7 @@ import React from 'react'
 
 function RoomSelector() {
   return (
-    <div>RoomSelector</div>
+    <p>RoomSelector</p>
   )
 }
 

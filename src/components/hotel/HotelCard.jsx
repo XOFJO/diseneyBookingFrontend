@@ -64,7 +64,7 @@ const HotelCard = ({ image, name, address, description, price, themes = [], rati
                                 className="bg-gradient-to-r from-red-700 to-yellow-400 text-white font-bold px-4 py-2 rounded-xl shadow-lg w-28 min-w-[90px] text-sm hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400"
                                 onClick={onViewRoom}
                             >
-                                选择房间
+                                查看详情
                             </Button>
                         </div>
                     </div>
