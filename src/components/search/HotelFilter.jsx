@@ -3,26 +3,30 @@ import { Listbox, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt, faStar, faChevronDown, faCheck, faSearch, faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons'
+import useHotels from '../../hooks/useHotels'
 
 const cities = [
     { id: 'all', name: '全部', icon: faMapMarkerAlt },
-    { id: 'shanghai', name: '上海', icon: faMapMarkerAlt },
+    { id: 'shanghai', name: '上海市', icon: faMapMarkerAlt },
     { id: 'tokyo', name: '东京', icon: faMapMarkerAlt },
-    { id: 'hongkong', name: '香港', icon: faMapMarkerAlt },
+    { id: 'hongkong', name: '香港特别行政区', icon: faMapMarkerAlt },
 ]
 
 const themes = [
-    { id: 'all', name: '全部', icon: faStar },
-    { id: 'ironman', name: '钢铁侠', icon: faStar },
-    { id: 'mickey', name: '米老鼠', icon: faStar },
-    { id: 'toy', name: '玩具总动员', icon: faStar },
-    { id: 'donald', name: '唐老鸭', icon: faStar },
+    { id: 'all', name: '全部', icon: faStar, apiName: 'all' },
+    { id: 'ironman', name: '钢铁侠', icon: faStar, apiName: 'Iron Man Adventure' },
+    { id: 'caribbean', name: '加勒比海盗', icon: faStar, apiName: 'Pirates of the Caribbean' },
+    { id: 'toy', name: '玩具总动员', icon: faStar, apiName: 'Toy Story Land' },
+    { id: 'donald', name: '唐老鸭', icon: faStar, apiName: 'Donald Duck Dreams' },
+    { id: 'frozen', name: '冰雪奇缘', icon: faStar, apiName: 'Frozen Magic' },
+    { id: 'galaxy', name: '星球大战', icon: faStar, apiName: "Galaxy's Edge" },
 ]
 
 
 function HotelFilter() {
     const [selectedCity, setSelectedCity] = useState(cities[0])
     const [selectedThemes, setSelectedThemes] = useState([themes[0]]) // 改为数组
+    const { searchHotels, loading } = useHotels()
 
     const handleThemeChange = (newSelectedThemes) => {
         // 找出新增或移除的主题
@@ -62,9 +66,21 @@ function HotelFilter() {
         }
     }
 
-    const handleSearch = () => {
-        // 这里可以添加搜索逻辑
-        console.log('搜索:', { city: selectedCity, themes: selectedThemes })
+    const handleSearch = async () => {
+        try {
+            // 构建搜索参数
+            const searchParams = {
+                address: selectedCity.id === 'all' ? '' : selectedCity.name,
+                themes: selectedThemes.some(t => t.id === 'all') 
+                    ? [] // 如果选择了"全部"，发送空数组
+                    : selectedThemes.map(theme => theme.apiName)
+            }
+            
+            console.log('搜索参数:', searchParams)
+            await searchHotels(searchParams)
+        } catch (error) {
+            console.error('搜索失败:', error)
+        }
     }
 
     return (
@@ -273,26 +289,28 @@ function HotelFilter() {
                     <div className="flex-shrink-0">
                         <motion.button
                             onClick={handleSearch}
-                            className="relative cursor-pointer rounded-xl bg-gradient-to-r from-red-900/80 to-yellow-900/60 border-2 border-red-500/60 px-6 py-2 text-left shadow-lg hover:border-yellow-400/80 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm"
+                            disabled={loading}
+                            className={`relative cursor-pointer rounded-xl bg-gradient-to-r from-red-900/80 to-yellow-900/60 border-2 border-red-500/60 px-6 py-2 text-left shadow-lg hover:border-yellow-400/80 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                             style={{ boxShadow: '0 0 20px rgba(220, 38, 38, 0.4), inset 0 0 15px rgba(251, 191, 36, 0.1)' }}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            whileHover={!loading ? { scale: 1.02 } : {}}
+                            whileTap={!loading ? { scale: 0.98 } : {}}
                             transition={{ type: "spring", stiffness: 400, damping: 25 }}
                         >
                             <motion.div 
                                 className="flex items-center space-x-2"
-                                whileHover={{ x: 1 }}
+                                whileHover={!loading ? { x: 1 } : {}}
                                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
                             >
                                 <motion.span 
                                     className="text-lg filter drop-shadow-lg text-yellow-400"
-                                    whileHover={{ scale: 1.2, rotate: 15 }}
+                                    whileHover={!loading ? { scale: 1.2, rotate: 15 } : {}}
                                     transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                                    animate={loading ? { rotate: 360 } : { rotate: 0 }}
                                 >
                                     <FontAwesomeIcon icon={faSearch} />
                                 </motion.span>
                                 <span className="font-medium text-white group-hover:text-yellow-300 transition-colors whitespace-nowrap" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
-                                    搜索
+                                    {loading ? '搜索中...' : '搜索'}
                                 </span>
                             </motion.div>
                         </motion.button>

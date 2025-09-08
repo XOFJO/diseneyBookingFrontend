@@ -48,7 +48,9 @@ export const getHotels = async () => {
 export const getAllHotels = async (searchParams = {}) => {
   try {
     const response = await searchHotels(searchParams);
-    return response.data || [];
+    console.log('HotelService - getAllHotels response:', response);
+    // searchHotels 已经返回了 response.data，所以这里直接使用 response
+    return Array.isArray(response) ? response : [];
   } catch (error) {
     console.error('Failed to fetch all hotels:', error);
     throw error;

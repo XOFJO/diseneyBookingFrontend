@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Button } from "@headlessui/react";
 
 /**
@@ -23,7 +23,9 @@ const HotelCard = ({ image, name, address, description, price, themes = [], rati
             >
                 {/* 评分 */}
                 <div className="absolute right-10 top-5 flex items-center">
-                    <span className="text-yellow-400 font-bold text-2xl">{rating.toFixed(1)}/5.0</span>
+                    <span className="text-yellow-400 font-bold text-2xl">
+                        {typeof rating === 'number' ? rating.toFixed(1) : '4.5'}/5.0
+                    </span>
                 </div>
                 {/* 左侧图片 */}
                 <div className="w-48 h-48 flex-shrink-0 bg-gray-800">
