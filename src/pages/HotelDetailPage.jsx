@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import RoomForm from '../components/room/RoomForm'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faHeart, faMagic, faGem } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faMagic, faGem } from '@fortawesome/free-solid-svg-icons'
 
 function HotelDetailPage() {
   // Generate stars for magical Disney sky
@@ -211,12 +211,12 @@ function HotelDetailPage() {
         ))}
       </div>
       
-      {/* Subtle floating magical elements */}
+      {/* Floating small fireworks */}
       <div className="fixed inset-0 -z-14 overflow-hidden pointer-events-none">
         {[...Array(5)].map((_, i) => (
           <motion.div
-            key={`heart-${i}`}
-            className="absolute text-pink-400/25 text-sm"
+            key={`small-firework-${i}`}
+            className="absolute"
             initial={{
               x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
               y: typeof window !== 'undefined' ? window.innerHeight + 50 : 900,
@@ -224,7 +224,6 @@ function HotelDetailPage() {
             animate={{
               y: -100,
               x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
-              rotate: [0, 360],
             }}
             transition={{
               duration: Math.random() * 20 + 15,
@@ -233,7 +232,43 @@ function HotelDetailPage() {
               delay: i * 3
             }}
           >
-            <FontAwesomeIcon icon={faHeart} />
+            <motion.div
+              className="relative"
+              animate={{
+                rotate: [0, 360]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              {/* Small firework center */}
+              <div className={`w-2 h-2 rounded-full ${
+                i % 3 === 0 ? 'bg-yellow-400/40' :
+                i % 3 === 1 ? 'bg-pink-400/40' :
+                'bg-blue-400/40'
+              }`} />
+              {/* Small firework sparks */}
+              {[...Array(6)].map((_, sparkIndex) => (
+                <div
+                  key={sparkIndex}
+                  className={`absolute w-0.5 h-4 ${
+                    i % 3 === 0 ? 'bg-yellow-400/30' :
+                    i % 3 === 1 ? 'bg-pink-400/30' :
+                    'bg-blue-400/30'
+                  } rounded-full origin-bottom`}
+                  style={{
+                    transform: `rotate(${sparkIndex * 60}deg)`,
+                    transformOrigin: 'bottom center',
+                    left: '50%',
+                    top: '50%',
+                    marginLeft: '-0.25px',
+                    marginTop: '-16px'
+                  }}
+                />
+              ))}
+            </motion.div>
           </motion.div>
         ))}
       </div>
