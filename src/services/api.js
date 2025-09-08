@@ -5,5 +5,10 @@ const apiClient = axios.create({
   timeout: 10000,
 });
 
+export const getHotelNames = async () => {
+  const response = await apiClient.get('/api/hotels/names');
+  return response.data;
+};
+
 export default apiClient;
 
