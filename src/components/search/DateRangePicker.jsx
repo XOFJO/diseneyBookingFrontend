@@ -95,7 +95,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             w-10 h-10 rounded-lg text-sm font-medium transition-all duration-200 relative flex items-center justify-center
             ${isDisabled 
               ? 'text-gray-600 cursor-not-allowed' 
-              : 'text-white hover:bg-red-600/30 cursor-pointer'
+              : 'text-gray-900 hover:bg-red-600/30 hover:text-white cursor-pointer'
             }
             ${isSelected 
               ? 'bg-gradient-to-r from-red-600 to-red-700 text-yellow-400 shadow-lg' 
