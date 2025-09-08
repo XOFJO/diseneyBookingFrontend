@@ -47,8 +47,10 @@ function HotelDetailPage() {
       </div>
       
       {/* Main Content */}
-      <div className="relative z-10 p-6 flex items-center justify-center min-h-screen">
-        <RoomForm />
+      <div className="relative z-10 p-4 flex items-center justify-center min-h-screen">
+        <div className="w-full max-w-[95vw] lg:max-w-[90vw] xl:max-w-[85vw]">
+          <RoomForm />
+        </div>
       </div>
     </div>
   )

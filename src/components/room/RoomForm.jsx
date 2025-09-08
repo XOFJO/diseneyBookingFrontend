@@ -53,7 +53,7 @@ const RoomForm = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="w-full max-w-6xl mx-auto"
+      className="w-full max-w-7xl mx-auto"
     >
       {/* Main Glass Morphism Card */}
       <div className="bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 shadow-2xl shadow-black/50 overflow-hidden">
