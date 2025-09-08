@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMinus, faPlus, faHotel, faUsers, faBed } from '@fortawesome/free-solid-svg-icons'
+import { faMinus, faPlus, faHotel, faUsers } from '@fortawesome/free-solid-svg-icons'
 
 function GuestSelector({ guests, children, rooms, onGuestChange }) {
 
@@ -25,8 +25,8 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="bg-gradient-to-br from-gray-900/90 to-red-900/40 rounded-xl p-6 border border-red-500/30 backdrop-blur-sm"
-        style={{ boxShadow: '0 0 20px rgba(220, 38, 38, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.3)' }}
+        className="rounded-xl bg-gradient-to-r from-gray-900/80 to-red-900/20 border-2 border-red-500/40 py-4 px-4 shadow-lg backdrop-blur-sm"
+        style={{ boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)' }}
       >
         {/* Rooms */}
         <div className="flex items-center justify-between">
