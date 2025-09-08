@@ -20,7 +20,11 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
   }
 
   const formatDate = (date) => {
-    return date.toISOString().split('T')[0]
+    // Use local time to avoid timezone issues
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
   }
 
   const handleDateSelect = (day) => {
@@ -32,14 +36,15 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
       onDateChange(dateStr, '')
     } else if (checkIn && !checkOut) {
       // Complete the range
-      const checkInDate = new Date(checkIn)
-      if (selectedDate >= checkInDate) {
-        const diffTime = selectedDate - checkInDate
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      const checkInDate = new Date(checkIn + 'T00:00:00')
+      const selectedDateTime = new Date(dateStr + 'T00:00:00')
+      if (selectedDateTime > checkInDate) {
+        const diffTime = selectedDateTime - checkInDate
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
         setNights(diffDays)
         onDateChange(checkIn, dateStr)
       } else {
-        // If selected date is before check-in, reset
+        // If selected date is before or same as check-in, reset
         onDateChange(dateStr, '')
       }
     }
@@ -48,8 +53,8 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
   const isDateInRange = (day) => {
     if (!checkIn) return false
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
-    const checkInDate = new Date(checkIn)
-    const checkOutDate = checkOut ? new Date(checkOut) : null
+    const checkInDate = new Date(checkIn + 'T00:00:00')
+    const checkOutDate = checkOut ? new Date(checkOut + 'T00:00:00') : null
     
     if (checkOutDate) {
       return date >= checkInDate && date <= checkOutDate
@@ -65,7 +70,8 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
 
   const isDateDisabled = (day) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
-    return date < today
+    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    return date < todayStart
   }
 
   const renderCalendar = () => {
@@ -122,11 +128,11 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
   // Calculate nights when dates change
   React.useEffect(() => {
     if (checkIn && checkOut) {
-      const checkInDate = new Date(checkIn)
-      const checkOutDate = new Date(checkOut)
+      const checkInDate = new Date(checkIn + 'T00:00:00')
+      const checkOutDate = new Date(checkOut + 'T00:00:00')
       const diffTime = checkOutDate - checkInDate
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-      setNights(diffDays)
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+      setNights(diffDays > 0 ? diffDays : 0)
     }
   }, [checkIn, checkOut])
 
