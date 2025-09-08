@@ -17,12 +17,18 @@ const adaptHotelData = (data) => {
     ];
   }
   
-  // 如果是对象数组格式（未来的后端格式）
+  // 如果是对象数组格式（后端正式格式）
   if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
-    return data.map((hotel, index) => ({
-      ...hotel,
-      icon: hotel.id === 'all' ? faHotel : defaultIcons[index % defaultIcons.length]
+    const adaptedHotels = data.map((hotel, index) => ({
+      id: hotel.hotelId ? hotel.hotelId.toString() : hotel.id,
+      name: hotel.hotelName || hotel.name,
+      icon: defaultIcons[index % defaultIcons.length]
     }));
+    
+    return [
+      { id: 'all', name: 'All Hotels', icon: faHotel },
+      ...adaptedHotels
+    ];
   }
   
   // 默认返回
