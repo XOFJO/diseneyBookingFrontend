@@ -146,7 +146,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
         transition={{ delay: 0.1 }}
         className="space-y-2"
       >
-        <label className="block text-sm font-medium text-gray-700 mb-3">
+        <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
           <FontAwesomeIcon icon={faCalendarDays} className="mr-2" />Check In Date
         </label>
         
@@ -155,7 +155,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
           >
             <div className="flex items-center justify-between">
               <span>{checkIn ? new Date(checkIn).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select check-in date'}</span>
-              <FontAwesomeIcon icon={faCalendarDays} className="h-5 w-5 text-gray-600 group-hover:text-gray-800" />
+              <FontAwesomeIcon icon={faCalendarDays} className="h-5 w-5 text-yellow-500 group-hover:text-yellow-400" />
             </div>
           </Popover.Button>
           
@@ -238,7 +238,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
         className="space-y-2"
       >
         <div className="flex items-center justify-between mb-3">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-yellow-400" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
             <FontAwesomeIcon icon={faCalendarDays} className="mr-2" />Check Out Date
           </label>
           {nights > 0 && checkIn && checkOut && (
@@ -262,7 +262,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
           >
             <div className="flex items-center justify-between">
               <span>{checkOut ? new Date(checkOut).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select check-out date'}</span>
-              <FontAwesomeIcon icon={faCalendarDays} className="h-5 w-5 text-gray-600 group-hover:text-gray-800" />
+              <FontAwesomeIcon icon={faCalendarDays} className="h-5 w-5 text-yellow-500 group-hover:text-yellow-400" />
             </div>
           </Popover.Button>
           

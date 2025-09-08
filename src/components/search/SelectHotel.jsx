@@ -16,7 +16,7 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <label className="block text-sm font-medium text-gray-700 mb-3">
+        <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
           <FontAwesomeIcon icon={faHotel} className="mr-2" />Select Hotel
         </label>
         <div className="text-red-400 p-4 rounded-xl bg-red-900/20 border border-red-500/40">
@@ -32,7 +32,7 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
       animate={{ opacity: 1, y: 0 }}
       className="mb-6"
     >
-      <label className="block text-sm font-medium text-gray-700 mb-3">
+      <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
         <FontAwesomeIcon icon={faHotel} className="mr-2" />Select Hotel
       </label>
       
@@ -45,13 +45,13 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <motion.span 
-                className="text-2xl filter drop-shadow-lg"
+                className="text-2xl filter drop-shadow-lg text-yellow-400"
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 500, damping: 25 }}
               >
-                <FontAwesomeIcon icon={loading ? faSpinner : selected.icon} className={loading ? 'animate-spin' : ''} />
+                <FontAwesomeIcon icon={loading ? faSpinner : selected.icon} className={loading ? 'animate-spin text-yellow-400' : 'text-yellow-400'} />
               </motion.span>
-              <span className="block truncate font-medium text-gray-900 group-hover:text-gray-800 transition-colors">
+              <span className="block truncate font-medium text-yellow-400 group-hover:text-yellow-300 transition-colors" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.3)' }}>
                 {loading ? 'Loading hotels...' : selected.name}
               </span>
             </motion.div>
@@ -60,7 +60,7 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
                 animate={{ rotate: 0 }}
                 whileHover={{ rotate: 180 }}
                 transition={{ duration: 0.2 }}
-                className="h-5 w-5 text-gray-600 group-hover:text-gray-800"
+                className="h-5 w-5 text-yellow-500 group-hover:text-yellow-400"
               >
                 <FontAwesomeIcon icon={faChevronDown} className="h-5 w-5" />
               </motion.div>
