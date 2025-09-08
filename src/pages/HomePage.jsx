@@ -7,7 +7,7 @@ const HomePage = () => {
     <div 
       className="h-screen w-screen flex items-center justify-center p-8 relative overflow-hidden"
       style={{
-        backgroundImage: 'url(/src/assets/image.png)',
+        backgroundImage: 'url(/assets/image.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
