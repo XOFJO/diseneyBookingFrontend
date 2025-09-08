@@ -1,99 +1,65 @@
 import React from 'react'
 import { motion } from 'motion/react'
-import { Popover, Transition } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMinus, faPlus, faUsers, faChild, faHotel, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faMinus, faPlus, faHotel } from '@fortawesome/free-solid-svg-icons'
 
-function GuestSelector({ guests = 2, children = 0, rooms = 1, onGuestChange = () => {} }) {
+function GuestSelector({ rooms = 1, onGuestChange = () => {} }) {
   
-  const updateGuests = (newGuests) => {
-    onGuestChange(newGuests, children, rooms)
-  }
-
-  const updateChildren = (newChildren) => {
-    onGuestChange(guests, newChildren, rooms)
-  }
-
   const updateRooms = (newRooms) => {
-    onGuestChange(guests, children, newRooms)
+    onGuestChange(2, 0, newRooms) // Keep guests=2, children=0 as defaults
   }
 
   return (
-    <div className="grid grid-cols-3 gap-3">
-      {/* Rooms Selector */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="space-y-2"
-      >
-        <label className="block text-sm font-medium text-gray-700">Rooms</label>
-        <Popover className="relative">
-          <Popover.Button className="w-full bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-3 py-3 text-center hover:bg-white/25 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-            <div className="flex items-center justify-between">
-              <span className="text-2xl font-bold text-gray-900">
-                {String(rooms).padStart(2, '0')}
-              </span>
-              <FontAwesomeIcon icon={faChevronDown} className="text-gray-600 text-sm" />
-            </div>
-          </Popover.Button>
-          
-          <Transition
-            enter="transition duration-200 ease-out"
-            enterFrom="transform scale-95 opacity-0"
-            enterTo="transform scale-100 opacity-100"
-            leave="transition duration-75 ease-out"
-            leaveFrom="transform scale-100 opacity-100"
-            leaveTo="transform scale-95 opacity-0"
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1 }}
+      className="space-y-2"
+    >
+      <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
+        <FontAwesomeIcon icon={faHotel} className="mr-2" />
+        Rooms
+      </label>
+      
+      <div className="flex items-center gap-3">
+        {/* Minus Button */}
+        <motion.button
+          whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.25)' }}
+          whileTap={{ scale: 0.95 }}
+          type="button"
+          onClick={() => updateRooms(Math.max(1, rooms - 1))}
+          className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:border-white/50 flex items-center justify-center text-yellow-500 hover:text-yellow-400 transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={rooms <= 1}
+        >
+          <FontAwesomeIcon icon={faMinus} className="text-lg" />
+        </motion.button>
+
+        {/* Room Display */}
+        <div className="flex-1 px-4 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl hover:bg-white/25 transition-all shadow-lg text-center">
+          <motion.span 
+            key={rooms}
+            initial={{ scale: 1.2 }}
+            animate={{ scale: 1 }}
+            className="text-2xl font-bold text-yellow-400"
+            style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}
           >
-            <Popover.Panel className="absolute z-50 bg-white/95 backdrop-blur-lg rounded-xl border border-white/40 p-4 shadow-xl top-full mt-2 w-64">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <FontAwesomeIcon icon={faHotel} className="text-indigo-600 text-lg" />
-                    <div>
-                      <span className="font-medium text-gray-900">Rooms</span>
-                      <p className="text-xs text-gray-600">How many rooms do you need?</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      type="button"
-                      onClick={() => updateRooms(Math.max(1, rooms - 1))}
-                      className="w-8 h-8 rounded-full bg-indigo-100 hover:bg-indigo-200 flex items-center justify-center text-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={rooms <= 1}
-                    >
-                      <FontAwesomeIcon icon={faMinus} className="text-sm" />
-                    </motion.button>
-                    <span className="w-8 text-center font-bold text-lg text-gray-900">
-                      {rooms}
-                    </span>
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      type="button"
-                      onClick={() => updateRooms(Math.min(5, rooms + 1))}
-                      className="w-8 h-8 rounded-full bg-indigo-100 hover:bg-indigo-200 flex items-center justify-center text-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={rooms >= 5}
-                    >
-                      <FontAwesomeIcon icon={faPlus} className="text-sm" />
-                    </motion.button>
-                  </div>
-                </div>
-              </div>
-            </Popover.Panel>
-          </Transition>
-        </Popover>
-      </motion.div>
+            {String(rooms).padStart(2, '0')}
+          </motion.span>
+        </div>
 
-      {/* Adults Selector */}
-
-
-      {/* Children Selector */}
-
-    </div>
+        {/* Plus Button */}
+        <motion.button
+          whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.25)' }}
+          whileTap={{ scale: 0.95 }}
+          type="button"
+          onClick={() => updateRooms(Math.min(5, rooms + 1))}
+          className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:border-white/50 flex items-center justify-center text-yellow-500 hover:text-yellow-400 transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={rooms >= 5}
+        >
+          <FontAwesomeIcon icon={faPlus} className="text-lg" />
+        </motion.button>
+      </div>
+    </motion.div>
   )
 }
 
