@@ -69,9 +69,9 @@ const RoomForm = () => {
             Booking Preferences
           </motion.h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
-            {/* Date Range Picker - spans 6 columns */}
-            <div className="md:col-span-6">
+          <div className="space-y-6">
+            {/* Date Range Picker */}
+            <div>
               <div className="grid grid-cols-2 gap-4">
                 <DateRangePicker
                   checkIn={checkIn}
@@ -81,27 +81,30 @@ const RoomForm = () => {
               </div>
             </div>
             
-            {/* Guest Selectors - spans 4 columns */}
-            <div className="md:col-span-4">
-              <GuestSelector
-                guests={guests}
-                children={children}
-                rooms={rooms}
-                onGuestChange={handleGuestChange}
-              />
-            </div>
-            
-            {/* Search Button - spans 2 columns */}
-            <div className="md:col-span-2">
-              <motion.button
-                onClick={handleSearch}
-                className="w-full px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-500 hover:to-purple-500 transition-all shadow-lg shadow-indigo-500/25"
-                whileHover={{ scale: 1.02, boxShadow: "0 10px 25px rgba(99, 102, 241, 0.3)" }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <FontAwesomeIcon icon={faSearch} className="mr-2" />
-                Search
-              </motion.button>
+            {/* Guest Selectors and Search Button side by side */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+              {/* Guest Selectors - spans 8 columns */}
+              <div className="md:col-span-8">
+                <GuestSelector
+                  guests={guests}
+                  children={children}
+                  rooms={rooms}
+                  onGuestChange={handleGuestChange}
+                />
+              </div>
+              
+              {/* Search Button - spans 4 columns */}
+              <div className="md:col-span-4">
+                <motion.button
+                  onClick={handleSearch}
+                  className="w-full px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-500 hover:to-purple-500 transition-all shadow-lg shadow-indigo-500/25"
+                  whileHover={{ scale: 1.02, boxShadow: "0 10px 25px rgba(99, 102, 241, 0.3)" }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <FontAwesomeIcon icon={faSearch} className="mr-2" />
+                  Search
+                </motion.button>
+              </div>
             </div>
           </div>
           
