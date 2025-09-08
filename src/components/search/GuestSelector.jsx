@@ -5,16 +5,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus, faHotel, faUsers, faBed, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 function GuestSelector({ guests, children, rooms, onGuestChange }) {
-  const updateGuests = (newGuests) => {
-    onGuestChange(newGuests, children, rooms)
-  }
+  // const updateGuests = (newGuests) => {
+  //   onGuestChange(newGuests, children, rooms)
+  // }
 
 
   const updateRooms = (newRooms) => {
     onGuestChange(guests, children, newRooms)
   }
 
-  const totalGuests = guests + children
+  // const totalGuests = guests + children
 
   return (
     <motion.div
