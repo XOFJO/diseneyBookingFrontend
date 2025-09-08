@@ -12,15 +12,19 @@ import { Button } from "@headlessui/react";
  * @param {function} onViewRoom 点击“查看房间信息”按钮事件
  * @param {List<string>} themes 主题
  */
-const HotelCard = ({ image, name, address, description, price, themes = [], onViewRoom }) => {
+const HotelCard = ({ image, name, address, description, price, themes = [], rating, onViewRoom }) => {
     return (
         <div className="w-full max-w-4xl mx-auto px-4">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="flex bg-gradient-to-r from-gray-900/80 to-red-900/30 rounded-2xl shadow-xl border-2 border-red-500/30 overflow-hidden w-full"
+                className="flex bg-gradient-to-r from-gray-900/80 to-red-900/30 rounded-2xl shadow-xl border-2 border-red-500/30 overflow-hidden w-full relative"
             >
+                {/* 评分 */}
+                <div className="absolute right-10 top-5 flex items-center">
+                    <span className="text-yellow-400 font-bold text-2xl">{rating.toFixed(1)}/5.0</span>
+                </div>
                 {/* 左侧图片 */}
                 <div className="w-48 h-48 flex-shrink-0 bg-gray-800">
                     <img

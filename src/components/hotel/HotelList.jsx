@@ -11,7 +11,8 @@ function HotelList() {
       address: "上海市浦东新区迪士尼大道1号",
       description: "享受迪士尼乐园的绝佳景观，配备2张双人床，可入住3位成人，房间宽敞舒适，设施齐全",
       price: 3154,
-      themes: ["乐园景观", "亲子", "高档"]
+      themes: ["乐园景观", "亲子", "高档"],
+      rating: 4.7
     },
     {
       id: 2,
@@ -20,7 +21,8 @@ function HotelList() {
       address: "上海市浦东新区迪士尼大道888号",
       description: "独特的城堡主题装修，一室一厅布局，适合情侣入住，浪漫氛围浓厚，拥有私人阳台",
       price: 4280,
-      themes: ["城堡主题", "浪漫", "套房", "情侣"]
+      themes: ["城堡主题", "浪漫", "套房", "情侣"],
+      rating: 4.9
     }
   ];
 
@@ -45,6 +47,7 @@ function HotelList() {
             description={hotel.description}
             price={hotel.price}
             themes={hotel.themes}
+            rating={hotel.rating}
             onViewRoom={() => handleViewRoom(hotel.id)}
             onReview={() => handleReview(hotel.id)}
           />
