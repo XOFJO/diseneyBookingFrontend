@@ -68,7 +68,14 @@ function HotelFilter() {
     }
 
     return (
-        <div className="fixed top-20 left-0 right-0 w-full z-20">
+        // 动画效果
+        <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="fixed top-20 left-0 right-0 w-full z-20"
+        >
+
             <div className="w-full bg-gradient-to-r from-gray-800/80 to-red-900/30 border-b-2 border-red-500/40 shadow-xl backdrop-blur-xl">
                 <div className="max-w-7xl mx-auto px-6 py-3 flex gap-4 items-center">
                     {/* 城市选择栏 */}
@@ -292,7 +299,7 @@ function HotelFilter() {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 
