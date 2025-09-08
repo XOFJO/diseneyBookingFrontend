@@ -99,22 +99,33 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
           whileHover={!isDisabled ? { scale: 1.1 } : {}}
           whileTap={!isDisabled ? { scale: 0.9 } : {}}
           className={`
-            w-10 h-10 rounded-lg text-sm font-medium transition-all duration-200 relative flex items-center justify-center
+            w-10 h-10 rounded-lg text-sm font-medium transition-all duration-200 relative flex items-center justify-center border border-transparent backdrop-blur-sm
             ${isDisabled 
               ? 'text-gray-600 cursor-not-allowed' 
-              : 'text-gray-900 hover:bg-red-600/30 hover:text-white cursor-pointer'
+              : 'text-white cursor-pointer hover:border-white/20'
             }
             ${isSelected 
-              ? 'bg-gradient-to-r from-red-600 to-red-700 text-yellow-400 shadow-lg' 
+              ? 'text-yellow-400 shadow-lg border-white/30' 
               : ''
             }
             ${isInRange && !isSelected 
-              ? 'bg-red-900/30 text-yellow-300' 
+              ? 'text-yellow-300 border-white/10' 
               : ''
             }
           `}
           style={{
-            boxShadow: isSelected ? '0 0 15px rgba(220, 38, 38, 0.5)' : '',
+            background: isSelected 
+              ? 'rgba(255, 255, 255, 0.15)'
+              : isInRange && !isSelected 
+                ? 'rgba(255, 255, 255, 0.05)'
+                : !isDisabled 
+                  ? 'rgba(255, 255, 255, 0.02)'
+                  : 'transparent',
+            backdropFilter: isSelected ? 'blur(15px)' : 'blur(8px)',
+            WebkitBackdropFilter: isSelected ? 'blur(15px)' : 'blur(8px)',
+            boxShadow: isSelected 
+              ? '0 4px 20px rgba(251, 191, 36, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)' 
+              : '0 2px 10px rgba(0, 0, 0, 0.1)',
             textShadow: isSelected ? '0 0 5px rgba(251, 191, 36, 0.5)' : ''
           }}
         >
@@ -151,9 +162,12 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
         </label>
         
         <Popover className="relative">
-          <Popover.Button className="w-full px-4 py-4 border-2 border-red-500/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400/60 text-white font-medium bg-gradient-to-r from-gray-900/80 to-red-900/20 group hover:shadow-lg backdrop-blur-sm text-left"
+          <Popover.Button className="w-full px-4 py-4 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-white/40 transition-all duration-300 hover:border-white/30 text-white font-medium group hover:shadow-xl backdrop-blur-md text-left relative overflow-hidden"
             style={{ 
-              boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)'
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.05)'
             }}
           >
             <div className="flex items-center justify-between">
@@ -170,9 +184,12 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute z-50 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl top-full mt-2"
+            <Popover.Panel className="absolute z-50 rounded-xl border border-white/20 backdrop-blur-md p-6 shadow-2xl top-full mt-2"
               style={{ 
-                boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)',
+                background: 'rgba(255, 255, 255, 0.08)',
+                backdropFilter: 'blur(25px)',
+                WebkitBackdropFilter: 'blur(25px)',
+                boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                 width: '320px',
                 maxHeight: '400px',
                 overflowY: 'auto'
@@ -184,7 +201,10 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-                  className="p-2 rounded-lg hover:bg-red-600/30 text-red-400 hover:text-yellow-400 transition-colors"
+                  className="p-2 rounded-lg text-red-400 hover:text-yellow-400 transition-all duration-200 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)'
+                  }}
                 >
                   <FontAwesomeIcon icon={faChevronLeft} />
                 </motion.button>
@@ -195,7 +215,10 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
-                  className="p-2 rounded-lg hover:bg-red-600/30 text-red-400 hover:text-yellow-400 transition-colors"
+                  className="p-2 rounded-lg text-red-400 hover:text-yellow-400 transition-all duration-200 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)'
+                  }}
                 >
                   <FontAwesomeIcon icon={faChevronRight} />
                 </motion.button>
@@ -246,10 +269,13 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.1 }}
-              className="text-xs bg-gradient-to-r from-red-600 to-red-700 text-yellow-400 px-3 py-1 rounded-full font-bold border border-yellow-400/30"
+              className="text-xs text-yellow-400 px-3 py-1 rounded-full font-bold border border-white/30 backdrop-blur-md"
               style={{ 
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(15px)',
+                WebkitBackdropFilter: 'blur(15px)',
                 textShadow: '0 0 5px rgba(251, 191, 36, 0.5)',
-                boxShadow: '0 0 10px rgba(220, 38, 38, 0.3)'
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
               }}
             >
               <FontAwesomeIcon icon={faMoon} className="mr-1" />{nights} Night{nights > 1 ? 's' : ''}
@@ -258,9 +284,12 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
         </div>
         
         <Popover className="relative">
-          <Popover.Button className="w-full px-4 py-4 border-2 border-red-500/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400/60 text-white font-medium bg-gradient-to-r from-gray-900/80 to-red-900/20 group hover:shadow-lg backdrop-blur-sm text-left"
+          <Popover.Button className="w-full px-4 py-4 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-white/40 transition-all duration-300 hover:border-white/30 text-white font-medium group hover:shadow-xl backdrop-blur-md text-left relative overflow-hidden"
             style={{ 
-              boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)'
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.05)'
             }}
           >
             <div className="flex items-center justify-between">
@@ -277,9 +306,12 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute z-50 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl top-full mt-2"
+            <Popover.Panel className="absolute z-50 rounded-xl border border-white/20 backdrop-blur-md p-6 shadow-2xl top-full mt-2"
               style={{ 
-                boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)',
+                background: 'rgba(255, 255, 255, 0.08)',
+                backdropFilter: 'blur(25px)',
+                WebkitBackdropFilter: 'blur(25px)',
+                boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                 width: '320px',
                 maxHeight: '400px',
                 overflowY: 'auto'
@@ -291,7 +323,10 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-                  className="p-2 rounded-lg hover:bg-red-600/30 text-red-400 hover:text-yellow-400 transition-colors"
+                  className="p-2 rounded-lg text-red-400 hover:text-yellow-400 transition-all duration-200 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)'
+                  }}
                 >
                   <FontAwesomeIcon icon={faChevronLeft} />
                 </motion.button>
@@ -302,7 +337,10 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
-                  className="p-2 rounded-lg hover:bg-red-600/30 text-red-400 hover:text-yellow-400 transition-colors"
+                  className="p-2 rounded-lg text-red-400 hover:text-yellow-400 transition-all duration-200 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)'
+                  }}
                 >
                   <FontAwesomeIcon icon={faChevronRight} />
                 </motion.button>
