@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
+import React, { useState } from 'react'
+import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import SelectHotel from './SelectHotel'
@@ -16,30 +16,6 @@ function SearchForm() {
     rooms: 1
   })
 
-  const cardRef = useRef(null)
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  
-  const springConfig = { stiffness: 150, damping: 30 }
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [7.5, -7.5]), springConfig)
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-7.5, 7.5]), springConfig)
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return
-    
-    const rect = cardRef.current.getBoundingClientRect()
-    const x = (e.clientX - rect.left - rect.width / 2) / rect.width
-    const y = (e.clientY - rect.top - rect.height / 2) / rect.height
-    
-    mouseX.set(x)
-    mouseY.set(y)
-  }
-
-  const handleMouseLeave = () => {
-    mouseX.set(0)
-    mouseY.set(0)
-  }
-
   const handleFormUpdate = (field, value) => {
     setFormData(prev => ({
       ...prev,
@@ -53,28 +29,23 @@ function SearchForm() {
   }
 
   return (
-    <div className="perspective-1000 max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto">
       <motion.div
-        ref={cardRef}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         style={{
-          rotateX,
-          rotateY,
-          transformStyle: 'preserve-3d',
           background: 'rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           boxShadow: '0 8px 32px rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.1)',
           border: '1px solid rgba(255, 255, 255, 0.18)'
         }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         whileHover={{ 
-          scale: 1.02,
-          boxShadow: '0 12px 40px rgba(31, 38, 135, 0.45), 0 0 25px rgba(220, 38, 38, 0.2)'
+          scale: 1.05,
+          boxShadow: '0 20px 60px rgba(31, 38, 135, 0.5), 0 0 40px rgba(220, 38, 38, 0.3)'
         }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         className="rounded-3xl shadow-2xl p-10 backdrop-blur-xl relative overflow-hidden transition-all duration-500 cursor-pointer group"
       >
         {/* Animated Gradient Border */}
@@ -174,10 +145,6 @@ function SearchForm() {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
-        }
-        
-        .perspective-1000 {
-          perspective: 1000px;
         }
       `}</style>
     </div>
