@@ -16,7 +16,7 @@ function HotelList() {
         setError(err.message); // 捕获错误信息
       } finally {
         setLoading(false); // 设置加载完成
-      }
+      } 
     };
 
     fetchHotels(); // 调用函数
