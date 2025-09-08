@@ -10,5 +10,10 @@ export const getHotelNames = async () => {
   return response.data;
 };
 
+export const searchHotels = async (searchParams) => {
+  const response = await apiClient.post('/api/hotels/search', searchParams);
+  return response.data;
+};
+
 export default apiClient;
 

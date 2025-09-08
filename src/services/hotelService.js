@@ -1,4 +1,4 @@
-import { getHotelNames } from "./api";
+import { getHotelNames, searchHotels } from "./api";
 import { faHotel, faBuilding, faShield, faUmbrella, faBolt } from '@fortawesome/free-solid-svg-icons';
 
 const defaultIcons = [faBuilding, faShield, faUmbrella, faBolt];
@@ -42,5 +42,15 @@ export const getHotels = async () => {
   } catch (error) {
     console.error('Failed to fetch hotels:', error);
     return [{ id: 'all', name: 'All Hotels', icon: faHotel }];
+  }
+};
+
+export const getAllHotels = async () => {
+  try {
+    const response = await searchHotels({});
+    return response.data || [];
+  } catch (error) {
+    console.error('Failed to fetch all hotels:', error);
+    throw error;
   }
 };
