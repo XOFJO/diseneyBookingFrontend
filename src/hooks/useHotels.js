@@ -12,15 +12,15 @@ const useHotels = () => {
     setError
   } = useHotelStore();
 
-  const fetchAllHotels = useCallback(async () => {
+  const searchHotels = useCallback(async (searchParams = {}) => {
     setLoading(true);
     setError(null);
     try {
-      const results = await getAllHotels();
+      const results = await getAllHotels(searchParams);
       setSearchResults(results);
       return results;
     } catch (err) {
-      const errorMessage = err.message || 'Failed to fetch hotels';
+      const errorMessage = err.message || 'Failed to search hotels';
       setError(errorMessage);
       throw err;
     } finally {
@@ -32,7 +32,7 @@ const useHotels = () => {
     hotels: searchResults,
     loading,
     error,
-    fetchAllHotels
+    searchHotels
   };
 };
 

@@ -45,9 +45,9 @@ export const getHotels = async () => {
   }
 };
 
-export const getAllHotels = async () => {
+export const getAllHotels = async (searchParams = {}) => {
   try {
-    const response = await searchHotels({});
+    const response = await searchHotels(searchParams);
     return response.data || [];
   } catch (error) {
     console.error('Failed to fetch all hotels:', error);
