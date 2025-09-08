@@ -55,18 +55,24 @@ const RoomForm = () => {
       transition={{ duration: 0.6 }}
       className="w-full max-w-7xl mx-auto"
     >
-      {/* Main Glass Morphism Card */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 shadow-2xl shadow-black/50 overflow-hidden">
+      {/* Main Magical Glass Card */}
+      <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl shadow-purple-900/30 overflow-hidden relative">
+        {/* Magical glow effect */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5 pointer-events-none" />
         
         {/* Booking Preferences Section */}
-        <div className="p-8 bg-gradient-to-r from-white/5 to-white/10">
+        <div className="p-8 bg-gradient-to-r from-purple-500/5 via-transparent to-pink-500/5 backdrop-blur-sm">
           <motion.h2 
-            className="text-3xl font-bold text-gray-900 mb-8"
+            className="text-4xl font-bold bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent mb-8 text-center"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
+            style={{
+              fontFamily: 'Georgia, serif',
+              textShadow: '0 0 15px rgba(251, 191, 36, 0.3)'
+            }}
           >
-            Booking Preferences
+            ✨ Choose Your Magic ✨
           </motion.h2>
           
           <div className="space-y-6">
@@ -97,12 +103,20 @@ const RoomForm = () => {
               <div className="md:col-span-4">
                 <motion.button
                   onClick={handleSearch}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-500 hover:to-purple-500 transition-all shadow-lg shadow-indigo-500/25"
-                  whileHover={{ scale: 1.02, boxShadow: "0 10px 25px rgba(99, 102, 241, 0.3)" }}
-                  whileTap={{ scale: 0.98 }}
+                  className="w-full px-6 py-4 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 text-white font-bold rounded-xl border border-white/20 backdrop-blur-sm transition-all shadow-xl"
+                  whileHover={{ 
+                    scale: 1.05, 
+                    boxShadow: "0 0 30px rgba(251, 191, 36, 0.4)",
+                    textShadow: "0 0 10px rgba(255, 255, 255, 0.5)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    fontFamily: 'Georgia, serif',
+                    textShadow: '0 0 10px rgba(255, 255, 255, 0.3)'
+                  }}
                 >
                   <FontAwesomeIcon icon={faSearch} className="mr-2" />
-                  Search
+                  ✨ Search Magic ✨
                 </motion.button>
               </div>
             </div>
@@ -110,27 +124,33 @@ const RoomForm = () => {
           
           {/* Available rooms indicator */}
           <motion.div 
-            className="flex justify-end mt-4"
+            className="flex justify-center mt-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <div className="text-sm text-gray-600">
-              <span className="font-medium">Available</span>
-              <span className="ml-2 font-bold text-2xl text-gray-900">05</span>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-3 text-center">
+              <div className="text-sm text-yellow-200 font-medium">Magical Rooms Available</div>
+              <div className="text-3xl font-bold bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">
+                ✨ 05 ✨
+              </div>
             </div>
           </motion.div>
         </div>
         
         {/* Results Section */}
-        <div className="p-8 bg-gradient-to-r from-white/0 to-white/5">
+        <div className="p-8 bg-gradient-to-r from-purple-500/3 via-transparent to-pink-500/3">
           <motion.h3 
-            className="text-2xl font-bold text-gray-900 mb-6"
+            className="text-3xl font-bold bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent mb-6 text-center"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
+            style={{
+              fontFamily: 'Georgia, serif',
+              textShadow: '0 0 15px rgba(251, 191, 36, 0.3)'
+            }}
           >
-            Results based on your preferences
+            🏰 Your Enchanted Choices 🏰
           </motion.h3>
           
           {/* Room Cards */}
@@ -140,11 +160,12 @@ const RoomForm = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 + 0.4 }}
-              className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-lg overflow-hidden mb-4"
+              className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/20 shadow-xl overflow-hidden mb-6 relative"
               whileHover={{ 
-                scale: 1.01, 
-                backgroundColor: 'rgba(255,255,255,0.15)',
-                borderColor: 'rgba(255,255,255,0.3)' 
+                scale: 1.02, 
+                backgroundColor: 'rgba(255,255,255,0.08)',
+                borderColor: 'rgba(251, 191, 36, 0.4)',
+                boxShadow: '0 0 30px rgba(251, 191, 36, 0.2)'
               }}
             >
               <div className="flex flex-col lg:flex-row">
@@ -175,37 +196,45 @@ const RoomForm = () => {
                   <div>
                     <div className="flex justify-between items-start mb-4">
                       <motion.h4 
-                        className="text-2xl font-bold text-gray-900"
-                        whileHover={{ color: '#4f46e5' }}
+                        className="text-2xl font-bold bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent"
+                        whileHover={{ scale: 1.05 }}
+                        style={{
+                          fontFamily: 'Georgia, serif',
+                          textShadow: '0 0 10px rgba(251, 191, 36, 0.3)'
+                        }}
                       >
-                        {room.name}
+                        ✨ {room.name}
                       </motion.h4>
                       <div className="text-right">
                         <motion.div 
-                          className="text-3xl font-bold text-gray-900"
-                          whileHover={{ scale: 1.1, color: '#4f46e5' }}
+                          className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-pink-400 bg-clip-text text-transparent"
+                          whileHover={{ scale: 1.1 }}
+                          style={{
+                            textShadow: '0 0 15px rgba(251, 191, 36, 0.4)'
+                          }}
                         >
-                          {room.price.toFixed(2)} $
+                          💰 {room.price.toFixed(2)} $
                         </motion.div>
                       </div>
                     </div>
                     
-                    <p className="text-gray-700 leading-relaxed mb-6">
+                    <p className="text-purple-100 leading-relaxed mb-6 opacity-90" style={{ textShadow: '0 0 5px rgba(255,255,255,0.2)' }}>
                       {room.description}
                     </p>
                     
                     {/* Key Features */}
                     <div className="mb-6">
-                      <h5 className="text-lg font-semibold text-gray-800 mb-3">Key Features</h5>
+                      <h5 className="text-lg font-semibold text-yellow-200 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.3)' }}>✨ Magical Features</h5>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                         {room.features.map((feature, featureIndex) => (
                           <motion.div
                             key={featureIndex}
-                            className="bg-white/20 text-gray-800 px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-sm border border-white/30"
+                            className="bg-white/10 text-yellow-100 px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-md border border-white/20"
                             whileHover={{ 
                               scale: 1.05, 
-                              backgroundColor: 'rgba(255,255,255,0.3)',
-                              borderColor: 'rgba(255,255,255,0.5)'
+                              backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                              borderColor: 'rgba(251, 191, 36, 0.3)',
+                              boxShadow: '0 0 15px rgba(251, 191, 36, 0.2)'
                             }}
                             transition={{ duration: 0.2 }}
                           >
@@ -219,14 +248,19 @@ const RoomForm = () => {
                   {/* Book Now Button */}
                   <motion.button
                     onClick={() => handleBookNow(room.id)}
-                    className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-500 hover:to-purple-500 transition-all shadow-lg shadow-indigo-500/25"
+                    className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 text-white font-bold rounded-xl hover:from-yellow-300 hover:via-pink-400 hover:to-purple-500 transition-all shadow-xl border border-white/20 backdrop-blur-sm"
                     whileHover={{ 
-                      scale: 1.02, 
-                      boxShadow: "0 10px 25px rgba(99, 102, 241, 0.3)" 
+                      scale: 1.05, 
+                      boxShadow: "0 0 30px rgba(251, 191, 36, 0.4)",
+                      textShadow: "0 0 10px rgba(255, 255, 255, 0.5)"
                     }}
                     whileTap={{ scale: 0.98 }}
+                    style={{
+                      fontFamily: 'Georgia, serif',
+                      textShadow: '0 0 10px rgba(255, 255, 255, 0.3)'
+                    }}
                   >
-                    Book Now !
+                    ✨ Book Your Magic ✨
                   </motion.button>
                 </div>
               </div>
@@ -234,23 +268,27 @@ const RoomForm = () => {
           ))}
         </div>
         
-        {/* Bottom Navigation */}
-        <div className="p-4 bg-white/5 border-t border-white/10">
+        {/* Magical Bottom Navigation */}
+        <div className="p-4 bg-gradient-to-r from-purple-500/10 via-transparent to-pink-500/10 border-t border-white/20 backdrop-blur-sm">
           <div className="flex justify-center space-x-8">
             {[
-              { icon: faSearch, label: 'Room Search' },
-              { icon: faHeart, label: 'My Bookings' },
-              { icon: faHeart, label: 'My Favourites' },
-              { icon: faUser, label: 'My Account' }
+              { icon: faSearch, label: 'Room Search', emoji: '🔍' },
+              { icon: faHeart, label: 'My Bookings', emoji: '💼' },
+              { icon: faHeart, label: 'My Favourites', emoji: '❤️' },
+              { icon: faUser, label: 'My Account', emoji: '🧙' }
             ].map((item, index) => (
               <motion.button
                 key={index}
-                className="flex flex-col items-center space-y-1 p-3 rounded-lg hover:bg-white/10 transition-colors"
-                whileHover={{ scale: 1.05 }}
+                className="flex flex-col items-center space-y-2 p-3 rounded-lg bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all"
+                whileHover={{ 
+                  scale: 1.08, 
+                  borderColor: 'rgba(251, 191, 36, 0.3)',
+                  boxShadow: '0 0 15px rgba(251, 191, 36, 0.2)'
+                }}
                 whileTap={{ scale: 0.95 }}
               >
-                <FontAwesomeIcon icon={item.icon} className="text-xl text-gray-600" />
-                <span className="text-xs text-gray-600 font-medium">{item.label}</span>
+                <div className="text-xl text-yellow-300">{item.emoji}</div>
+                <span className="text-xs text-purple-200 font-medium" style={{ fontFamily: 'Georgia, serif' }}>{item.label}</span>
               </motion.button>
             ))}
           </div>
