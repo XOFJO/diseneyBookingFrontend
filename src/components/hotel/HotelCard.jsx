@@ -48,7 +48,7 @@ const HotelCard = ({ image, name, address, description, price, themes = [], rati
                         {description}
                     </p>
                     {/* 左下主题tags */}
-                    <div className="absolute left-5 bottom-5 flex gap-2 flex-wrap">
+                    <div className="absolute left-5 bottom-5 flex gap-2 flex-wrap max-w-xs whitespace-normal">
                         {themes.map((t, idx) => (
                             <span key={idx} className="bg-yellow-400/80 text-gray-900 text-xs font-semibold px-3 py-1 rounded-full shadow-md">
                                 {t}
@@ -58,7 +58,7 @@ const HotelCard = ({ image, name, address, description, price, themes = [], rati
                     {/* 右下价格和按钮区 */}
                     <div className="absolute right-5 bottom-5 flex flex-col items-end gap-2">
                         <span className="text-lg font-semibold text-red-400 bg-black/40 px-3 py-1 rounded-xl shadow-lg mb-1">
-                            ￥{price}
+                            ￥{price}起
                         </span>
                         <div className="flex gap-2">
                             <Button
