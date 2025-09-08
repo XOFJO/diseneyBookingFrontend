@@ -44,13 +44,13 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                 </motion.span>
                 <div className="flex items-center space-x-2">
                   <span className="font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>{rooms} Room</span>
-                  <span className="text-red-400">•</span>
-                  <span className="font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
+                  {/* <span className="text-red-400">•</span> */}
+                  {/* <span className="font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
                     {totalGuests} Guest{totalGuests > 1 ? 's' : ''}
                     {children > 0 && (
                       <span className="text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}>, {children} Children</span>
                     )}
-                  </span>
+                  </span> */}
                 </div>
               </motion.div>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
@@ -120,7 +120,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                     </div>
 
                     {/* Adults */}
-                    <div className="flex items-center justify-between">
+                    {/* <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <FontAwesomeIcon icon={faUsers} className="text-xl text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }} />
                         <div>
@@ -161,7 +161,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                           <FontAwesomeIcon icon={faPlus} className="w-4 h-4" />
                         </motion.button>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Children */}
                     {/* <div className="flex items-center justify-between">
