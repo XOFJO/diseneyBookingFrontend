@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import DateRangePicker from '../search/DateRangePicker'
-import GuestSelector from '../search/GuestSelector'
+import DateRangePicker from './DateRangePicker'
+import GuestSelector from './GuestSelector'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faChild, faSearch, faHeart, faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
@@ -83,46 +83,12 @@ const RoomForm = () => {
             
             {/* Guest Selectors - spans 4 columns */}
             <div className="md:col-span-4">
-              <div className="grid grid-cols-3 gap-3">
-                {/* Rooms */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Rooms</label>
-                  <motion.div
-                    className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-3 py-3 text-center"
-                    whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.25)' }}
-                  >
-                    <div className="text-2xl font-bold text-gray-900">
-                      {String(rooms).padStart(2, '0')}
-                    </div>
-                  </motion.div>
-                </div>
-                
-                {/* Adults */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Adults</label>
-                  <motion.div
-                    className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-3 py-3 text-center"
-                    whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.25)' }}
-                  >
-                    <div className="text-2xl font-bold text-gray-900">
-                      {String(guests).padStart(2, '0')}
-                    </div>
-                  </motion.div>
-                </div>
-                
-                {/* Children */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Children</label>
-                  <motion.div
-                    className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-3 py-3 text-center"
-                    whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.25)' }}
-                  >
-                    <div className="text-2xl font-bold text-gray-900">
-                      {String(children).padStart(2, '0')}
-                    </div>
-                  </motion.div>
-                </div>
-              </div>
+              <GuestSelector
+                guests={guests}
+                children={children}
+                rooms={rooms}
+                onGuestChange={handleGuestChange}
+              />
             </div>
             
             {/* Search Button - spans 2 columns */}

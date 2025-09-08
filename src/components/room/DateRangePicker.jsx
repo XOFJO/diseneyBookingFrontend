@@ -170,15 +170,12 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="fixed z-50 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl"
+            <Popover.Panel className="absolute z-50 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl top-full mt-2"
               style={{ 
                 boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)',
                 width: '320px',
-                maxHeight: '90vh',
-                overflowY: 'auto',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)'
+                maxHeight: '400px',
+                overflowY: 'auto'
               }}
             >
               {/* Calendar Header */}
@@ -280,15 +277,12 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="fixed z-50 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl"
+            <Popover.Panel className="absolute z-50 bg-gradient-to-br from-gray-900/95 to-red-900/90 rounded-xl border-2 border-red-500/30 backdrop-blur-lg p-6 shadow-xl top-full mt-2"
               style={{ 
                 boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)',
                 width: '320px',
-                maxHeight: '90vh',
-                overflowY: 'auto',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)'
+                maxHeight: '400px',
+                overflowY: 'auto'
               }}
             >
               {/* Calendar Header */}
