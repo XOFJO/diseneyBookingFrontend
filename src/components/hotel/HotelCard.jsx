@@ -10,11 +10,11 @@ import { Button } from "@headlessui/react";
  * @param {string} description 酒店简介
  * @param {number|string} price 价格
  * @param {function} onViewRoom 点击“查看房间信息”按钮事件
- * @param {string} theme 主题
+ * @param {List<string>} themes 主题
  */
 const HotelCard = ({ image, name, address, description, price, themes = [], onViewRoom }) => {
     return (
-        <div className="fixed left-1/2 top-48 -translate-x-1/2 z-10 w-full max-w-4xl px-4">
+        <div className="w-full max-w-4xl mx-auto px-4">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
