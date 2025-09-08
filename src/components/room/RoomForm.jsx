@@ -122,20 +122,6 @@ const RoomForm = () => {
             </div>
           </div>
           
-          {/* Available rooms indicator */}
-          <motion.div 
-            className="flex justify-center mt-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-3 text-center">
-              <div className="text-sm text-yellow-200 font-medium">Magical Rooms Available</div>
-              <div className="text-3xl font-bold bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">
-                ✨ 05 ✨
-              </div>
-            </div>
-          </motion.div>
         </div>
         
         {/* Results Section */}
