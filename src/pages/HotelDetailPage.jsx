@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import RoomForm from '../components/room/RoomForm'
+import HotelDetailHeader from '../components/room/HotelDetailHeader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faMagic, faGem } from '@fortawesome/free-solid-svg-icons'
 
@@ -24,6 +25,8 @@ function HotelDetailPage() {
   
   return (
     <div className="relative w-full min-h-screen overflow-hidden">
+      {/* Dedicated Hotel Detail Header - covers global header completely */}
+      <HotelDetailHeader />
       {/* Disney Castle Starry Sky Background */}
       <motion.div 
         className="fixed inset-0 w-full min-h-screen -z-20"
@@ -274,8 +277,8 @@ function HotelDetailPage() {
       </div>
       
       
-      {/* Main Content */}
-      <div className="relative z-10 p-4 flex items-center justify-center min-h-screen">
+      {/* Main Content - adjusted for header height */}
+      <div className="relative z-10 p-4 flex items-center justify-center min-h-screen pt-24">
         <div className="w-full max-w-[95vw] lg:max-w-[90vw] xl:max-w-[85vw]">
           <RoomForm />
         </div>
