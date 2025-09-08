@@ -2,16 +2,13 @@ import React from 'react'
 import { Disclosure } from '@headlessui/react'
 import { motion, AnimatePresence } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMinus, faPlus, faHotel, faUsers, faChild, faBed, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faMinus, faPlus, faHotel, faUsers, faBed, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 function GuestSelector({ guests, children, rooms, onGuestChange }) {
   const updateGuests = (newGuests) => {
     onGuestChange(newGuests, children, rooms)
   }
 
-  const updateChildren = (newChildren) => {
-    onGuestChange(guests, newChildren, rooms)
-  }
 
   const updateRooms = (newRooms) => {
     onGuestChange(guests, children, newRooms)
@@ -127,7 +124,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                       <div className="flex items-center space-x-3">
                         <FontAwesomeIcon icon={faUsers} className="text-xl text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }} />
                         <div>
-                          <span className="font-medium text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}>Adults</span>
+                          <span className="font-medium text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}>Guests</span>
                           <p className="text-sm text-red-400/80" style={{ textShadow: '0 0 3px rgba(220, 38, 38, 0.3)' }}>Ages 18+</p>
                         </div>
                       </div>
@@ -167,7 +164,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                     </div>
 
                     {/* Children */}
-                    <div className="flex items-center justify-between">
+                    {/* <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <FontAwesomeIcon icon={faChild} className="text-xl text-yellow-400" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }} />
                         <div>
@@ -208,7 +205,7 @@ function GuestSelector({ guests, children, rooms, onGuestChange }) {
                           <FontAwesomeIcon icon={faPlus} className="w-4 h-4" />
                         </motion.button>
                       </div>
-                    </div>
+                    </div> */}
                   </motion.div>
                 </Disclosure.Panel>
               )}
