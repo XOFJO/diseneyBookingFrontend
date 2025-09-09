@@ -22,16 +22,26 @@ function SearchForm() {
     //   return
     // }
     
+    // Create URL parameters from search data
+    const urlParams = new URLSearchParams()
+    
+    if (searchData.checkIn) urlParams.set('checkIn', searchData.checkIn)
+    if (searchData.checkOut) urlParams.set('checkOut', searchData.checkOut)
+    if (searchData.rooms) urlParams.set('rooms', searchData.rooms.toString())
+    if (searchData.guests) urlParams.set('guests', searchData.guests.toString())
+    if (searchData.children) urlParams.set('children', searchData.children.toString())
+    
     // Navigate based on hotel selection
     if (selectedHotel && (selectedHotel.id === 'all' || selectedHotel.name === 'All Hotels')) {
       // User selected "All Hotels" - go to hotels listing page
-      navigate('/hotels')
+      navigate(`/hotels?${urlParams.toString()}`)
     } else if (selectedHotel && selectedHotel.id) {
-      // User selected specific hotel - go to rooms page
-      navigate('/rooms')
+      // User selected specific hotel - go to rooms page with hotel ID
+      urlParams.set('hotelId', selectedHotel.id)
+      navigate(`/rooms?${urlParams.toString()}`)
     } else {
       // Fallback to hotels page if no hotel selected
-      navigate('/hotels')
+      navigate(`/hotels?${urlParams.toString()}`)
     }
   }
 
