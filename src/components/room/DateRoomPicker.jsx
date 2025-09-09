@@ -6,22 +6,30 @@ import { faCalendarDays, faUser, faChevronDown, faMinus, faPlus, faChevronLeft, 
 import useSearchStore from '../../store/searchStore'
 
 function DateRoomPicker({ onSearch }) {
-  // Use local state instead of directly modifying zustand store
-  const [localCheckIn, setLocalCheckIn] = useState("2025-09-09")
-  const [localCheckOut, setLocalCheckOut] = useState("2025-09-10")
-  const [localRooms, setLocalRooms] = useState(1)
+  // Get initial values from zustand store
+  const { checkIn: storeCheckIn, checkOut: storeCheckOut, rooms: storeRooms } = useSearchStore()
+  
+  // Use local state initialized with zustand store values
+  const [localCheckIn, setLocalCheckIn] = useState(storeCheckIn || "2025-09-09")
+  const [localCheckOut, setLocalCheckOut] = useState(storeCheckOut || "2025-09-10")
+  const [localRooms, setLocalRooms] = useState(storeRooms || 1)
   const [currentMonth, setCurrentMonth] = useState(new Date())
   
   // Convert string dates to Date objects for display
   const checkInDate = localCheckIn ? new Date(localCheckIn) : new Date()
   const checkOutDate = localCheckOut ? new Date(localCheckOut) : new Date(Date.now() + 24 * 60 * 60 * 1000)
   
-  // Initialize dates
+  // Initialize dates with store values or defaults
   useEffect(() => {
-    const today = new Date()
-    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000)
-    setLocalCheckIn(formatDateForInput(today))
-    setLocalCheckOut(formatDateForInput(tomorrow))
+    if (!storeCheckIn || !storeCheckOut) {
+      const today = new Date()
+      const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000)
+      setLocalCheckIn(storeCheckIn || formatDateForInput(today))
+      setLocalCheckOut(storeCheckOut || formatDateForInput(tomorrow))
+    }
+    if (storeRooms) {
+      setLocalRooms(storeRooms)
+    }
   }, [])
 
   const today = new Date()
