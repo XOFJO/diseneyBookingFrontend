@@ -15,7 +15,7 @@ const RoomDetails = ({
 
       {/* Deluxe Rooms Section - Scrollable */}
       <div className="mb-8 max-h-screen overflow-y-auto">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Deluxe Rooms</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-4">Theme Rooms</h3>
         
         {mockRooms.map((room) => (
           <RoomCard

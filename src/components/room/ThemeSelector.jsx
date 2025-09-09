@@ -23,13 +23,17 @@ const ThemeSelector = ({ activeTab, setActiveTab, onThemeFilter, themes = [] }) 
 
   return (
     <div>
-      <h3 className="text-xl font-bold text-gray-800 mb-4">Theme Selection</h3>
+      <h3 className="text-lg font-semibold text-gray-800 mb-3">Theme Selection</h3>
       <TabGroup selectedIndex={selectedIndex} onChange={handleTabChange}>
-        <TabList className="flex border-b mb-6">
+        <TabList className="flex flex-wrap gap-2 mb-4">
           {tabs.map((tab) => (
             <Tab
               key={tab.key}
-              className="px-6 py-3 font-medium border-b-2 outline-none data-[selected]:border-blue-500 data-[selected]:text-blue-600 data-[hover]:text-gray-700 data-[focus]:text-gray-700 border-transparent text-gray-500"
+              className="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 outline-none 
+                         data-[selected]:bg-blue-500 data-[selected]:text-white data-[selected]:border-blue-500 data-[selected]:shadow-md data-[selected]:scale-105
+                         data-[hover]:bg-blue-50 data-[hover]:border-blue-300 data-[hover]:scale-102
+                         data-[focus]:ring-2 data-[focus]:ring-blue-300 data-[focus]:ring-offset-1
+                         border-gray-300 text-gray-600 bg-white hover:shadow-sm transform"
             >
               {tab.label}
             </Tab>
