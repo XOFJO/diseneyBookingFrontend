@@ -112,7 +112,7 @@ function HotelDetailHeader() {
                     to="/"
                     className="no-underline text-inherit hover:no-underline hover:text-inherit"
                   >
-                    ✨ DISNEY CASTLE HOTELS ✨
+                    DISNEY CASTLE HOTELS
                   </Link>
                 </h1>
                 <p
@@ -122,7 +122,7 @@ function HotelDetailHeader() {
                     fontFamily: 'Georgia, serif'
                   }}
                 >
-                  🏰 Where Dreams Come True 🏰
+                  Where Dreams Come True
                 </p>
               </div>
             </motion.div>
@@ -145,7 +145,6 @@ function HotelDetailHeader() {
                   fontFamily: 'Georgia, serif'
                 }}
               >
-                <span className="text-lg">{item.emoji}</span>
                 <FontAwesomeIcon
                   icon={item.icon}
                   className="text-pink-400 group-hover:text-yellow-300 transition-colors"
@@ -192,7 +191,6 @@ function HotelDetailHeader() {
                 fontFamily: 'Georgia, serif'
               }}
             >
-              <span className="text-lg">🧙‍♂️</span>
               <FontAwesomeIcon icon={faUser} className="w-4 h-4" />
               <span className="hidden sm:inline font-medium">My Account</span>
               <motion.div
@@ -222,7 +220,6 @@ function HotelDetailHeader() {
                 fontFamily: 'Georgia, serif'
               }}
             >
-              <span className="text-lg">🏰</span>
               <FontAwesomeIcon icon={faHome} className="w-4 h-4" />
               <span className="hidden sm:inline font-medium">Castle Home</span>
             </motion.button>
