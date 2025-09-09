@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import DateRangePicker from './DateRangePicker'
 import GuestSelector from './GuestSelector'
+import DateRoomPicker from './dateRoomPicker'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
@@ -78,6 +79,9 @@ const RoomForm = () => {
           </div>
           <div className="flex items-start justify-between gap-6">
           </div>
+        </div>
+        <div>
+          <DateRoomPicker />
         </div>
 
       </div>
