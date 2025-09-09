@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Popover } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDays, faUser, faChevronDown, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -7,6 +7,8 @@ function DateRoomPicker() {
   const [checkInDate, setCheckInDate] = useState(new Date())
   const [checkOutDate, setCheckOutDate] = useState(new Date(Date.now() + 24 * 60 * 60 * 1000))
   const [rooms, setRooms] = useState(1)
+  const checkInInputRef = useRef(null)
+  const checkOutInputRef = useRef(null)
 
   const formatDate = (date) => {
     return date.toLocaleDateString('en-US', { 
@@ -36,14 +38,25 @@ function DateRoomPicker() {
     }
   }
 
+  const handleDateSectionClick = (type) => {
+    if (type === 'checkin') {
+      checkInInputRef.current?.showPicker()
+    } else {
+      checkOutInputRef.current?.showPicker()
+    }
+  }
+
   const adjustRooms = (increment) => {
     setRooms(prev => Math.max(1, prev + increment))
   }
 
   return (
     <div className="flex items-center bg-white rounded-full shadow-lg border border-gray-200 px-2 py-2">
-      <Popover className="relative flex-1">
-        <Popover.Button className="flex items-center justify-between w-full px-4 py-2 text-left hover:bg-gray-50 rounded-l-full">
+      <div className="relative flex-1">
+        <div 
+          onClick={() => handleDateSectionClick('checkin')}
+          className="flex items-center justify-between w-full px-4 py-2 text-left hover:bg-gray-50 rounded-l-full cursor-pointer"
+        >
           <div>
             <div className="text-xs font-medium text-gray-600">Check In Date</div>
             <div className="text-sm font-semibold text-gray-900">
@@ -51,24 +64,25 @@ function DateRoomPicker() {
               {formatDate(checkInDate)}
             </div>
           </div>
-        </Popover.Button>
-        
-        <Popover.Panel className="absolute z-10 mt-2 bg-white rounded-lg shadow-lg border p-4 left-0">
-          <input
-            type="date"
-            value={checkInDate.toISOString().split('T')[0]}
-            onChange={(e) => handleDateChange(e, 'checkin')}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          />
-        </Popover.Panel>
-      </Popover>
+        </div>
+        <input
+          ref={checkInInputRef}
+          type="date"
+          value={checkInDate.toISOString().split('T')[0]}
+          onChange={(e) => handleDateChange(e, 'checkin')}
+          className="absolute opacity-0 pointer-events-none"
+        />
+      </div>
 
       <div className="text-center px-3 py-2 border-l border-r border-gray-200">
         <div className="text-xs text-gray-600">{getNights()} Night(s)</div>
       </div>
 
-      <Popover className="relative flex-1">
-        <Popover.Button className="flex items-center justify-between w-full px-4 py-2 text-left hover:bg-gray-50">
+      <div className="relative flex-1">
+        <div 
+          onClick={() => handleDateSectionClick('checkout')}
+          className="flex items-center justify-between w-full px-4 py-2 text-left hover:bg-gray-50 cursor-pointer"
+        >
           <div>
             <div className="text-xs font-medium text-gray-600">Check Out Date</div>
             <div className="text-sm font-semibold text-gray-900">
@@ -76,18 +90,16 @@ function DateRoomPicker() {
               {formatDate(checkOutDate)}
             </div>
           </div>
-        </Popover.Button>
-        
-        <Popover.Panel className="absolute z-10 mt-2 bg-white rounded-lg shadow-lg border p-4 left-0">
-          <input
-            type="date"
-            value={checkOutDate.toISOString().split('T')[0]}
-            min={new Date(checkInDate.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
-            onChange={(e) => handleDateChange(e, 'checkout')}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          />
-        </Popover.Panel>
-      </Popover>
+        </div>
+        <input
+          ref={checkOutInputRef}
+          type="date"
+          value={checkOutDate.toISOString().split('T')[0]}
+          min={new Date(checkInDate.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+          onChange={(e) => handleDateChange(e, 'checkout')}
+          className="absolute opacity-0 pointer-events-none"
+        />
+      </div>
 
       <Popover className="relative">
         <Popover.Button className="flex items-center px-4 py-2 text-left hover:bg-gray-50 border-l border-gray-200">
