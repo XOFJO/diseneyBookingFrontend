@@ -94,15 +94,6 @@ function Header() {
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            {/* Settings Button */}
-            <motion.button
-              whileHover={{ scale: 1.1, rotate: 90 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-3 rounded-xl bg-gradient-to-r from-gray-800/80 to-red-900/50 border border-red-500/40 hover:border-yellow-400/60 text-red-400 hover:text-yellow-400 transition-all duration-200"
-              style={{ boxShadow: "0 0 10px rgba(220, 38, 38, 0.3)" }}
-            >
-              <FontAwesomeIcon icon={faCog} className="w-5 h-5" />
-            </motion.button>
 
             {/* User Profile */}
             <motion.button
