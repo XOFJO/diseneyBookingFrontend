@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import RoomForm from '../components/room/RoomForm'
 import HotelDetailHeader from '../components/room/HotelDetailHeader'
