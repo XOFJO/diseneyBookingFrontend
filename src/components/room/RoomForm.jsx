@@ -3,29 +3,32 @@ import { motion } from 'framer-motion'
 import DateRangePicker from './DateRangePicker'
 import GuestSelector from './GuestSelector'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers, faChild, faSearch, faHeart, faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faChild, faSearch, faHeart, faUser, faMapMarkerAlt, faEye, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 const RoomForm = () => {
   // State for booking preferences
-  const [checkIn, setCheckIn] = useState('')
-  const [checkOut, setCheckOut] = useState('')
+  const [checkIn, setCheckIn] = useState('Tue, Sep 09')
+  const [checkOut, setCheckOut] = useState('Wed, Sep 10')
   const [guests, setGuests] = useState(2)
   const [children, setChildren] = useState(0)
   const [rooms, setRooms] = useState(1)
   
   // State for room results
   const [selectedRoom, setSelectedRoom] = useState(null)
+  const [activeTab, setActiveTab] = useState('standard')
 
-  // Iron Man themed mock room data
+  // Disney themed room data
   const mockRooms = [
     {
       id: 1,
-      name: 'Signature Guest Room',
-      price: 2130.40,
+      name: 'Fairytale Dream Room',
+      price: 0.00,
       image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      description: 'Unwind in a thoughtfully designed space featuring plush bedding, curated amenities, and just the right touch of elegance for a restful stay',
-      features: ['Climate Control', 'Foam Mattress', 'Convertible beds', 'Smart Lock', 'Fast WiFi', '+more'],
-      available: 5
+      description: 'Views of Garden',
+      bedInfo: '2 Double Beds and 1 Child Murphy Bed • Murphy bed sized 1.64m x 0.95m',
+      occupancy: 'Sleeps up to 2 Adults and 1 Child aged 3-11 years old (both inclusive)',
+      available: 5,
+      category: 'deluxe'
     }
   ]
 
@@ -49,238 +52,212 @@ const RoomForm = () => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="w-full max-w-7xl mx-auto"
-    >
-      {/* Main Magical Glass Card */}
-      <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl shadow-purple-900/30 overflow-hidden relative">
-        {/* Magical glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5 pointer-events-none" />
-        
-        {/* Booking Preferences Section */}
-        <div className="p-8 bg-gradient-to-r from-purple-500/5 via-transparent to-pink-500/5 backdrop-blur-sm">
-          <motion.h2 
-            className="text-4xl font-bold bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent mb-8 text-center"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            style={{
-              fontFamily: 'Georgia, serif',
-              textShadow: '0 0 15px rgba(251, 191, 36, 0.3)'
-            }}
-          >
-            ✨ Choose Your Magic ✨
-          </motion.h2>
-          
-          <div className="space-y-6">
-            {/* Date Range Picker */}
+    <div className="w-full max-w-7xl mx-auto p-4">
+      {/* Header Section */}
+      <div className="bg-white rounded-t-lg p-6 border-b">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center space-x-4">
+            <img src="/disney-logo.png" alt="Shanghai Disney Resort" className="h-12" />
             <div>
-              <div className="grid grid-cols-2 gap-4">
-                <DateRangePicker
-                  checkIn={checkIn}
-                  checkOut={checkOut}
-                  onDateChange={handleDateChange}
-                />
-              </div>
-            </div>
-            
-            {/* Guest Selectors and Search Button side by side */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
-              {/* Guest Selectors - spans 8 columns */}
-              <div className="md:col-span-8">
-                <GuestSelector
-                  guests={guests}
-                  children={children}
-                  rooms={rooms}
-                  onGuestChange={handleGuestChange}
-                />
-              </div>
-              
-              {/* Search Button - spans 4 columns */}
-              <div className="md:col-span-4">
-                <motion.button
-                  onClick={handleSearch}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 text-white font-bold rounded-xl border border-white/20 backdrop-blur-sm transition-all shadow-xl"
-                  whileHover={{ 
-                    scale: 1.05, 
-                    boxShadow: "0 0 30px rgba(251, 191, 36, 0.4)",
-                    textShadow: "0 0 10px rgba(255, 255, 255, 0.5)"
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  style={{
-                    fontFamily: 'Georgia, serif',
-                    textShadow: '0 0 10px rgba(255, 255, 255, 0.3)'
-                  }}
-                >
-                  <FontAwesomeIcon icon={faSearch} className="mr-2" />
-                  ✨ Search Magic ✨
-                </motion.button>
-              </div>
+              <h1 className="text-xl font-bold text-gray-800">Shanghai Disneyland Hotel</h1>
             </div>
           </div>
-          
+          <div className="flex items-center space-x-6 text-sm">
+            <div>
+              <span className="text-gray-600">Check In Date</span>
+              <div className="font-semibold">{checkIn}</div>
+              <div className="text-xs text-gray-500">1 Night(s)</div>
+            </div>
+            <div>
+              <span className="text-gray-600">Check Out Date</span>
+              <div className="font-semibold">{checkOut}</div>
+            </div>
+            <div>
+              <span className="text-gray-600">Room and Guest</span>
+              <div className="font-semibold">{rooms} Room</div>
+              <div className="text-xs text-gray-500">{guests} Guests, {children} Children</div>
+            </div>
+            <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+              Search
+            </button>
+          </div>
         </div>
-        
-        {/* Results Section */}
-        <div className="p-8 bg-gradient-to-r from-purple-500/3 via-transparent to-pink-500/3">
-          <motion.h3 
-            className="text-3xl font-bold bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent mb-6 text-center"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            style={{
-              fontFamily: 'Georgia, serif',
-              textShadow: '0 0 15px rgba(251, 191, 36, 0.3)'
-            }}
-          >
-            🏰 Your Enchanted Choices 🏰
-          </motion.h3>
-          
-          {/* Room Cards */}
-          {mockRooms.map((room, index) => (
-            <motion.div
-              key={room.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 + 0.4 }}
-              className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/20 shadow-xl overflow-hidden mb-6 relative"
-              whileHover={{ 
-                scale: 1.02, 
-                backgroundColor: 'rgba(255,255,255,0.08)',
-                borderColor: 'rgba(251, 191, 36, 0.4)',
-                boxShadow: '0 0 30px rgba(251, 191, 36, 0.2)'
-              }}
-            >
-              <div className="flex flex-col lg:flex-row">
-                {/* Room Image */}
-                <div className="lg:w-80 h-64 lg:h-auto flex-shrink-0 relative">
-                  <motion.img
-                    src={room.image}
-                    alt={room.name}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  {/* Image overlay dots */}
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                    {[...Array(5)].map((_, i) => (
-                      <div
-                        key={i}
-                        className={`w-2 h-2 rounded-full ${
-                          i === 0 ? 'bg-white' : 'bg-white/50'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Room Content */}
-                <div className="flex-1 p-6 flex flex-col justify-between">
-                  <div>
-                    <div className="flex justify-between items-start mb-4">
-                      <motion.h4 
-                        className="text-2xl font-bold bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent"
-                        whileHover={{ scale: 1.05 }}
-                        style={{
-                          fontFamily: 'Georgia, serif',
-                          textShadow: '0 0 10px rgba(251, 191, 36, 0.3)'
-                        }}
-                      >
-                        ✨ {room.name}
-                      </motion.h4>
-                      <div className="text-right">
-                        <motion.div 
-                          className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-pink-400 bg-clip-text text-transparent"
-                          whileHover={{ scale: 1.1 }}
-                          style={{
-                            textShadow: '0 0 15px rgba(251, 191, 36, 0.4)'
-                          }}
-                        >
-                          💰 {room.price.toFixed(2)} $
-                        </motion.div>
-                      </div>
-                    </div>
-                    
-                    <p className="text-purple-100 leading-relaxed mb-6 opacity-90" style={{ textShadow: '0 0 5px rgba(255,255,255,0.2)' }}>
-                      {room.description}
-                    </p>
-                    
-                    {/* Key Features */}
-                    <div className="mb-6">
-                      <h5 className="text-lg font-semibold text-yellow-200 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.3)' }}>✨ Magical Features</h5>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                        {room.features.map((feature, featureIndex) => (
-                          <motion.div
-                            key={featureIndex}
-                            className="bg-white/10 text-yellow-100 px-3 py-2 rounded-lg text-sm font-medium backdrop-blur-md border border-white/20"
-                            whileHover={{ 
-                              scale: 1.05, 
-                              backgroundColor: 'rgba(251, 191, 36, 0.1)',
-                              borderColor: 'rgba(251, 191, 36, 0.3)',
-                              boxShadow: '0 0 15px rgba(251, 191, 36, 0.2)'
-                            }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            {feature}
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Book Now Button */}
-                  <motion.button
-                    onClick={() => handleBookNow(room.id)}
-                    className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 text-white font-bold rounded-xl hover:from-yellow-300 hover:via-pink-400 hover:to-purple-500 transition-all shadow-xl border border-white/20 backdrop-blur-sm"
-                    whileHover={{ 
-                      scale: 1.05, 
-                      boxShadow: "0 0 30px rgba(251, 191, 36, 0.4)",
-                      textShadow: "0 0 10px rgba(255, 255, 255, 0.5)"
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                    style={{
-                      fontFamily: 'Georgia, serif',
-                      textShadow: '0 0 10px rgba(255, 255, 255, 0.3)'
-                    }}
-                  >
-                    ✨ Book Your Magic ✨
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        {/* Magical Bottom Navigation */}
-        <div className="p-4 bg-gradient-to-r from-purple-500/10 via-transparent to-pink-500/10 border-t border-white/20 backdrop-blur-sm">
-          <div className="flex justify-center space-x-8">
-            {[
-              { icon: faSearch, label: 'Room Search', emoji: '🔍' },
-              { icon: faHeart, label: 'My Bookings', emoji: '💼' },
-              { icon: faHeart, label: 'My Favourites', emoji: '❤️' },
-              { icon: faUser, label: 'My Account', emoji: '🧙' }
-            ].map((item, index) => (
-              <motion.button
-                key={index}
-                className="flex flex-col items-center space-y-2 p-3 rounded-lg bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all"
-                whileHover={{ 
-                  scale: 1.08, 
-                  borderColor: 'rgba(251, 191, 36, 0.3)',
-                  boxShadow: '0 0 15px rgba(251, 191, 36, 0.2)'
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="text-xl text-yellow-300">{item.emoji}</div>
-                <span className="text-xs text-purple-200 font-medium" style={{ fontFamily: 'Georgia, serif' }}>{item.label}</span>
-              </motion.button>
-            ))}
+
+        {/* Progress Steps */}
+        <div className="flex items-center space-x-8 text-sm">
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
+            <span className="font-semibold text-gray-800">Select Room</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold">2</div>
+            <span className="text-gray-500">Make Your Stay Even More Magical</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold">3</div>
+            <span className="text-gray-500">Confirm & Purchase</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold">4</div>
+            <span className="text-gray-500">Order Status</span>
           </div>
         </div>
       </div>
-    </motion.div>
+
+      {/* Main Content */}
+      <div className="flex bg-white">
+        {/* Left Side - Room Selection */}
+        <div className="flex-1 p-6">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">Choose Room</h2>
+            <p className="text-gray-600">Personalize an unforgettable accommodation experience for your Disney journey!</p>
+          </div>
+
+          {/* Coupon Banner */}
+          <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 flex items-center justify-between">
+            <div className="flex items-center">
+              <span className="text-red-600 font-medium">🎫 Official Store Exclusive Coupon</span>
+            </div>
+            <button className="text-red-600 font-medium hover:underline">Claim</button>
+          </div>
+
+          {/* Room Type Tabs */}
+          <div className="flex border-b mb-6">
+            <button 
+              onClick={() => setActiveTab('standard')}
+              className={`px-6 py-3 font-medium border-b-2 ${
+                activeTab === 'standard' 
+                  ? 'border-blue-500 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Standard Rooms
+            </button>
+            <button 
+              onClick={() => setActiveTab('packages')}
+              className={`px-6 py-3 font-medium border-b-2 ${
+                activeTab === 'packages' 
+                  ? 'border-blue-500 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Hotel Packages
+            </button>
+          </div>
+
+          {/* Room Categories */}
+          <div className="space-y-4 mb-6">
+            <div className="flex items-center space-x-4 text-sm">
+              <span className="font-medium">Theme Room</span>
+              <span className="text-gray-500">Park View</span>
+              <span className="text-gray-500">Club-level Room</span>
+              <select className="border rounded px-3 py-1 text-sm">
+                <option>Breakfast included</option>
+              </select>
+            </div>
+
+            {/* Standard Rooms Header */}
+            <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded">
+              <FontAwesomeIcon icon={faUser} className="text-gray-600" />
+              <span className="font-medium">Standard Rooms</span>
+            </div>
+          </div>
+
+          {/* Deluxe Rooms Section */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Deluxe Rooms</h3>
+            
+            {/* Room Card */}
+            {mockRooms.map((room) => (
+              <div key={room.id} className="border rounded-lg overflow-hidden mb-6">
+                <div className="flex">
+                  {/* Room Image */}
+                  <div className="w-80 h-64 flex-shrink-0 relative">
+                    <img
+                      src={room.image}
+                      alt={room.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <button className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded text-sm flex items-center space-x-1">
+                      <FontAwesomeIcon icon={faEye} />
+                      <span>View</span>
+                    </button>
+                  </div>
+
+                  {/* Room Details */}
+                  <div className="flex-1 p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <h4 className="text-xl font-bold text-gray-800">{room.name}</h4>
+                      <button className="text-blue-500 hover:underline flex items-center space-x-1">
+                        <span>Hide</span>
+                        <FontAwesomeIcon icon={faChevronUp} />
+                      </button>
+                    </div>
+
+                    <div className="space-y-3 text-sm text-gray-600">
+                      <div className="flex items-start space-x-2">
+                        <span>🌿</span>
+                        <span>{room.description}</span>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <span>🛏️</span>
+                        <span>{room.bedInfo}</span>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <span>👥</span>
+                        <span>{room.occupancy}</span>
+                      </div>
+                    </div>
+
+                    <button className="text-blue-500 hover:underline text-sm mt-3">
+                      View More Details
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Side - Booking Summary */}
+        <div className="w-80 bg-gray-50 p-6">
+          <div className="bg-white p-4 rounded-lg shadow">
+            <h3 className="font-bold text-gray-800 mb-4">Your Selection and Price</h3>
+            
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center space-x-2">
+                <span>🏨</span>
+                <span>Shanghai Disneyland Hotel</span>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <span>📅</span>
+                <span>September 9, 2025 - September 10, 2025</span>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <span>🛏️</span>
+                <span>{rooms} Room</span>
+                <span>👥</span>
+                <span>{guests} Guests, {children} Children</span>
+              </div>
+            </div>
+
+            <div className="border-t mt-6 pt-4">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-xl font-bold">Total:</span>
+                <span className="text-2xl font-bold text-blue-600">¥ 0.00</span>
+              </div>
+              <p className="text-xs text-gray-500 mb-4">Prices in Chinese Yuan(CNY)</p>
+              
+              <button className="w-full bg-gray-300 text-gray-500 py-3 rounded font-medium cursor-not-allowed">
+                Next Step
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
