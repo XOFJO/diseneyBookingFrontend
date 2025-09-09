@@ -131,8 +131,8 @@ function HotelDetailHeader() {
           {/* Navigation Menu */}
           <nav className="hidden md:flex items-center space-x-8">
             {[
-              { name: "My Bookings", icon: faBolt, emoji: "📋" },
-              { name: "Magic Support", icon: faShield, emoji: "🧙‍♂️" },
+              { name: "My Order", icon: faBolt, emoji: "📋" },
+              { name: "Support", icon: faShield, emoji: "🧙‍♂️" },
             ].map((item) => (
               <motion.a
                 key={item.name}
@@ -156,29 +156,6 @@ function HotelDetailHeader() {
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            {/* Magical Settings Button */}
-            <motion.button
-              whileHover={{ scale: 1.1, rotate: 180 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-3 rounded-xl bg-gradient-to-br from-purple-600/80 to-pink-600/50 border border-yellow-400/40 hover:border-pink-300/60 text-yellow-300 hover:text-pink-200 transition-all duration-200 relative"
-              style={{ boxShadow: "0 0 15px rgba(251, 191, 36, 0.3)" }}
-            >
-              <FontAwesomeIcon icon={faCog} className="w-5 h-5" />
-              <motion.div
-                className="absolute -top-1 -right-1 text-pink-300 text-xs"
-                animate={{
-                  scale: [0.8, 1.2, 0.8],
-                  rotate: [0, 360]
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <FontAwesomeIcon icon={faMagic} />
-              </motion.div>
-            </motion.button>
 
             {/* User Profile */}
             <motion.button
@@ -192,7 +169,7 @@ function HotelDetailHeader() {
               }}
             >
               <FontAwesomeIcon icon={faUser} className="w-4 h-4" />
-              <span className="hidden sm:inline font-medium">My Account</span>
+              <span className="hidden sm:inline font-medium">Account</span>
               <motion.div
                 className="absolute -top-2 -right-2"
                 animate={{
@@ -208,44 +185,8 @@ function HotelDetailHeader() {
                 <FontAwesomeIcon icon={faGem} className="text-yellow-300 text-xs" />
               </motion.div>
             </motion.button>
-
-            {/* Home Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-2 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-4 py-2 rounded-xl border border-pink-400/30 transition-all duration-200"
-              style={{
-                boxShadow: "0 0 20px rgba(251, 191, 36, 0.4)",
-                textShadow: "0 0 8px rgba(255, 255, 255, 0.3)",
-                fontFamily: 'Georgia, serif'
-              }}
-            >
-              <FontAwesomeIcon icon={faHome} className="w-4 h-4" />
-              <span className="hidden sm:inline font-medium">Castle Home</span>
-            </motion.button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <motion.button
-            className="md:hidden p-3 rounded-xl bg-gradient-to-br from-purple-600/80 to-pink-600/50 border border-yellow-400/40 text-yellow-300"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <div className="w-6 h-6 flex flex-col justify-center space-y-1">
-              <motion.div
-                className="h-0.5 bg-current rounded"
-                animate={{ scaleX: 1 }}
-              />
-              <motion.div
-                className="h-0.5 bg-current rounded"
-                animate={{ scaleX: 0.7 }}
-              />
-              <motion.div
-                className="h-0.5 bg-current rounded"
-                animate={{ scaleX: 1 }}
-              />
-            </div>
-          </motion.button>
         </div>
       </div>
     </motion.header>

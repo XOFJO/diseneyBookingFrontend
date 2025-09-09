@@ -129,7 +129,7 @@ function SearchForm() {
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-          <span className="text-lg relative z-10"><FontAwesomeIcon icon={faSearch} className="mr-2" />Search for prices</span>
+          <span className="text-lg relative z-10"><FontAwesomeIcon icon={faSearch} className="mr-2" />Search</span>
           </motion.button>
         </motion.div>
         </div>
