@@ -1,4 +1,4 @@
-import { getHotelNames, searchHotels,getHotelCities,getHotelThemes } from "./api";
+import { getHotelNames, searchHotels, getHotelCities, getHotelThemes, searchRooms } from "./api";
 import { faHotel, faBuilding, faShield, faUmbrella, faBolt } from '@fortawesome/free-solid-svg-icons';
 
 const defaultIcons = [faBuilding, faShield, faUmbrella, faBolt];
@@ -74,5 +74,28 @@ export const getThemes = async () => {
   } catch (error) {
     console.error('Failed to fetch themes:', error);
     return [];
+  }
+};
+
+// 根据条件查询房间
+export const getRooms = async (hotelId, checkIn, checkOut, availableRoomNumber) => {
+  try {
+    const response = await searchRooms(hotelId, checkIn, checkOut, availableRoomNumber);
+    console.log('HotelService - getRooms response:', response);
+    
+    // 根据API文档，response.data 应该是房间主题数组
+    if (response && response.data && Array.isArray(response.data)) {
+      return response.data;
+    }
+    
+    // 如果直接是数组格式
+    if (Array.isArray(response)) {
+      return response;
+    }
+    
+    return [];
+  } catch (error) {
+    console.error('Failed to fetch rooms:', error);
+    throw error;
   }
 };

@@ -25,5 +25,20 @@ export const getHotelThemes = async () => {
   return response.data;
 }
 
+// 根据条件查询房间
+export const searchRooms = async (hotelId, checkIn, checkOut, availableRoomNumber) => {
+  const response = await apiClient.get('/api/rooms', {
+    params: {
+      hotelId,
+      checkIn,
+      checkOut,
+      availableRoomNumber
+    }
+  });
+  return response.data;
+};
+
+
+
 export default apiClient;
 
