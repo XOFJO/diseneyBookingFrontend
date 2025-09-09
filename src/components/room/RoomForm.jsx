@@ -83,25 +83,6 @@ const RoomForm = () => {
           </div>
         </div>
 
-        {/* Progress Steps */}
-        <div className="flex items-center space-x-8 text-sm">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
-            <span className="font-semibold text-gray-800">Select Room</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold">2</div>
-            <span className="text-gray-500">Make Your Stay Even More Magical</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold">3</div>
-            <span className="text-gray-500">Confirm & Purchase</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-xs font-bold">4</div>
-            <span className="text-gray-500">Order Status</span>
-          </div>
-        </div>
       </div>
 
       {/* Main Content */}
@@ -113,13 +94,6 @@ const RoomForm = () => {
             <p className="text-gray-600">Personalize an unforgettable accommodation experience for your Disney journey!</p>
           </div>
 
-          {/* Coupon Banner */}
-          <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 flex items-center justify-between">
-            <div className="flex items-center">
-              <span className="text-red-600 font-medium">🎫 Official Store Exclusive Coupon</span>
-            </div>
-            <button className="text-red-600 font-medium hover:underline">Claim</button>
-          </div>
 
           {/* Room Type Tabs */}
           <div className="flex border-b mb-6">
@@ -131,7 +105,7 @@ const RoomForm = () => {
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
-              Standard Rooms
+              Iron man themes
             </button>
             <button 
               onClick={() => setActiveTab('packages')}
@@ -145,23 +119,6 @@ const RoomForm = () => {
             </button>
           </div>
 
-          {/* Room Categories */}
-          <div className="space-y-4 mb-6">
-            <div className="flex items-center space-x-4 text-sm">
-              <span className="font-medium">Theme Room</span>
-              <span className="text-gray-500">Park View</span>
-              <span className="text-gray-500">Club-level Room</span>
-              <select className="border rounded px-3 py-1 text-sm">
-                <option>Breakfast included</option>
-              </select>
-            </div>
-
-            {/* Standard Rooms Header */}
-            <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded">
-              <FontAwesomeIcon icon={faUser} className="text-gray-600" />
-              <span className="font-medium">Standard Rooms</span>
-            </div>
-          </div>
 
           {/* Deluxe Rooms Section */}
           <div className="mb-8">
