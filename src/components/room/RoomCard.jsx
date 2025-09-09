@@ -13,6 +13,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 const RoomCard = ({ room, onBookNow }) => {
+  // Debug log
+  const handleBookNowClick = () => {
+    console.log("RoomCard - Book Now clicked for room:", { id: room.id, name: room.name });
+    onBookNow?.(room.id);
+  };
 
   return (
     <>
@@ -97,7 +102,7 @@ const RoomCard = ({ room, onBookNow }) => {
                     <Menu.Item>
                       {({ active }) => (
                         <button
-                          onClick={() => onBookNow?.(room.id)}
+                          onClick={handleBookNowClick}
                           className={`${
                             active ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
                           } group flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium transition-colors`}
@@ -153,7 +158,7 @@ const RoomCard = ({ room, onBookNow }) => {
             {/* Action Buttons */}
             <div className="flex space-x-3 mt-4">
               <motion.button
-                onClick={() => onBookNow?.(room.id)}
+                onClick={handleBookNowClick}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors shadow-md"

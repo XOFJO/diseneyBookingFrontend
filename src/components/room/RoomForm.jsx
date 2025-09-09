@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DateRangePicker from "./DateRangePicker";
 import GuestSelector from "./GuestSelector";
 import DateRoomPicker from "./DateRoomPicker";
@@ -24,7 +24,7 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
 
   // Transform backend data to match the component's expected format
   const transformedRooms = (roomsData || []).map((themeRoom, index) => ({
-    id: themeRoom.sampleRoom.roomId || index + 1,
+    id: themeRoom.sampleRoom.roomId ? `${themeRoom.sampleRoom.roomId}_${index}` : `room_${index + 1}`,
     name: themeRoom.sampleRoom.roomName,
     price: themeRoom.sampleRoom.price,
     image: themeRoom.sampleRoom.imageUrls && themeRoom.sampleRoom.imageUrls !== "[]" 
@@ -42,6 +42,14 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
 
   // Extract unique theme names for the ThemeSelector
   const availableThemes = [...new Set((roomsData || []).map(room => room.themeName))];
+
+  // Debug log for transformed rooms
+  React.useEffect(() => {
+    if (transformedRooms.length > 0) {
+      console.log("Transformed rooms:", transformedRooms);
+      console.log("Room IDs:", transformedRooms.map(r => ({ id: r.id, name: r.name })));
+    }
+  }, [transformedRooms]);
 
   // Filter rooms based on selected theme
   const filteredRooms = activeTab === "all" 
@@ -69,9 +77,11 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
   };
 
   const handleBookNow = (roomId) => {
-    console.log("Booking room:", roomId);
+    console.log("Booking room ID:", roomId);
+    console.log("All available rooms:", filteredRooms);
     // 查找选中的房间
     const room = filteredRooms.find(r => r.id === roomId);
+    console.log("Found room:", room);
     setSelectedRoom(room);
     // 展开价格明细，一旦展开就不会再关闭
     setShowPriceDetail(true);

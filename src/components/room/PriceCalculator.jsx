@@ -44,6 +44,14 @@ function PriceCalculator({ show = false, selectedRoom, onPriceUpdate }) {
     roomName: selectedRoom?.name || '花园景观房'
   };
 
+  // Debug log
+  React.useEffect(() => {
+    if (show) {
+      console.log("PriceCalculator - selectedRoom:", selectedRoom);
+      console.log("PriceCalculator - roomName:", mockData.roomName);
+    }
+  }, [selectedRoom, show]);
+
   const { roomPriceList, startDate, endDate, roomCount, roomName } = mockData;
   const { detail, totalPrice } = calculatePriceDetail(roomPriceList, startDate, endDate, roomCount);
 
