@@ -120,12 +120,15 @@ const BookingSummary = ({
           transition={{ duration: 0.2 }}
           className="bg-white rounded-xl shadow-lg border border-gray-100 max-h-[70vh] overflow-hidden flex flex-col"
         >
-          <div className="p-6 overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+          {/* Scrollable Content Area */}
+          <div className="overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
             style={{
               scrollbarWidth: 'thin',
               scrollbarColor: '#cbd5e1 #f1f5f9'
             }}
           >
+            <div className="p-6"
+            >
           {/* Header */}
           <div className="flex items-center space-x-3 mb-6">
             <div className="bg-blue-100 p-2 rounded-lg">
@@ -246,12 +249,14 @@ const BookingSummary = ({
             onPriceUpdate={handlePriceUpdate}
             roomCount={bookingRooms}
           />
+            </div>
+          </div>
 
-          {/* Total Section */}
-          <div className="border-t border-gray-200 mt-6 pt-6">
+          {/* Fixed Total Section */}
+          <div className="border-t border-gray-200 p-6 bg-white">
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 rounded-lg text-white mb-4"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 rounded-lg text-white"
             >
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2">
@@ -262,7 +267,6 @@ const BookingSummary = ({
               </div>
               <p className="text-blue-100 text-xs mt-2">Prices in Chinese Yuan (CNY)</p>
             </motion.div>
-          </div>
           </div>
         </motion.div>
       </div>
