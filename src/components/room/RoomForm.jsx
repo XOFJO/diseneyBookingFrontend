@@ -76,37 +76,7 @@ const RoomForm = () => {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center space-x-4">
           </div>
-          <div className="grid grid-cols-12 gap-4 items-end">
-            {/* Date Range Picker - spans 6 columns */}
-            <div className="col-span-6">
-              <div className="grid grid-cols-2 gap-4">
-                <DateRangePicker
-                  checkIn={checkIn}
-                  checkOut={checkOut}
-                  onDateChange={handleDateChange}
-                />
-              </div>
-            </div>
-            
-            {/* Guest Selector - spans 4 columns */}
-            <div className="col-span-4">
-              <GuestSelector
-                guests={guests}
-                children={children}
-                rooms={rooms}
-                onGuestChange={handleGuestChange}
-              />
-            </div>
-            
-            {/* Search Button - spans 2 columns */}
-            <div className="col-span-2">
-              <button 
-                onClick={handleSearch}
-                className="w-full bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 font-medium"
-              >
-                Search
-              </button>
-            </div>
+          <div className="flex items-start justify-between gap-6">
           </div>
         </div>
 

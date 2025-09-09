@@ -92,45 +92,28 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
       const isInRange = isDateInRange(day)
       
       days.push(
-        <motion.button
+        <button
           key={day}
           onClick={() => !isDisabled && handleDateSelect(day)}
           disabled={isDisabled}
-          whileHover={!isDisabled ? { scale: 1.1 } : {}}
-          whileTap={!isDisabled ? { scale: 0.9 } : {}}
           className={`
-            w-10 h-10 rounded-lg text-sm font-medium transition-all duration-200 relative flex items-center justify-center border border-transparent backdrop-blur-sm
+            w-8 h-8 rounded text-sm font-medium transition-colors flex items-center justify-center
             ${isDisabled 
-              ? 'text-gray-600 cursor-not-allowed' 
-              : 'text-white cursor-pointer hover:border-white/20'
+              ? 'text-gray-400 cursor-not-allowed' 
+              : 'text-gray-700 cursor-pointer hover:bg-gray-100'
             }
             ${isSelected 
-              ? 'text-yellow-400 shadow-lg border-white/30' 
+              ? 'bg-blue-500 text-white hover:bg-blue-600' 
               : ''
             }
             ${isInRange && !isSelected 
-              ? 'text-yellow-300 border-white/10' 
+              ? 'bg-blue-100 text-blue-700' 
               : ''
             }
           `}
-          style={{
-            background: isSelected 
-              ? 'rgba(255, 255, 255, 0.15)'
-              : isInRange && !isSelected 
-                ? 'rgba(255, 255, 255, 0.05)'
-                : !isDisabled 
-                  ? 'rgba(255, 255, 255, 0.02)'
-                  : 'transparent',
-            backdropFilter: isSelected ? 'blur(15px)' : 'blur(8px)',
-            WebkitBackdropFilter: isSelected ? 'blur(15px)' : 'blur(8px)',
-            boxShadow: isSelected 
-              ? '0 4px 20px rgba(251, 191, 36, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)' 
-              : '0 2px 10px rgba(0, 0, 0, 0.1)',
-            textShadow: isSelected ? '0 0 5px rgba(251, 191, 36, 0.5)' : ''
-          }}
         >
           {day}
-        </motion.button>
+        </button>
       )
     }
     
@@ -151,28 +134,16 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
   return (
     <>
       {/* Check In Date */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.1 }}
-        className="space-y-2"
-      >
-        <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
-          <FontAwesomeIcon icon={faCalendarDays} className="mr-2" />Check In Date
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-600 mb-2">
+          📅 Check In Date
         </label>
         
         <Popover className="relative">
-          <Popover.Button className="w-full px-4 py-4 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-white/40 transition-all duration-300 hover:border-white/30 text-white font-medium group hover:shadow-xl backdrop-blur-md text-left relative overflow-hidden"
-            style={{ 
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.05)'
-            }}
-          >
+          <Popover.Button className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white text-gray-900 font-medium text-left hover:border-gray-400">
             <div className="flex items-center justify-between">
-              <span>{checkIn ? new Date(checkIn).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select check-in date'}</span>
-              <FontAwesomeIcon icon={faCalendarDays} className="h-5 w-5 text-red-400 group-hover:text-yellow-400" />
+              <span>{checkIn ? new Date(checkIn).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select date'}</span>
+              <FontAwesomeIcon icon={faCalendarDays} className="h-4 w-4 text-red-500" />
             </div>
           </Popover.Button>
           
@@ -184,44 +155,24 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute z-50 rounded-xl border border-white/20 backdrop-blur-md p-6 shadow-2xl top-full mt-2"
-              style={{ 
-                background: 'rgba(255, 255, 255, 0.08)',
-                backdropFilter: 'blur(25px)',
-                WebkitBackdropFilter: 'blur(25px)',
-                boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                width: '320px',
-                maxHeight: '400px',
-                overflowY: 'auto'
-              }}
-            >
+            <Popover.Panel className="absolute z-50 bg-white rounded-lg border border-gray-200 shadow-lg p-4 top-full mt-2 w-72">
               {/* Calendar Header */}
               <div className="flex items-center justify-between mb-4">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                <button
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-                  className="p-2 rounded-lg text-red-400 hover:text-yellow-400 transition-all duration-200 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.03)'
-                  }}
+                  className="p-1 rounded text-gray-600 hover:text-gray-800 hover:bg-gray-100"
                 >
                   <FontAwesomeIcon icon={faChevronLeft} />
-                </motion.button>
-                <h3 className="text-yellow-400 font-semibold">
+                </button>
+                <h3 className="text-gray-800 font-semibold">
                   {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </h3>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                <button
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
-                  className="p-2 rounded-lg text-red-400 hover:text-yellow-400 transition-all duration-200 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.03)'
-                  }}
+                  className="p-1 rounded text-gray-600 hover:text-gray-800 hover:bg-gray-100"
                 >
                   <FontAwesomeIcon icon={faChevronRight} />
-                </motion.button>
+                </button>
               </div>
               
               {/* Days of week header */}
@@ -240,61 +191,26 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             </Popover.Panel>
           </Transition>
         </Popover>
-        
-        {checkIn && (
-          <motion.div
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-xs text-yellow-400 font-medium mt-2"
-            style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}
-          >
-            <FontAwesomeIcon icon={faRocket} className="mr-1" />Check-in selected
-          </motion.div>
-        )}
-      </motion.div>
+      </div>
 
       {/* Check Out Date */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2 }}
-        className="space-y-2"
-      >
-        <div className="flex items-center justify-between mb-3">
-          <label className="block text-sm font-medium text-yellow-400" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
-            <FontAwesomeIcon icon={faCalendarDays} className="mr-2" />Check Out Date
+      <div className="space-y-2">
+        <div className="flex items-center justify-between mb-2">
+          <label className="block text-sm font-medium text-gray-600">
+            📅 Check Out Date
           </label>
           {nights > 0 && checkIn && checkOut && (
-            <motion.span 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ scale: 1.1 }}
-              className="text-xs text-yellow-400 px-3 py-1 rounded-full font-bold border border-white/30 backdrop-blur-md"
-              style={{ 
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(15px)',
-                WebkitBackdropFilter: 'blur(15px)',
-                textShadow: '0 0 5px rgba(251, 191, 36, 0.5)',
-                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-              }}
-            >
-              <FontAwesomeIcon icon={faMoon} className="mr-1" />{nights} Night{nights > 1 ? 's' : ''}
-            </motion.span>
+            <span className="text-xs text-blue-600 px-2 py-1 bg-blue-50 rounded font-medium">
+              🌙 {nights} Night{nights > 1 ? 's' : ''}
+            </span>
           )}
         </div>
         
         <Popover className="relative">
-          <Popover.Button className="w-full px-4 py-4 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-white/40 transition-all duration-300 hover:border-white/30 text-white font-medium group hover:shadow-xl backdrop-blur-md text-left relative overflow-hidden"
-            style={{ 
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.05)'
-            }}
-          >
+          <Popover.Button className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white text-gray-900 font-medium text-left hover:border-gray-400">
             <div className="flex items-center justify-between">
-              <span>{checkOut ? new Date(checkOut).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select check-out date'}</span>
-              <FontAwesomeIcon icon={faCalendarDays} className="h-5 w-5 text-red-400 group-hover:text-yellow-400" />
+              <span>{checkOut ? new Date(checkOut).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select date'}</span>
+              <FontAwesomeIcon icon={faCalendarDays} className="h-4 w-4 text-red-500" />
             </div>
           </Popover.Button>
           
@@ -306,44 +222,24 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute z-50 rounded-xl border border-white/20 backdrop-blur-md p-6 shadow-2xl top-full mt-2"
-              style={{ 
-                background: 'rgba(255, 255, 255, 0.08)',
-                backdropFilter: 'blur(25px)',
-                WebkitBackdropFilter: 'blur(25px)',
-                boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                width: '320px',
-                maxHeight: '400px',
-                overflowY: 'auto'
-              }}
-            >
+            <Popover.Panel className="absolute z-50 bg-white rounded-lg border border-gray-200 shadow-lg p-4 top-full mt-2 w-72">
               {/* Calendar Header */}
               <div className="flex items-center justify-between mb-4">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                <button
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-                  className="p-2 rounded-lg text-red-400 hover:text-yellow-400 transition-all duration-200 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.03)'
-                  }}
+                  className="p-1 rounded text-gray-600 hover:text-gray-800 hover:bg-gray-100"
                 >
                   <FontAwesomeIcon icon={faChevronLeft} />
-                </motion.button>
-                <h3 className="text-yellow-400 font-semibold">
+                </button>
+                <h3 className="text-gray-800 font-semibold">
                   {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </h3>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                <button
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
-                  className="p-2 rounded-lg text-red-400 hover:text-yellow-400 transition-all duration-200 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.03)'
-                  }}
+                  className="p-1 rounded text-gray-600 hover:text-gray-800 hover:bg-gray-100"
                 >
                   <FontAwesomeIcon icon={faChevronRight} />
-                </motion.button>
+                </button>
               </div>
               
               {/* Days of week header */}
@@ -362,18 +258,7 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
             </Popover.Panel>
           </Transition>
         </Popover>
-        
-        {checkOut && (
-          <motion.div
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-xs text-yellow-400 font-medium mt-2"
-            style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.5)' }}
-          >
-            <FontAwesomeIcon icon={faRocket} className="mr-1" />Check-out selected
-          </motion.div>
-        )}
-      </motion.div>
+      </div>
     </>
   )
 }
