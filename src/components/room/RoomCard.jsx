@@ -1,21 +1,18 @@
-import { useState } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
+
+import {  Menu, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { 
   faEye, 
-  faEllipsisV, 
   faCalendarCheck, 
   faHeart, 
   faShare,
-  faTimes,
   faBed,
   faUsers,
   faLeaf
 } from '@fortawesome/free-solid-svg-icons'
 
-const RoomCard = ({ room, onViewDetails, onBookNow }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+const RoomCard = ({ room, onBookNow }) => {
 
   return (
     <>
@@ -35,13 +32,11 @@ const RoomCard = ({ room, onViewDetails, onBookNow }) => {
               className="w-full h-full object-cover cursor-pointer"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
-              onClick={() => setIsDialogOpen(true)}
             />
             
             {/* Image Overlay Buttons */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
               <motion.button 
-                onClick={() => setIsDialogOpen(true)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-lg text-sm flex items-center space-x-2 hover:bg-white/30 transition-colors"
@@ -115,7 +110,6 @@ const RoomCard = ({ room, onViewDetails, onBookNow }) => {
                     <Menu.Item>
                       {({ active }) => (
                         <button
-                          onClick={() => setIsDialogOpen(true)}
                           className={`${
                             active ? 'bg-gray-50 text-gray-900' : 'text-gray-700'
                           } group flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium transition-colors`}
@@ -169,7 +163,6 @@ const RoomCard = ({ room, onViewDetails, onBookNow }) => {
                 Book Now - ${room.price.toFixed(2)}
               </motion.button>
               <motion.button
-                onClick={() => setIsDialogOpen(true)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-6 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 rounded-lg font-semibold transition-colors"
