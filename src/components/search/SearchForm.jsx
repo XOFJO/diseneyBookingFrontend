@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -8,12 +9,30 @@ import GuestSelector from './GuestSelector'
 import useSearchStore from '../../store/searchStore'
 
 function SearchForm() {
-  const { getSearchData, isSearchValid } = useSearchStore()
+  const navigate = useNavigate()
+  const { getSearchData, isSearchValid, selectedHotel } = useSearchStore()
 
   const handleSearch = () => {
     const searchData = getSearchData()
     console.log('Search with data:', searchData)
-    // Handle search logic here
+    
+    // Check if form is valid
+    if (!isSearchValid()) {
+      alert('You need fill in check in and out date.')
+      return
+    }
+    
+    // Navigate based on hotel selection
+    if (selectedHotel && (selectedHotel.id === 'all' || selectedHotel.name === 'All Hotels')) {
+      // User selected "All Hotels" - go to hotels listing page
+      navigate('/hotels')
+    } else if (selectedHotel && selectedHotel.id) {
+      // User selected specific hotel - go to rooms page
+      navigate('/rooms')
+    } else {
+      // Fallback to hotels page if no hotel selected
+      navigate('/hotels')
+    }
   }
 
   return (
