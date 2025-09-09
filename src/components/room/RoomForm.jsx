@@ -14,7 +14,7 @@ const RoomForm = () => {
   const [guests, setGuests] = useState(2);
   const [children, setChildren] = useState(0);
   const [rooms, setRooms] = useState(1);
-  const [hotelId, setHotelId] = useState("1"); // Default hotel ID
+  const [hotelId] = useState("1"); // Default hotel ID
 
   // State for room results
   const [activeTab, setActiveTab] = useState("all");
