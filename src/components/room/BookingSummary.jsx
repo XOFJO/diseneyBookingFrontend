@@ -118,8 +118,14 @@ const BookingSummary = ({
         <motion.div 
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.2 }}
-          className="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          className="bg-white rounded-xl shadow-lg border border-gray-100 max-h-[70vh] overflow-hidden flex flex-col"
         >
+          <div className="p-6 overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#cbd5e1 #f1f5f9'
+            }}
+          >
           {/* Header */}
           <div className="flex items-center space-x-3 mb-6">
             <div className="bg-blue-100 p-2 rounded-lg">
@@ -256,6 +262,7 @@ const BookingSummary = ({
               </div>
               <p className="text-blue-100 text-xs mt-2">Prices in Chinese Yuan (CNY)</p>
             </motion.div>
+          </div>
           </div>
         </motion.div>
       </div>
