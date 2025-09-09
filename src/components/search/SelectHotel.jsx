@@ -2,7 +2,7 @@ import React from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHotel, faChevronDown, faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faHotel, faChevronDown, faCheck, faSpinner, faStar } from '@fortawesome/free-solid-svg-icons'
 import useHotelNames from '../../hooks/useHotelName'
 import useSearchStore from '../../store/searchStore'
 
@@ -18,8 +18,18 @@ function SelectHotel() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
-          <FontAwesomeIcon icon={faHotel} className="mr-2" />Select Hotel
+        <label className="block text-sm font-medium text-purple-200 mb-3 flex items-center" style={{ 
+          textShadow: '0 0 15px rgba(147, 51, 234, 0.6)',
+          fontFamily: "'Comfortaa', sans-serif"
+        }}>
+          <motion.div
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="mr-2"
+          >
+            <FontAwesomeIcon icon={faHotel} className="text-pink-300" />
+          </motion.div>
+          🏰 Choose Your Magical Castle
         </label>
         <div className="text-red-400 p-4 rounded-xl bg-red-900/20 border border-red-500/40">
           Error loading hotels. Please try again later.
@@ -34,35 +44,54 @@ function SelectHotel() {
       animate={{ opacity: 1, y: 0 }}
       className="mb-6"
     >
-      <label className="block text-sm font-medium text-yellow-400 mb-3" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
-        <FontAwesomeIcon icon={faHotel} className="mr-2" />Select Hotel
+      <label className="block text-sm font-medium text-purple-200 mb-3 flex items-center" style={{ 
+        textShadow: '0 0 15px rgba(147, 51, 234, 0.6)',
+        fontFamily: "'Comfortaa', sans-serif"
+      }}>
+        <motion.div
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="mr-2"
+        >
+          <FontAwesomeIcon icon={faHotel} className="text-pink-300" />
+        </motion.div>
+        🏰 Choose Your Magical Castle
       </label>
       
       <Listbox value={selected} onChange={setSelectedHotel}>
         <div className="relative">
-          <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 py-4 pl-4 pr-10 text-left shadow-lg hover:bg-white/25 hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 group">
+          <Listbox.Button className="relative w-full cursor-pointer rounded-2xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-300/40 py-4 pl-4 pr-10 text-left shadow-xl hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-300/60 focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 transition-all duration-300 group"
+            style={{ 
+              boxShadow: '0 0 25px rgba(147, 51, 234, 0.3)',
+              fontFamily: "'Comfortaa', sans-serif"
+            }}
+          >
             <motion.div 
               className="flex items-center space-x-3"
-              whileHover={{ x: 2 }}
+              whileHover={{ x: 3 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <motion.span 
-                className="text-2xl filter drop-shadow-lg text-yellow-400"
-                whileHover={{ scale: 1.1 }}
+                className="text-2xl filter drop-shadow-lg"
+                whileHover={{ scale: 1.2, rotate: 10 }}
                 transition={{ type: "spring", stiffness: 500, damping: 25 }}
               >
-                <FontAwesomeIcon icon={loading ? faSpinner : selected.icon} className={loading ? 'animate-spin text-yellow-400' : 'text-yellow-400'} />
+                <FontAwesomeIcon 
+                  icon={loading ? faSpinner : faHotel} 
+                  className={loading ? 'animate-spin text-pink-300' : 'text-pink-300'} 
+                />
               </motion.span>
-              <span className="block truncate font-medium text-yellow-400 group-hover:text-yellow-300 transition-colors" style={{ textShadow: '0 0 5px rgba(251, 191, 36, 0.3)' }}>
-                {loading ? 'Loading hotels...' : selected.name}
+              <span className="block truncate font-medium text-purple-100 group-hover:text-yellow-200 transition-colors" 
+                style={{ textShadow: '0 0 10px rgba(196, 181, 253, 0.5)' }}>
+                {loading ? '✨ Loading magical castles...' : `🏰 ${selected.name || 'Select Your Castle'}`}
               </span>
             </motion.div>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
               <motion.div
                 animate={{ rotate: 0 }}
                 whileHover={{ rotate: 180 }}
-                transition={{ duration: 0.2 }}
-                className="h-5 w-5 text-yellow-500 group-hover:text-yellow-400"
+                transition={{ duration: 0.3 }}
+                className="h-5 w-5 text-pink-300 group-hover:text-yellow-300"
               >
                 <FontAwesomeIcon icon={faChevronDown} className="h-5 w-5" />
               </motion.div>
@@ -77,7 +106,12 @@ function SelectHotel() {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-gradient-to-b from-gray-900 to-black py-2 shadow-xl border-2 border-red-500/30 focus:outline-none backdrop-blur-lg" style={{ boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)' }}>
+            <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-gradient-to-b from-purple-900/95 via-pink-900/90 to-indigo-900/95 py-3 shadow-2xl border-2 border-purple-400/40 focus:outline-none backdrop-blur-xl" 
+              style={{ 
+                boxShadow: '0 0 40px rgba(147, 51, 234, 0.4), 0 0 80px rgba(251, 191, 36, 0.2)',
+                fontFamily: "'Comfortaa', sans-serif"
+              }}
+            >
               {loading ? (
                 <div className="py-3 px-4 text-gray-400 text-center">
                   <FontAwesomeIcon icon={faSpinner} className="animate-spin mr-2" />
