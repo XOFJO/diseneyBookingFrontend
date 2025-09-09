@@ -10,7 +10,8 @@ const BookingSummary = ({
   calculateNights,
   formatDateForDisplay,
   showPriceDetail = false, // 新增props来控制价格明细显示
-  onBookNowClick // 新增回调函数
+  // onBookNowClick, // 新增回调函数
+  selectedRoom // 新增选中的房间信息
 }) => {
   const [showDetail, setShowDetail] = useState(showPriceDetail);
 
@@ -47,7 +48,7 @@ const BookingSummary = ({
           </div>
         </div>
 
-        <PriceCalculator show={showDetail} onClose={() => {}} />
+        <PriceCalculator show={showDetail} selectedRoom={selectedRoom} />
 
         <div className="border-t mt-6 pt-4">
           <div className="flex justify-between items-center mb-4">

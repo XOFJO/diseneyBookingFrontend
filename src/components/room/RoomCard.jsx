@@ -80,7 +80,7 @@ const RoomCard = ({ room, onBookNow }) => {
                     {room.rating || '4.2'}
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-blue-600">${room.price.toFixed(2)}</p>
+                <p className="text-2xl font-bold text-blue-600">¥{room.price.toFixed(2)}</p>
               </div>
               
               {/* Action Menu */}
@@ -160,7 +160,7 @@ const RoomCard = ({ room, onBookNow }) => {
                 whileTap={{ scale: 0.98 }}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors shadow-md"
               >
-                Book Now - ${room.price.toFixed(2)}
+                Book Now - ¥{room.price.toFixed(2)}
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.02 }}

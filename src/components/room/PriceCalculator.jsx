@@ -1,24 +1,46 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { calculatePriceDetail, formatDate, formatPrice } from '../../utils/priceCalculator';
+import useSearchStore from '../../store/searchStore';
 
 /**
  * 价格明细卡片组件 - 显示房间预订价格明细
  * @param {boolean} show - 是否显示明细
+ * @param {Object} selectedRoom - 选中的房间信息
  */
-function PriceCalculator({ show = false }) {
-  // TODO: 这些数据后续从 zustand store 获取
-  // const { roomPriceList, startDate, endDate, roomCount, roomName } = useBookingStore()
-  // 暂时使用模拟数据
+function PriceCalculator({ show = false, selectedRoom }) {
+  // 从 zustand store 获取入住日期和房间数
+  const { checkIn, checkOut, rooms } = useSearchStore();
+  
+  // 生成价格列表数据 - 基于实际的入住天数和选中房间的价格
+  const generatePriceList = (startDate, endDate, roomPrice) => {
+    const priceList = [];
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    // 计算入住期间的每一天（不包括退房日）
+    const currentDate = new Date(start);
+    while (currentDate < end) {
+      priceList.push({
+        date: currentDate.toISOString().split('T')[0],
+        price: roomPrice || 1360 // 使用房间价格，如果没有则使用默认价格
+      });
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    return priceList;
+  };
+
+  // 生成模拟数据
   const mockData = {
-    roomPriceList: [
-      { date: '2025-09-09', price: 1360 },
-      { date: '2025-09-10', price: 1360 },
+    roomPriceList: checkIn && checkOut ? generatePriceList(checkIn, checkOut, selectedRoom?.price) : [
+      { date: '2025-09-09', price: selectedRoom?.price || 1360 },
+      { date: '2025-09-10', price: selectedRoom?.price || 1360 },
     ],
-    startDate: '2025-09-09',
-    endDate: '2025-09-11',
-    roomCount: 1,
-    roomName: '花园景观房'
+    startDate: checkIn || '2025-09-09',
+    endDate: checkOut || '2025-09-11',
+    roomCount: rooms || 1,
+    roomName: selectedRoom?.name || '花园景观房'
   };
 
   const { roomPriceList, startDate, endDate, roomCount, roomName } = mockData;
