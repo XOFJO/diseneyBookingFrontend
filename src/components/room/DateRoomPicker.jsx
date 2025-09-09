@@ -1,14 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { Popover, Transition } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDays, faUser, faChevronDown, faMinus, faPlus, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import useSearchStore from '../../store/searchStore'
 
 function DateRoomPicker() {
-  const [checkInDate, setCheckInDate] = useState(new Date())
-  const [checkOutDate, setCheckOutDate] = useState(new Date(Date.now() + 24 * 60 * 60 * 1000))
-  const [rooms, setRooms] = useState(1)
+  const { 
+    checkIn, 
+    checkOut, 
+    rooms, 
+    nights,
+    setCheckIn, 
+    setCheckOut, 
+    setRooms, 
+    setDateRange 
+  } = useSearchStore()
+  
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  
+  // Convert string dates to Date objects for display
+  const checkInDate = checkIn ? new Date(checkIn) : new Date()
+  const checkOutDate = checkOut ? new Date(checkOut) : new Date(Date.now() + 24 * 60 * 60 * 1000)
+  
+  // Initialize dates if not set
+  useEffect(() => {
+    if (!checkIn || !checkOut) {
+      const today = new Date()
+      const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000)
+      setDateRange(
+        formatDateForInput(today),
+        formatDateForInput(tomorrow)
+      )
+    }
+  }, [])
 
   const today = new Date()
 
@@ -28,9 +53,7 @@ function DateRoomPicker() {
   }
 
   const getNights = () => {
-    const diffTime = checkOutDate - checkInDate
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    return diffDays > 0 ? diffDays : 1
+    return nights > 0 ? nights : 1
   }
 
   const getDaysInMonth = (date) => {
@@ -43,15 +66,18 @@ function DateRoomPicker() {
 
   const handleDateSelect = (day, type) => {
     const selectedDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+    const dateStr = formatDateForInput(selectedDate)
     
     if (type === 'checkin') {
-      setCheckInDate(selectedDate)
       if (selectedDate >= checkOutDate) {
-        setCheckOutDate(new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000))
+        const nextDay = new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000)
+        setDateRange(dateStr, formatDateForInput(nextDay))
+      } else {
+        setCheckIn(dateStr)
       }
     } else {
       if (selectedDate > checkInDate) {
-        setCheckOutDate(selectedDate)
+        setCheckOut(dateStr)
       }
     }
   }
@@ -119,7 +145,8 @@ function DateRoomPicker() {
   }
 
   const adjustRooms = (increment) => {
-    setRooms(prev => Math.max(1, prev + increment))
+    const newRooms = Math.max(1, Math.min(5, rooms + increment))
+    setRooms(newRooms)
   }
 
   return (

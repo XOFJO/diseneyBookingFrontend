@@ -27,7 +27,7 @@ const RoomCard = ({ room, onViewDetails }) => {
           <div className="flex justify-between items-start mb-4">
             <h4 className="text-xl font-bold text-gray-800">{room.name}</h4>
             <button className="text-blue-500 hover:underline flex items-center space-x-1">
-              <span>Hide</span>
+              <span>Book</span>
               <FontAwesomeIcon icon={faChevronUp} />
             </button>
           </div>

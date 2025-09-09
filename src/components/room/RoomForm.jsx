@@ -5,14 +5,19 @@ import DateRoomPicker from "./DateRoomPicker";
 import RoomDetails from "./RoomDetails";
 import BookingSummary from "./BookingSummary";
 import ThemeSelector from "./ThemeSelector";
+import useSearchStore from '../../store/searchStore'
 
 const RoomForm = () => {
-  // State for booking preferences
-  const [checkIn, setCheckIn] = useState("2025-09-09");
-  const [checkOut, setCheckOut] = useState("2025-09-10");
-  const [guests, setGuests] = useState(2);
-  const [children, setChildren] = useState(0);
-  const [rooms, setRooms] = useState(1);
+  // Get search data from zustand store
+  const { 
+    checkIn, 
+    checkOut, 
+    guests, 
+    children, 
+    rooms, 
+    nights,
+    getSearchData 
+  } = useSearchStore()
 
   // State for room results
   const [activeTab, setActiveTab] = useState("standard");
@@ -77,25 +82,10 @@ const RoomForm = () => {
     },
   ];
 
-  const handleDateChange = (newCheckIn, newCheckOut) => {
-    setCheckIn(newCheckIn);
-    setCheckOut(newCheckOut);
-  };
-
-  const handleGuestChange = (newGuests, newChildren, newRooms) => {
-    setGuests(newGuests);
-    setChildren(newChildren);
-    setRooms(newRooms);
-  };
 
   const handleSearch = () => {
-    console.log("Searching with:", {
-      checkIn,
-      checkOut,
-      guests,
-      children,
-      rooms,
-    });
+    const searchData = getSearchData()
+    console.log("Searching with:", searchData);
   };
 
   const handleBookNow = (roomId) => {
@@ -121,16 +111,9 @@ const RoomForm = () => {
     });
   };
 
-  // Calculate nights
+  // Calculate nights from zustand store
   const calculateNights = () => {
-    if (checkIn && checkOut) {
-      const checkInDate = new Date(checkIn);
-      const checkOutDate = new Date(checkOut);
-      const diffTime = checkOutDate - checkInDate;
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays > 0 ? diffDays : 1;
-    }
-    return 1;
+    return nights > 0 ? nights : 1;
   };
 
   return (
