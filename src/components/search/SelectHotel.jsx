@@ -60,9 +60,9 @@ function SelectHotel() {
       
       <Listbox value={selected} onChange={setSelectedHotel}>
         <div className="relative">
-          <Listbox.Button className="relative w-full cursor-pointer rounded-2xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-300/40 py-4 pl-4 pr-10 text-left shadow-xl hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-300/60 focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 transition-all duration-300 group"
+          <Listbox.Button className="relative w-full cursor-pointer rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 py-4 pl-4 pr-10 text-left shadow-xl hover:bg-white/25 hover:border-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 transition-all duration-300 group"
             style={{ 
-              boxShadow: '0 0 25px rgba(147, 51, 234, 0.3)',
+              boxShadow: '0 0 25px rgba(251, 191, 36, 0.3)',
               fontFamily: "'Comfortaa', sans-serif"
             }}
           >
@@ -81,8 +81,8 @@ function SelectHotel() {
                   className={loading ? 'animate-spin text-pink-300' : 'text-pink-300'} 
                 />
               </motion.span>
-              <span className="block truncate font-medium text-purple-100 group-hover:text-yellow-200 transition-colors" 
-                style={{ textShadow: '0 0 10px rgba(196, 181, 253, 0.5)' }}>
+              <span className="block truncate font-medium text-yellow-400 group-hover:text-yellow-200 transition-colors" 
+                style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
                 {loading ? '✨ Loading magical castles...' : `🏰 ${selected.name || 'Select Your Castle'}`}
               </span>
             </motion.div>
