@@ -14,7 +14,7 @@ import { Button } from "@headlessui/react";
  */
 const HotelCard = ({ image, name, address, description, price, themes = [], rating, onViewRoom }) => {
     return (
-        <div className="w-full max-w-6xl mx-auto px-4">
+        <div className="w-full max-w-5xl mx-auto px-4">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -44,18 +44,18 @@ const HotelCard = ({ image, name, address, description, price, themes = [], rati
                     {/* 地址字段 */}
                     <div className="text-xs text-gray-400 mb-2">{address}</div>
                     {/* 酒店简介 */}
-                    <p className="text-gray-200 text-sm mb-4 max-w-sm whitespace-pre-line break-words">
+                    <p className="text-gray-200 text-sm mb-4 max-w-lg whitespace-pre-line break-words">
                         {description}
                     </p>
                     {/* 左下主题tags */}
-                    <div className="absolute left-5 bottom-5 flex gap-2 max-w-md overflow-hidden">
+                    <div className="absolute left-5 bottom-5 flex gap-2 max-w-xl overflow-hidden">
                         <div className="flex gap-2 whitespace-nowrap">
-                            {themes.slice(0, 3).map((t, idx) => (
+                            {themes.slice(0, 4).map((t, idx) => (
                                 <span key={idx} className="bg-yellow-400/80 text-gray-900 text-xs font-semibold px-3 py-1 rounded-full shadow-md flex-shrink-0">
                                     {t}
                                 </span>
                             ))}
-                            {themes.length > 3 && (
+                            {themes.length > 4 && (
                                 <span className="bg-yellow-400/80 text-gray-900 text-xs font-semibold px-3 py-1 rounded-full shadow-md flex-shrink-0">
                                     ...
                                 </span>

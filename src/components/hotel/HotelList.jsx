@@ -24,7 +24,7 @@ function HotelList() {
   // 如果正在加载，显示加载状态
   if (loading) {
     return (
-      <div className="fixed left-1/2 top-48 -translate-x-1/2 z-10 w-full max-w-4xl px-4">
+      <div className="w-full">
         <div className="flex justify-center items-center py-20">
           <LoadingSpinner />
         </div>
@@ -35,7 +35,7 @@ function HotelList() {
   // 如果有错误，显示错误信息
   if (error) {
     return (
-      <div className="fixed left-1/2 top-48 -translate-x-1/2 z-10 w-full max-w-4xl px-4">
+      <div className="w-full">
         <div className="flex justify-center items-center py-20">
           <div className="text-red-400 text-center">
             <p className="text-lg font-semibold mb-2">搜索失败</p>
@@ -49,7 +49,7 @@ function HotelList() {
   // 如果没有酒店数据，显示空状态
   if (!hotels || hotels.length === 0) {
     return (
-      <div className="fixed left-1/2 top-48 -translate-x-1/2 z-10 w-full max-w-4xl px-4">
+      <div className="w-full">
         <div className="flex justify-center items-center py-20">
           <div className="text-gray-400 text-center">
             <p className="text-lg font-semibold mb-2">未找到酒店</p>
@@ -61,7 +61,7 @@ function HotelList() {
   }
 
   return (
-    <div className="fixed left-1/2 top-48 -translate-x-1/2 z-10 w-full max-w-4xl px-4">
+    <div className="w-full">
       {hotels.map((hotel) => (
         <div key={hotel.id} className="mb-4">
           <HotelCard
