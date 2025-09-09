@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Disclosure, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,6 +12,9 @@ import {
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
 import PriceCalculator from './PriceCalculator'
+import useHotelStore from '../../store/hotelStore'
+import useSearchStore from '../../store/searchStore'
+import { getHotels } from '../../services/hotelService'
 const BookingSummary = ({
   checkIn,
   checkOut,
@@ -25,6 +28,46 @@ const BookingSummary = ({
 }) => {
   const [showDetail, setShowDetail] = useState(showPriceDetail);
   const [totalPrice, setTotalPrice] = useState(0); // 新增总价状态
+  const [hotelName, setHotelName] = useState('Loading...'); // 新增酒店名称状态
+  
+  const { selectedHotelId } = useHotelStore();
+  const { selectedHotel } = useSearchStore();
+
+  // 获取酒店名称
+  useEffect(() => {
+    const fetchHotelName = async () => {
+      console.log('BookingSummary - Fetching hotel name:', { selectedHotel, selectedHotelId });
+      
+      // 优先使用 searchStore 中的 selectedHotel
+      if (selectedHotel && selectedHotel.name && selectedHotel.id !== 'all') {
+        console.log('BookingSummary - Using selectedHotel name:', selectedHotel.name);
+        setHotelName(selectedHotel.name);
+        return;
+      }
+      
+      // 如果有 selectedHotelId，从API获取酒店名称
+      if (selectedHotelId && selectedHotelId !== 'all') {
+        try {
+          console.log('BookingSummary - Fetching hotel by ID:', selectedHotelId);
+          const hotels = await getHotels();
+          const hotel = hotels.find(h => h.id === selectedHotelId);
+          if (hotel && hotel.name) {
+            console.log('BookingSummary - Found hotel by ID:', hotel.name);
+            setHotelName(hotel.name);
+            return;
+          }
+        } catch (error) {
+          console.error('Failed to fetch hotel name:', error);
+        }
+      }
+      
+      // 默认值
+      console.log('BookingSummary - Using default hotel name');
+      setHotelName('Shanghai Disneyland Hotel');
+    };
+
+    fetchHotelName();
+  }, [selectedHotelId, selectedHotel]);
 
   // 当外部的showPriceDetail变化时，更新内部状态
   React.useEffect(() => {
@@ -88,7 +131,7 @@ const BookingSummary = ({
                         <div className="bg-blue-100 p-2 rounded-full">
                           <FontAwesomeIcon icon={faHotel} className="text-blue-600 text-sm" />
                         </div>
-                        <span className="font-medium text-gray-800">Shanghai Disneyland Hotel</span>
+                        <span className="font-medium text-gray-800">{hotelName}</span>
                       </div>
                       
                       <div className="flex items-center space-x-3">
