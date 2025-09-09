@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DateRangePicker from "./DateRangePicker";
 import GuestSelector from "./GuestSelector";
 import DateRoomPicker from "./DateRoomPicker";
