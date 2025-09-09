@@ -4,6 +4,7 @@ import GuestSelector from "./GuestSelector";
 import DateRoomPicker from "./DateRoomPicker";
 import RoomDetails from "./RoomDetails";
 import BookingSummary from "./BookingSummary";
+import ThemeSelector from "./ThemeSelector";
 
 const RoomForm = () => {
   // State for booking preferences
@@ -63,6 +64,10 @@ const RoomForm = () => {
     console.log("Viewing details for room:", roomId);
   };
 
+  const handleThemeFilter = (theme) => {
+    console.log("Filtering by theme:", theme);
+  };
+
   // Helper function to format date for display
   const formatDateForDisplay = (dateStr) => {
     if (!dateStr) return "";
@@ -99,12 +104,19 @@ const RoomForm = () => {
         </div>
       </div>
 
+      {/* Theme Selector */}
+      <div className="bg-white p-6">
+        <ThemeSelector
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onThemeFilter={handleThemeFilter}
+        />
+      </div>
+
       {/* Main Content */}
       <div className="flex bg-white">
         {/* Left Side - Room Selection */}
         <RoomDetails
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
           mockRooms={mockRooms}
           onViewDetails={handleViewDetails}
           onBookNow={handleBookNow}
