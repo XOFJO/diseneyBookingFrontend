@@ -14,7 +14,7 @@ import { Button } from "@headlessui/react";
  */
 const HotelCard = ({ image, name, address, description, price, themes = [], rating, onViewRoom }) => {
     return (
-        <div className="w-full max-w-4xl mx-auto px-4">
+        <div className="w-full max-w-6xl mx-auto px-4">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -48,12 +48,19 @@ const HotelCard = ({ image, name, address, description, price, themes = [], rati
                         {description}
                     </p>
                     {/* 左下主题tags */}
-                    <div className="absolute left-5 bottom-5 flex gap-2 flex-wrap max-w-xs whitespace-normal">
-                        {themes.map((t, idx) => (
-                            <span key={idx} className="bg-yellow-400/80 text-gray-900 text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                                {t}
-                            </span>
-                        ))}
+                    <div className="absolute left-5 bottom-5 flex gap-2 max-w-md overflow-hidden">
+                        <div className="flex gap-2 whitespace-nowrap">
+                            {themes.slice(0, 3).map((t, idx) => (
+                                <span key={idx} className="bg-yellow-400/80 text-gray-900 text-xs font-semibold px-3 py-1 rounded-full shadow-md flex-shrink-0">
+                                    {t}
+                                </span>
+                            ))}
+                            {themes.length > 3 && (
+                                <span className="bg-yellow-400/80 text-gray-900 text-xs font-semibold px-3 py-1 rounded-full shadow-md flex-shrink-0">
+                                    ...
+                                </span>
+                            )}
+                        </div>
                     </div>
                     {/* 右下价格和按钮区 */}
                     <div className="absolute right-5 bottom-5 flex flex-col items-end gap-2">

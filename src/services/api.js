@@ -21,7 +21,7 @@ export const getHotelCities = async () => {
 }
 
 export const getHotelThemes = async () => {
-  const response = await apiClient.get('/api/hotels/themes');
+  const response = await apiClient.get('/api/themes/names');
   return response.data;
 }
 

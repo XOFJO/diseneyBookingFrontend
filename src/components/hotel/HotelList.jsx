@@ -8,7 +8,7 @@ function HotelList() {
 
   // 组件加载时执行初始搜索（获取所有酒店）
   useEffect(() => {
-    searchHotels({});
+    searchHotels({address: "", themes: []});
   }, [searchHotels]);
 
   const handleViewRoom = (hotelId) => {
