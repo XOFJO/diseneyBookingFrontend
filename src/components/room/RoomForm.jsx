@@ -93,7 +93,7 @@ const RoomForm = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto p-4">
-      <div className="flex">
+      <div className="flex min-h-screen">
         {/* Left Side - Main Content */}
         <div className="flex-1 mr-6">
           {/* Header Section */}
@@ -123,20 +123,38 @@ const RoomForm = () => {
               onViewDetails={handleViewDetails}
               onBookNow={handleBookNow}
             />
+                        <RoomDetails
+              mockRooms={mockRooms}
+              onViewDetails={handleViewDetails}
+              onBookNow={handleBookNow}
+            />
+                        <RoomDetails
+              mockRooms={mockRooms}
+              onViewDetails={handleViewDetails}
+              onBookNow={handleBookNow}
+            />
+                        <RoomDetails
+              mockRooms={mockRooms}
+              onViewDetails={handleViewDetails}
+              onBookNow={handleBookNow}
+            />
+
           </div>
         </div>
 
         {/* Right Side - Sticky Booking Summary */}
-        <div className="w-96 sticky top-4 h-fit">
-          <BookingSummary
-            checkIn={checkIn}
-            checkOut={checkOut}
-            rooms={rooms}
-            guests={guests}
-            children={children}
-            calculateNights={calculateNights}
-            formatDateForDisplay={formatDateForDisplay}
-          />
+        <div className="w-96">
+          <div className="fixed top-25">
+            <BookingSummary
+              checkIn={checkIn}
+              checkOut={checkOut}
+              rooms={rooms}
+              guests={guests}
+              children={children}
+              calculateNights={calculateNights}
+              formatDateForDisplay={formatDateForDisplay}
+            />
+          </div>
         </div>
       </div>
     </div>
