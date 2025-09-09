@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
 import DateRangePicker from './DateRangePicker'
 import GuestSelector from './GuestSelector'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers, faChild, faSearch, faHeart, faUser, faMapMarkerAlt, faEye, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 const RoomForm = () => {
   // State for booking preferences
-  const [checkIn, setCheckIn] = useState('Tue, Sep 09')
-  const [checkOut, setCheckOut] = useState('Wed, Sep 10')
+  const [checkIn, setCheckIn] = useState('2025-09-09')
+  const [checkOut, setCheckOut] = useState('2025-09-10')
   const [guests, setGuests] = useState(2)
   const [children, setChildren] = useState(0)
   const [rooms, setRooms] = useState(1)
@@ -51,35 +50,63 @@ const RoomForm = () => {
     console.log('Booking room:', roomId)
   }
 
+  // Helper function to format date for display
+  const formatDateForDisplay = (dateStr) => {
+    if (!dateStr) return ''
+    const date = new Date(dateStr)
+    return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+  }
+
+  // Calculate nights
+  const calculateNights = () => {
+    if (checkIn && checkOut) {
+      const checkInDate = new Date(checkIn)
+      const checkOutDate = new Date(checkOut)
+      const diffTime = checkOutDate - checkInDate
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+      return diffDays > 0 ? diffDays : 1
+    }
+    return 1
+  }
+
   return (
     <div className="w-full max-w-7xl mx-auto p-4">
       {/* Header Section */}
       <div className="bg-white rounded-t-lg p-6 border-b">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center space-x-4">
-            <img src="/disney-logo.png" alt="Shanghai Disney Resort" className="h-12" />
-            <div>
-              <h1 className="text-xl font-bold text-gray-800">Shanghai Disneyland Hotel</h1>
-            </div>
           </div>
-          <div className="flex items-center space-x-6 text-sm">
-            <div>
-              <span className="text-gray-600">Check In Date</span>
-              <div className="font-semibold">{checkIn}</div>
-              <div className="text-xs text-gray-500">1 Night(s)</div>
+          <div className="grid grid-cols-12 gap-4 items-end">
+            {/* Date Range Picker - spans 6 columns */}
+            <div className="col-span-6">
+              <div className="grid grid-cols-2 gap-4">
+                <DateRangePicker
+                  checkIn={checkIn}
+                  checkOut={checkOut}
+                  onDateChange={handleDateChange}
+                />
+              </div>
             </div>
-            <div>
-              <span className="text-gray-600">Check Out Date</span>
-              <div className="font-semibold">{checkOut}</div>
+            
+            {/* Guest Selector - spans 4 columns */}
+            <div className="col-span-4">
+              <GuestSelector
+                guests={guests}
+                children={children}
+                rooms={rooms}
+                onGuestChange={handleGuestChange}
+              />
             </div>
-            <div>
-              <span className="text-gray-600">Room and Guest</span>
-              <div className="font-semibold">{rooms} Room</div>
-              <div className="text-xs text-gray-500">{guests} Guests, {children} Children</div>
+            
+            {/* Search Button - spans 2 columns */}
+            <div className="col-span-2">
+              <button 
+                onClick={handleSearch}
+                className="w-full bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 font-medium"
+              >
+                Search
+              </button>
             </div>
-            <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
-              Search
-            </button>
           </div>
         </div>
 
@@ -189,7 +216,11 @@ const RoomForm = () => {
               
               <div className="flex items-center space-x-2">
                 <span>📅</span>
-                <span>September 9, 2025 - September 10, 2025</span>
+                <span>{formatDateForDisplay(checkIn)} - {formatDateForDisplay(checkOut)}</span>
+              </div>
+              
+              <div className="text-xs text-gray-500">
+                {calculateNights()} Night(s)
               </div>
               
               <div className="flex items-center space-x-2">
