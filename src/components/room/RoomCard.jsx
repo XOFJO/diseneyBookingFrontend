@@ -138,18 +138,16 @@ const RoomCard = ({ room, onBookNow }) => {
 
             {/* Room Info - Compact View */}
             <div className="space-y-2 text-sm text-gray-600 mb-4">
-              <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faLeaf} className="text-green-500" />
-                <span>{room.description}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faBed} className="text-blue-500" />
-                <span>{room.bedInfo}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faUsers} className="text-purple-500" />
-                <span>{room.occupancy}</span>
-              </div>
+              {/* Split and display description parts */}
+              {room.description && room.description.split(';').map((part, index) => (
+                <div key={index} className="flex items-start space-x-2">
+                  <FontAwesomeIcon 
+                    icon={index === 0 ? faLeaf : index === 1 ? faBed : faUsers} 
+                    className={`mt-0.5 ${index === 0 ? 'text-green-500' : index === 1 ? 'text-blue-500' : 'text-purple-500'}`} 
+                  />
+                  <span className="flex-1">{part.trim()}</span>
+                </div>
+              ))}
             </div>
 
             {/* Action Buttons */}
