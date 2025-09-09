@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion } from 'motion/react'
 import { Popover, Transition } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendarDays, faMoon, faMagic, faChevronLeft, faChevronRight, faStar, faRocket } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarDays, faMoon, faMagic, faChevronLeft, faChevronRight, faRocket } from '@fortawesome/free-solid-svg-icons'
 import useSearchStore from '../../store/searchStore'
 
 function DateRangePicker() {

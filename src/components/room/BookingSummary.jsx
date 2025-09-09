@@ -8,7 +8,6 @@ import {
   faBed,
   faUsers,
   faChevronDown,
-  faChevronUp,
   faCreditCard,
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
@@ -22,11 +21,10 @@ const BookingSummary = ({
   calculateNights,
   formatDateForDisplay,
   showPriceDetail = false, // 新增props来控制价格明细显示
-  onBookNowClick, // 新增回调函数
   selectedRoom // 新增选中的房间信息
 }) => {
   const [showDetail, setShowDetail] = useState(showPriceDetail);
-  const [totalPrice, setTotalPrice] = useState(0); // 新增总价状态
+  const [setTotalPrice] = useState(0); // 新增总价状态
 
   // 当外部的showPriceDetail变化时，更新内部状态
   React.useEffect(() => {

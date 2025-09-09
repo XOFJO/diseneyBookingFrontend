@@ -2,7 +2,7 @@ import React from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHotel, faChevronDown, faCheck, faSpinner, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faHotel, faChevronDown, faCheck, faSpinner} from '@fortawesome/free-solid-svg-icons'
 import useHotelNames from '../../hooks/useHotelName'
 import useSearchStore from '../../store/searchStore'
 

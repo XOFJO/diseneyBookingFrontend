@@ -4,13 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHotel,
   faUser,
-  faCog,
   faBolt,
   faShield,
-  faMagic,
   faStar,
   faGem,
-  faHome
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
