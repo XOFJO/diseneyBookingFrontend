@@ -17,10 +17,10 @@ function SearchForm() {
     console.log('Search with data:', searchData)
     
     // Check if form is valid
-    if (!isSearchValid()) {
-      alert('You need fill in check in and out date.')
-      return
-    }
+    // if (!isSearchValid()) {
+    //   alert('You need fill in check in and out date.')
+    //   return
+    // }
     
     // Navigate based on hotel selection
     if (selectedHotel && (selectedHotel.id === 'all' || selectedHotel.name === 'All Hotels')) {
