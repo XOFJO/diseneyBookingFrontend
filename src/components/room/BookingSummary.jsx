@@ -24,7 +24,7 @@ const BookingSummary = ({
   selectedRoom // 新增选中的房间信息
 }) => {
   const [showDetail, setShowDetail] = useState(showPriceDetail);
-  const [setTotalPrice] = useState(0); // 新增总价状态
+  const [totalPrice, setTotalPrice] = useState(0); // 新增总价状态
 
   // 当外部的showPriceDetail变化时，更新内部状态
   React.useEffect(() => {
@@ -149,7 +149,7 @@ const BookingSummary = ({
                   <FontAwesomeIcon icon={faCreditCard} />
                   <span className="text-lg font-bold">Total:</span>
                 </div>
-                <span className="text-2xl font-bold">¥ 0.00</span>
+                <span className="text-2xl font-bold">¥{totalPrice.toLocaleString()}</span>
               </div>
               <p className="text-blue-100 text-xs mt-2">Prices in Chinese Yuan (CNY)</p>
             </motion.div>
