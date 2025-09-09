@@ -1,18 +1,35 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Button } from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
+import useHotelStore from "../../store/hotelStore";
+import useSearchStore from "../../store/searchStore";
 
-/**
- * 酒店卡片组件
- * @param {string} image 酒店图片地址
- * @param {string} name 酒店名称
- * @param {string} address 酒店地址
- * @param {string} description 酒店简介
- * @param {number|string} price 价格
- * @param {function} onViewRoom 点击“查看房间信息”按钮事件
- * @param {List<string>} themes 主题
- */
-const HotelCard = ({ image, name, address, description, price, themes = [], rating, onViewRoom }) => {
+
+const HotelCard = ({ id, image, name, address, description, price, themes = [], rating, onViewRoom }) => {
+    const navigate = useNavigate();
+    const { setSelectedHotelId } = useHotelStore();
+    const { checkIn, checkOut, rooms } = useSearchStore();
+
+    const handleViewRoom = () => {
+        // 保存选中的酒店ID到store
+        setSelectedHotelId(id);
+        
+        // 构建URL参数
+        const searchParams = new URLSearchParams();
+        searchParams.append('hotelId', id);
+        searchParams.append('checkIn', checkIn);
+        searchParams.append('checkOut', checkOut);
+        searchParams.append('rooms', rooms);
+        
+        // 跳转到酒店详情页面，带上URL参数
+        navigate(`/rooms?${searchParams.toString()}`);
+        
+        // 如果有外部传入的回调，也执行它
+        if (onViewRoom) {
+            onViewRoom();
+        }
+    };
     return (
         <div className="w-full max-w-5xl mx-auto px-4">
             <motion.div
@@ -73,7 +90,7 @@ const HotelCard = ({ image, name, address, description, price, themes = [], rati
                                 as="button"
                                 className="bg-gradient-to-r from-purple-700 to-pink-600 hover:from-purple-600 hover:to-pink-500 text-white font-bold px-4 py-2 rounded-xl shadow-lg w-28 min-w-[90px] text-sm hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 border border-purple-400/30"
                                 style={{ boxShadow: '0 0 20px rgba(147, 51, 234, 0.4)' }}
-                                onClick={onViewRoom}
+                                onClick={handleViewRoom}
                             >
                                 查看详情
                             </Button>
