@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
-const RoomCard = ({ room, onBookNow, onViewDetails }) => {
+const RoomCard = ({ room, onViewDetails }) => {
   return (
     <div className="border rounded-lg overflow-hidden mb-6">
       <div className="flex">

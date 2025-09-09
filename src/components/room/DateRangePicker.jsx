@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion } from 'motion/react'
 import { Popover, Transition } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendarDays, faMoon, faRocket, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarDays, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 function DateRangePicker({ checkIn, checkOut, onDateChange }) {
   const [nights, setNights] = useState(1)
