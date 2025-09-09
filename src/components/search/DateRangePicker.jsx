@@ -149,10 +149,10 @@ function DateRangePicker() {
         </label>
         
         <Popover className="relative">
-          <Popover.Button className="w-full px-4 py-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-300/40 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 transition-all duration-300 hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-300/60 text-purple-100 font-medium group hover:shadow-xl text-left"
+          <Popover.Button className="w-full px-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 transition-all duration-300 hover:bg-white/25 hover:border-white/50 text-yellow-400 font-medium group hover:shadow-xl text-left"
             style={{ 
-              textShadow: '0 0 10px rgba(196, 181, 253, 0.5)',
-              boxShadow: '0 0 20px rgba(147, 51, 234, 0.2)',
+              textShadow: '0 0 10px rgba(251, 191, 36, 0.5)',
+              boxShadow: '0 0 20px rgba(251, 191, 36, 0.2)',
               fontFamily: "'Comfortaa', sans-serif"
             }}
           >
@@ -287,10 +287,10 @@ function DateRangePicker() {
         </div>
         
         <Popover className="relative">
-          <Popover.Button className="w-full px-4 py-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-300/40 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 transition-all duration-300 hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-300/60 text-purple-100 font-medium group hover:shadow-xl text-left"
+          <Popover.Button className="w-full px-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 transition-all duration-300 hover:bg-white/25 hover:border-white/50 text-yellow-400 font-medium group hover:shadow-xl text-left"
             style={{ 
-              textShadow: '0 0 10px rgba(196, 181, 253, 0.5)',
-              boxShadow: '0 0 20px rgba(147, 51, 234, 0.2)',
+              textShadow: '0 0 10px rgba(251, 191, 36, 0.5)',
+              boxShadow: '0 0 20px rgba(251, 191, 36, 0.2)',
               fontFamily: "'Comfortaa', sans-serif"
             }}
           >
