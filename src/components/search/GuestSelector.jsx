@@ -2,11 +2,13 @@ import React from 'react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus, faHotel } from '@fortawesome/free-solid-svg-icons'
+import useSearchStore from '../../store/searchStore'
 
-function GuestSelector({ rooms = 1, onGuestChange = () => {} }) {
+function GuestSelector() {
+  const { rooms, setRooms } = useSearchStore()
   
   const updateRooms = (newRooms) => {
-    onGuestChange(2, 0, newRooms) // Keep guests=2, children=0 as defaults
+    setRooms(newRooms)
   }
 
   return (

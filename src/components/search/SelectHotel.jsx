@@ -4,9 +4,11 @@ import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHotel, faChevronDown, faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import useHotelNames from '../../hooks/useHotelName'
+import useSearchStore from '../../store/searchStore'
 
-function SelectHotel({ selectedHotel, onHotelChange }) {
+function SelectHotel() {
   const { hotels, loading, error } = useHotelNames()
+  const { selectedHotel, setSelectedHotel } = useSearchStore()
   const selected = selectedHotel || (hotels.length > 0 ? hotels[0] : { id: 'all', name: 'All Hotels', icon: faHotel })
 
   if (error) {
@@ -36,7 +38,7 @@ function SelectHotel({ selectedHotel, onHotelChange }) {
         <FontAwesomeIcon icon={faHotel} className="mr-2" />Select Hotel
       </label>
       
-      <Listbox value={selected} onChange={onHotelChange}>
+      <Listbox value={selected} onChange={setSelectedHotel}>
         <div className="relative">
           <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 py-4 pl-4 pr-10 text-left shadow-lg hover:bg-white/25 hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 group">
             <motion.div 

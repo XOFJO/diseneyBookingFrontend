@@ -1,30 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import SelectHotel from './SelectHotel'
 import DateRangePicker from './DateRangePicker'
 import GuestSelector from './GuestSelector'
+import useSearchStore from '../../store/searchStore'
 
 function SearchForm() {
-  const [formData, setFormData] = useState({
-    selectedHotel: null,
-    checkIn: '',
-    checkOut: '',
-    guests: 2,
-    children: 0,
-    rooms: 1
-  })
-
-  const handleFormUpdate = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }))
-  }
+  const { getSearchData, isSearchValid } = useSearchStore()
 
   const handleSearch = () => {
-    console.log('Search with data:', formData)
+    const searchData = getSearchData()
+    console.log('Search with data:', searchData)
     // Handle search logic here
   }
 
@@ -81,10 +69,7 @@ function SearchForm() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <SelectHotel
-          selectedHotel={formData.selectedHotel}
-          onHotelChange={(hotel) => handleFormUpdate('selectedHotel', hotel)}
-        />
+        <SelectHotel />
       </motion.div>
 
       {/* Date Selection */}
@@ -94,14 +79,7 @@ function SearchForm() {
         transition={{ delay: 0.3 }}
         className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
       >
-        <DateRangePicker
-          checkIn={formData.checkIn}
-          checkOut={formData.checkOut}
-          onDateChange={(checkIn, checkOut) => {
-            handleFormUpdate('checkIn', checkIn)
-            handleFormUpdate('checkOut', checkOut)
-          }}
-        />
+        <DateRangePicker />
       </motion.div>
 
       {/* Guest Selection */}
@@ -111,16 +89,7 @@ function SearchForm() {
         transition={{ delay: 0.4 }}
         className="mb-8"
       >
-        <GuestSelector
-          guests={formData.guests}
-          children={formData.children}
-          rooms={formData.rooms}
-          onGuestChange={(guests, children, rooms) => {
-            handleFormUpdate('guests', guests)
-            handleFormUpdate('children', children)
-            handleFormUpdate('rooms', rooms)
-          }}
-        />
+        <GuestSelector />
       </motion.div>
 
       {/* Search Button */}
