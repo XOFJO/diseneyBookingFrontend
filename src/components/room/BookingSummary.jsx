@@ -10,15 +10,21 @@ const BookingSummary = ({
   calculateNights,
   formatDateForDisplay,
   showPriceDetail = false, // 新增props来控制价格明细显示
-  // onBookNowClick, // 新增回调函数
+  onBookNowClick, // 新增回调函数
   selectedRoom // 新增选中的房间信息
 }) => {
   const [showDetail, setShowDetail] = useState(showPriceDetail);
+  const [totalPrice, setTotalPrice] = useState(0); // 新增总价状态
 
   // 当外部的showPriceDetail变化时，更新内部状态
   React.useEffect(() => {
     setShowDetail(showPriceDetail);
   }, [showPriceDetail]);
+
+  // 处理价格更新的回调函数
+  const handlePriceUpdate = (price) => {
+    setTotalPrice(price);
+  };
 
   return (
     <div className="w-80 bg-gray-50 p-6 rounded-lg">
@@ -48,12 +54,12 @@ const BookingSummary = ({
           </div>
         </div>
 
-        <PriceCalculator show={showDetail} selectedRoom={selectedRoom} />
+        <PriceCalculator show={showDetail} selectedRoom={selectedRoom} onPriceUpdate={handlePriceUpdate} />
 
         <div className="border-t mt-6 pt-4">
           <div className="flex justify-between items-center mb-4">
             <span className="text-xl font-bold">Total:</span>
-            <span className="text-2xl font-bold text-blue-600">¥ 0.00</span>
+            <span className="text-2xl font-bold text-blue-600">¥{totalPrice.toLocaleString()}</span>
           </div>
           <p className="text-xs text-gray-500 mb-4">Prices in Chinese Yuan(CNY)</p>
           

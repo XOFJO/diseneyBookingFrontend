@@ -7,8 +7,9 @@ import useSearchStore from '../../store/searchStore';
  * 价格明细卡片组件 - 显示房间预订价格明细
  * @param {boolean} show - 是否显示明细
  * @param {Object} selectedRoom - 选中的房间信息
+ * @param {Function} onPriceUpdate - 价格更新回调函数
  */
-function PriceCalculator({ show = false, selectedRoom }) {
+function PriceCalculator({ show = false, selectedRoom, onPriceUpdate }) {
   // 从 zustand store 获取入住日期和房间数
   const { checkIn, checkOut, rooms } = useSearchStore();
   
@@ -45,6 +46,13 @@ function PriceCalculator({ show = false, selectedRoom }) {
 
   const { roomPriceList, startDate, endDate, roomCount, roomName } = mockData;
   const { detail, totalPrice } = calculatePriceDetail(roomPriceList, startDate, endDate, roomCount);
+
+  // 当总价变化时，通知父组件
+  React.useEffect(() => {
+    if (onPriceUpdate && show) {
+      onPriceUpdate(totalPrice);
+    }
+  }, [totalPrice, onPriceUpdate, show]);
 
   return (
     <AnimatePresence>
