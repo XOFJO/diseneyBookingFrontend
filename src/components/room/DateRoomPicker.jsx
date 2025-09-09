@@ -5,34 +5,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDays, faUser, faChevronDown, faMinus, faPlus, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import useSearchStore from '../../store/searchStore'
 
-function DateRoomPicker() {
-  const { 
-    checkIn, 
-    checkOut, 
-    rooms, 
-    nights,
-    setCheckIn, 
-    setCheckOut, 
-    setRooms, 
-    setDateRange 
-  } = useSearchStore()
-  
+function DateRoomPicker({ onSearch }) {
+  // Use local state instead of directly modifying zustand store
+  const [localCheckIn, setLocalCheckIn] = useState("2025-09-09")
+  const [localCheckOut, setLocalCheckOut] = useState("2025-09-10")
+  const [localRooms, setLocalRooms] = useState(1)
   const [currentMonth, setCurrentMonth] = useState(new Date())
   
   // Convert string dates to Date objects for display
-  const checkInDate = checkIn ? new Date(checkIn) : new Date()
-  const checkOutDate = checkOut ? new Date(checkOut) : new Date(Date.now() + 24 * 60 * 60 * 1000)
+  const checkInDate = localCheckIn ? new Date(localCheckIn) : new Date()
+  const checkOutDate = localCheckOut ? new Date(localCheckOut) : new Date(Date.now() + 24 * 60 * 60 * 1000)
   
-  // Initialize dates if not set
+  // Initialize dates
   useEffect(() => {
-    if (!checkIn || !checkOut) {
-      const today = new Date()
-      const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000)
-      setDateRange(
-        formatDateForInput(today),
-        formatDateForInput(tomorrow)
-      )
-    }
+    const today = new Date()
+    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000)
+    setLocalCheckIn(formatDateForInput(today))
+    setLocalCheckOut(formatDateForInput(tomorrow))
   }, [])
 
   const today = new Date()
@@ -53,7 +42,14 @@ function DateRoomPicker() {
   }
 
   const getNights = () => {
-    return nights > 0 ? nights : 1
+    if (localCheckIn && localCheckOut) {
+      const checkInDate = new Date(localCheckIn)
+      const checkOutDate = new Date(localCheckOut)
+      const diffTime = checkOutDate - checkInDate
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+      return diffDays > 0 ? diffDays : 1
+    }
+    return 1
   }
 
   const getDaysInMonth = (date) => {
@@ -71,13 +67,14 @@ function DateRoomPicker() {
     if (type === 'checkin') {
       if (selectedDate >= checkOutDate) {
         const nextDay = new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000)
-        setDateRange(dateStr, formatDateForInput(nextDay))
+        setLocalCheckIn(dateStr)
+        setLocalCheckOut(formatDateForInput(nextDay))
       } else {
-        setCheckIn(dateStr)
+        setLocalCheckIn(dateStr)
       }
     } else {
       if (selectedDate > checkInDate) {
-        setCheckOut(dateStr)
+        setLocalCheckOut(dateStr)
       }
     }
   }
@@ -145,8 +142,21 @@ function DateRoomPicker() {
   }
 
   const adjustRooms = (increment) => {
-    const newRooms = Math.max(1, Math.min(5, rooms + increment))
-    setRooms(newRooms)
+    const newRooms = Math.max(1, Math.min(5, localRooms + increment))
+    setLocalRooms(newRooms)
+  }
+
+  const handleSearch = () => {
+    // Get zustand store functions
+    const { setCheckIn, setCheckOut, setRooms } = useSearchStore.getState()
+    
+    // Update zustand store with local values
+    setCheckIn(localCheckIn)
+    setCheckOut(localCheckOut)
+    setRooms(localRooms)
+    
+    // Call the search function from parent
+    onSearch?.()
   }
 
   return (
@@ -295,7 +305,7 @@ function DateRoomPicker() {
             <div className="text-xs font-medium text-gray-600">Room and Guest</div>
             <div className="text-sm font-semibold text-gray-900 flex items-center">
               <FontAwesomeIcon icon={faUser} className="mr-2 text-gray-400" />
-              {rooms} Room{rooms > 1 ? 's' : ''}
+              {localRooms} Room{localRooms > 1 ? 's' : ''}
               <FontAwesomeIcon icon={faChevronDown} className="ml-2 h-3 w-3 text-gray-400" />
             </div>
           </div>
@@ -321,12 +331,12 @@ function DateRoomPicker() {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => adjustRooms(-1)}
-                  disabled={rooms <= 1}
+                  disabled={localRooms <= 1}
                   className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <FontAwesomeIcon icon={faMinus} className="h-3 w-3 text-gray-500" />
                 </motion.button>
-                <span className="font-semibold text-gray-900 w-8 text-center">{rooms}</span>
+                <span className="font-semibold text-gray-900 w-8 text-center">{localRooms}</span>
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -345,6 +355,7 @@ function DateRoomPicker() {
       <motion.button 
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        onClick={handleSearch}
         className="ml-4 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-colors shadow-lg"
       >
         Search

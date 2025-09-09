@@ -6,14 +6,13 @@ import RoomDetails from "./RoomDetails";
 import BookingSummary from "./BookingSummary";
 import ThemeSelector from "./ThemeSelector";
 import { useRooms } from "../../hooks/useRooms";
+import useSearchStore from "../../store/searchStore";
 
 const RoomForm = () => {
-  // State for booking preferences
-  const [checkIn, setCheckIn] = useState("2025-09-09");
-  const [checkOut, setCheckOut] = useState("2025-09-10");
+  // Get search parameters from zustand store
+  const { checkIn, checkOut, rooms } = useSearchStore()
   const [guests, setGuests] = useState(2);
   const [children, setChildren] = useState(0);
-  const [rooms, setRooms] = useState(1);
   const [hotelId] = useState("1"); // Default hotel ID
 
   // State for room results
@@ -56,17 +55,6 @@ const RoomForm = () => {
     : transformedRooms.filter(room => 
         room.themeName.toLowerCase().replace(/\s+/g, '-') === activeTab
       );
-
-  const handleDateChange = (newCheckIn, newCheckOut) => {
-    setCheckIn(newCheckIn);
-    setCheckOut(newCheckOut);
-  };
-
-  const handleGuestChange = (newGuests, newChildren, newRooms) => {
-    setGuests(newGuests);
-    setChildren(newChildren);
-    setRooms(newRooms);
-  };
 
   const handleSearch = () => {
     console.log("Searching with:", {
