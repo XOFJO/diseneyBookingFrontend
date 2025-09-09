@@ -3,10 +3,11 @@ import { motion } from 'motion/react'
 import { Popover, Transition } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDays, faMoon, faRocket, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import useSearchStore from '../../store/searchStore'
 
-function DateRangePicker({ checkIn, checkOut, onDateChange }) {
-  const [nights, setNights] = useState(1)
+function DateRangePicker() {
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  const { checkIn, checkOut, nights, setDateRange } = useSearchStore()
 
   const today = new Date()
 
@@ -34,19 +35,16 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
     
     if (!checkIn || (checkIn && checkOut)) {
       // Start new selection
-      onDateChange(dateStr, '')
+      setDateRange(dateStr, '')
     } else if (checkIn && !checkOut) {
       // Complete the range
       const checkInDate = new Date(checkIn + 'T00:00:00')
       const selectedDateTime = new Date(dateStr + 'T00:00:00')
       if (selectedDateTime > checkInDate) {
-        const diffTime = selectedDateTime - checkInDate
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
-        setNights(diffDays)
-        onDateChange(checkIn, dateStr)
+        setDateRange(checkIn, dateStr)
       } else {
         // If selected date is before or same as check-in, reset
-        onDateChange(dateStr, '')
+        setDateRange(dateStr, '')
       }
     }
   }
@@ -126,16 +124,6 @@ function DateRangePicker({ checkIn, checkOut, onDateChange }) {
     return days
   }
 
-  // Calculate nights when dates change
-  React.useEffect(() => {
-    if (checkIn && checkOut) {
-      const checkInDate = new Date(checkIn + 'T00:00:00')
-      const checkOutDate = new Date(checkOut + 'T00:00:00')
-      const diffTime = checkOutDate - checkInDate
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
-      setNights(diffDays > 0 ? diffDays : 0)
-    }
-  }, [checkIn, checkOut])
 
   return (
     <>
