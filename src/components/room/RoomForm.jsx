@@ -5,6 +5,7 @@ import DateRoomPicker from "./DateRoomPicker";
 import RoomDetails from "./RoomDetails";
 import BookingSummary from "./BookingSummary";
 import ThemeSelector from "./ThemeSelector";
+import { useRooms } from "../../hooks/useRooms";
 
 const RoomForm = () => {
   // State for booking preferences
@@ -13,57 +14,38 @@ const RoomForm = () => {
   const [guests, setGuests] = useState(2);
   const [children, setChildren] = useState(0);
   const [rooms, setRooms] = useState(1);
+  const [hotelId, setHotelId] = useState("1"); // Default hotel ID
 
   // State for room results
   const [activeTab, setActiveTab] = useState("standard");
-  const [showPriceDetail, setShowPriceDetail] = useState(false); // 控制价格明细显示状态
-  const [selectedRoom, setSelectedRoom] = useState(null); // 保存选中的房间信息
+  const [showPriceDetail, setShowPriceDetail] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
-  // Disney themed room data
-  const mockRooms = [
-    {
-      id: 1,
-      name: "Fairytale Dream Room",
-      price: 1000.0,
-      image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      description: "Views of Garden",
-      bedInfo:
-        "2 Double Beds and 1 Child Murphy Bed • Murphy bed sized 1.64m x 0.95m",
-      occupancy:
-        "Sleeps up to 2 Adults and 1 Child aged 3-11 years old (both inclusive)",
-      available: 5,
-      category: "deluxe",
-    },
-        {
-      id: 2,
-      name: "Fairytale Dream Room",
-      price: 2000.0,
-      image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      description: "Views of Garden",
-      bedInfo:
-        "2 Double Beds and 1 Child Murphy Bed • Murphy bed sized 1.64m x 0.95m",
-      occupancy:
-        "Sleeps up to 2 Adults and 1 Child aged 3-11 years old (both inclusive)",
-      available: 5,
-      category: "deluxe",
-    },
-        {
-      id: 3,
-      name: "Fairytale Dream Room",
-      price: 0.0,
-      image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      description: "Views of Garden",
-      bedInfo:
-        "2 Double Beds and 1 Child Murphy Bed • Murphy bed sized 1.64m x 0.95m",
-      occupancy:
-        "Sleeps up to 2 Adults and 1 Child aged 3-11 years old (both inclusive)",
-      available: 5,
-      category: "deluxe",
-    },
-  ];
+  // Use the useRooms hook to fetch room data
+  const { 
+    rooms: roomsData, 
+    loading: roomsLoading, 
+    error: roomsError, 
+    refetchRooms 
+  } = useRooms(hotelId, checkIn, checkOut, rooms, true);
+
+  // Transform backend data to match the component's expected format
+  const transformedRooms = roomsData.map((themeRoom, index) => ({
+    id: themeRoom.sampleRoom.roomId || index + 1,
+    name: themeRoom.sampleRoom.roomName,
+    price: themeRoom.sampleRoom.price,
+    image: themeRoom.sampleRoom.imageUrls && themeRoom.sampleRoom.imageUrls !== "[]" 
+      ? JSON.parse(themeRoom.sampleRoom.imageUrls)[0] || "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+      : "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    description: themeRoom.sampleRoom.description,
+    bedInfo: themeRoom.sampleRoom.description,
+    occupancy: themeRoom.sampleRoom.description,
+    available: themeRoom.availableRoomCount,
+    category: "deluxe",
+    themeName: themeRoom.themeName,
+    rating: themeRoom.sampleRoom.rating,
+    averageRating: themeRoom.averageRating
+  }));
 
   const handleDateChange = (newCheckIn, newCheckOut) => {
     setCheckIn(newCheckIn);
@@ -83,13 +65,16 @@ const RoomForm = () => {
       guests,
       children,
       rooms,
+      hotelId,
     });
+    // Refetch rooms with current parameters
+    refetchRooms();
   };
 
   const handleBookNow = (roomId) => {
     console.log("Booking room:", roomId);
     // 查找选中的房间
-    const room = mockRooms.find(r => r.id === roomId);
+    const room = transformedRooms.find(r => r.id === roomId);
     setSelectedRoom(room);
     // 展开价格明细，一旦展开就不会再关闭
     setShowPriceDetail(true);
@@ -153,11 +138,25 @@ const RoomForm = () => {
 
           {/* Room Selection - Scrollable */}
           <div className="bg-white rounded-lg">
-            <RoomDetails
-              mockRooms={mockRooms}
-              onViewDetails={handleViewDetails}
-              onBookNow={handleBookNow}
-            />
+            {roomsLoading ? (
+              <div className="p-6 text-center">Loading rooms...</div>
+            ) : roomsError ? (
+              <div className="p-6 text-center text-red-500">
+                Error loading rooms: {roomsError}
+                <button 
+                  onClick={refetchRooms}
+                  className="ml-2 px-3 py-1 bg-blue-500 text-white rounded text-sm"
+                >
+                  Retry
+                </button>
+              </div>
+            ) : (
+              <RoomDetails
+                mockRooms={transformedRooms}
+                onViewDetails={handleViewDetails}
+                onBookNow={handleBookNow}
+              />
+            )}
           </div>
         </div>
 
