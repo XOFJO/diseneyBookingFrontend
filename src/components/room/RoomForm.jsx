@@ -11,8 +11,8 @@ import useSearchStore from "../../store/searchStore";
 const RoomForm = () => {
   // Get search parameters from zustand store
   const { checkIn, checkOut, rooms } = useSearchStore()
-  const [guests, setGuests] = useState(2);
-  const [children, setChildren] = useState(0);
+  const [guests] = useState(2);
+  const [children] = useState(0);
   const [hotelId] = useState("1"); // Default hotel ID
 
   // State for room results
