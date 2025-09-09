@@ -17,7 +17,7 @@ const RoomForm = () => {
   const [hotelId, setHotelId] = useState("1"); // Default hotel ID
 
   // State for room results
-  const [activeTab, setActiveTab] = useState("standard");
+  const [activeTab, setActiveTab] = useState("all");
   const [showPriceDetail, setShowPriceDetail] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
 
@@ -47,6 +47,16 @@ const RoomForm = () => {
     averageRating: themeRoom.averageRating
   }));
 
+  // Extract unique theme names for the ThemeSelector
+  const availableThemes = [...new Set(roomsData.map(room => room.themeName))];
+
+  // Filter rooms based on selected theme
+  const filteredRooms = activeTab === "all" 
+    ? transformedRooms 
+    : transformedRooms.filter(room => 
+        room.themeName.toLowerCase().replace(/\s+/g, '-') === activeTab
+      );
+
   const handleDateChange = (newCheckIn, newCheckOut) => {
     setCheckIn(newCheckIn);
     setCheckOut(newCheckOut);
@@ -74,7 +84,7 @@ const RoomForm = () => {
   const handleBookNow = (roomId) => {
     console.log("Booking room:", roomId);
     // 查找选中的房间
-    const room = transformedRooms.find(r => r.id === roomId);
+    const room = filteredRooms.find(r => r.id === roomId);
     setSelectedRoom(room);
     // 展开价格明细，一旦展开就不会再关闭
     setShowPriceDetail(true);
@@ -133,6 +143,7 @@ const RoomForm = () => {
               activeTab={activeTab}
               setActiveTab={setActiveTab}
               onThemeFilter={handleThemeFilter}
+              themes={availableThemes}
             />
           </div>
 
@@ -152,7 +163,7 @@ const RoomForm = () => {
               </div>
             ) : (
               <RoomDetails
-                mockRooms={transformedRooms}
+                mockRooms={filteredRooms}
                 onViewDetails={handleViewDetails}
                 onBookNow={handleBookNow}
               />

@@ -1,10 +1,14 @@
 import React from 'react'
 import { TabGroup, TabList, Tab } from '@headlessui/react'
 
-const ThemeSelector = ({ activeTab, setActiveTab, onThemeFilter }) => {
+const ThemeSelector = ({ activeTab, setActiveTab, onThemeFilter, themes = [] }) => {
+  // Create tabs from backend themes, with an "All Themes" option
   const tabs = [
-    { key: 'standard', label: 'Iron man themes' },
-    { key: 'packages', label: 'Micky Mouse' }
+    { key: 'all', label: 'All Themes' },
+    ...themes.map((theme) => ({
+      key: theme.toLowerCase().replace(/\s+/g, '-'),
+      label: theme
+    }))
   ]
 
   const selectedIndex = tabs.findIndex(tab => tab.key === activeTab)
