@@ -1,5 +1,5 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import PriceCalculator from './PriceCalculator'
 const BookingSummary = ({
   checkIn,
   checkOut,
@@ -9,6 +9,8 @@ const BookingSummary = ({
   calculateNights,
   formatDateForDisplay
 }) => {
+  const [showDetail] = useState(true); // 保留字段但始终展开
+
   return (
     <div className="w-80 bg-gray-50 p-6">
       <div className="bg-white p-4 rounded-lg shadow">
@@ -36,6 +38,8 @@ const BookingSummary = ({
             <span>{guests} Guests, {children} Children</span>
           </div>
         </div>
+
+        <PriceCalculator show={showDetail} onClose={() => {}} />
 
         <div className="border-t mt-6 pt-4">
           <div className="flex justify-between items-center mb-4">
