@@ -4,6 +4,7 @@ import HotelListPage from "./pages/HotelListPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Layout from "./components/layout/Layout";
 import HotelDetailPage from "./pages/HotelDetailPage";
+import UserPage from "./pages/UserPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/hotels" element={<HotelListPage />} />
           <Route path="/rooms" element={<HotelDetailPage />} />
+          <Route path="/user" element={<UserPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
