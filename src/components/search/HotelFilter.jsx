@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Listbox, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -77,17 +78,56 @@ function HotelFilter() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="fixed top-20 left-0 right-0 w-full z-20"
         >
+            <div className="max-w-7xl mx-auto px-6 relative">
+                <motion.div
+                    initial={{ 
+                        opacity: 0, 
+                        y: 20,
+                        scale: 1,
+                        boxShadow: '0 8px 32px rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.1)'
+                    }}
+                    animate={{ 
+                        opacity: 1, 
+                        y: 0,
+                        scale: 1,
+                        boxShadow: '0 8px 32px rgba(31, 38, 135, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.1)'
+                    }}
+                    style={{
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(20px)',
+                        WebkitBackdropFilter: 'blur(20px)',
+                        border: '1px solid rgba(255, 255, 255, 0.18)'
+                    }}
+                    whileHover={{ 
+                        scale: 1.02,
+                        boxShadow: '0 20px 60px rgba(31, 38, 135, 0.5), 0 0 40px rgba(220, 38, 38, 0.3)'
+                    }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="rounded-3xl shadow-2xl p-6 backdrop-blur-xl relative transition-all duration-500 cursor-pointer group"
+                >
+                    {/* Animated Gradient Border */}
+                    <motion.div 
+                        className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        style={{
+                            background: 'linear-gradient(45deg, transparent, rgba(147, 51, 234, 0.4), rgba(236, 72, 153, 0.4), rgba(251, 191, 36, 0.3), transparent)',
+                            backgroundSize: '400% 400%',
+                            animation: 'gradient 3s ease infinite',
+                            padding: '2px'
+                        }}
+                    >
+                        <div className="w-full h-full rounded-3xl" style={{ background: 'rgba(255, 255, 255, 0.1)' }} />
+                    </motion.div>
 
-            <div className="w-full bg-gradient-to-r from-gray-800/80 to-red-900/30 border-b-2 border-red-500/40 shadow-xl backdrop-blur-xl">
-                <div className="max-w-7xl mx-auto px-6 py-3 flex gap-4 items-center">
+                    {/* Content Container with z-index */}
+                    <div className="relative z-10 flex gap-4 items-center">
                     {/* 城市选择栏 */}
                     <div className="flex-1 flex items-center gap-3">
                         <label className="text-sm font-medium text-yellow-400 whitespace-nowrap" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
                             <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />城市
                         </label>
                         <Listbox value={selectedCity} onChange={setSelectedCity} disabled={citiesLoading}>
-                            <div className="relative flex-1">
-                                <Listbox.Button disabled={citiesLoading} className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-gray-900/80 to-red-900/20 border-2 border-red-500/40 py-2 pl-4 pr-10 text-left shadow-lg hover:border-yellow-400/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm" style={{ boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)' }}>
+                            <div className="relative flex-1 z-[200]">
+                                <Listbox.Button disabled={citiesLoading} className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-purple-900/60 to-blue-900/40 border-2 border-purple-500/50 py-2 pl-4 pr-10 text-left shadow-lg hover:border-yellow-400/80 hover:from-purple-800/70 hover:to-pink-800/50 focus:outline-none focus:ring-2 focus:ring-yellow-400/70 focus:border-yellow-400 transition-all duration-300 group backdrop-blur-sm" style={{ boxShadow: '0 0 20px rgba(147, 51, 234, 0.4), inset 0 0 15px rgba(0, 0, 0, 0.3)' }}>
                                     {citiesLoading ? (
                                         <span className="text-gray-400">加载中...</span>
                                     ) : (
@@ -97,13 +137,13 @@ function HotelFilter() {
                                             transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                         >
                                             <motion.span
-                                                className="text-lg filter drop-shadow-lg text-red-400"
+                                                className="text-lg filter drop-shadow-lg text-pink-400"
                                                 whileHover={{ scale: 1.1 }}
                                                 transition={{ type: "spring", stiffness: 500, damping: 25 }}
                                             >
                                                 <FontAwesomeIcon icon={selectedCity.icon} />
                                             </motion.span>
-                                            <span className="block truncate font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
+                                            <span className="block truncate font-medium text-white group-hover:text-yellow-300 transition-colors" style={{ textShadow: '0 0 8px rgba(255, 255, 255, 0.4)' }}>
                                                 {selectedCity.name}
                                             </span>
                                         </motion.div>
@@ -113,8 +153,8 @@ function HotelFilter() {
                                             animate={{ rotate: 0 }}
                                             whileHover={{ rotate: 180 }}
                                             transition={{ duration: 0.2 }}
-                                            className="h-4 w-4 text-red-400 group-hover:text-yellow-400"
-                                            style={{ filter: 'drop-shadow(0 0 3px rgba(220, 38, 38, 0.7))' }}
+                                            className="h-4 w-4 text-pink-400 group-hover:text-yellow-300"
+                                            style={{ filter: 'drop-shadow(0 0 5px rgba(236, 72, 153, 0.8))' }}
                                         >
                                             <FontAwesomeIcon icon={faChevronDown} className="h-4 w-4" />
                                         </motion.div>
@@ -129,13 +169,13 @@ function HotelFilter() {
                                     leaveFrom="transform scale-100 opacity-100"
                                     leaveTo="transform scale-95 opacity-0"
                                 >
-                                    <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-gradient-to-b from-gray-900 to-black py-2 shadow-xl border-2 border-red-500/30 focus:outline-none backdrop-blur-lg" style={{ boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)' }}>
+                                    <Listbox.Options className="absolute z-[999] mt-2 max-h-60 w-full overflow-auto rounded-xl bg-gradient-to-b from-purple-900/95 to-blue-900/90 py-2 shadow-xl border-2 border-purple-400/40 focus:outline-none backdrop-blur-lg" style={{ boxShadow: '0 0 30px rgba(147, 51, 234, 0.6)' }}>
                                         {cityOptions.map((city, cityIdx) => (
                                             <Listbox.Option
                                                 key={city.id}
                                                 value={city}
                                                 className={({ active }) =>
-                                                    `relative cursor-pointer select-none py-2 px-4 transition-all duration-150 border-l-2 ${active ? 'bg-gradient-to-r from-red-900/50 to-red-800/30 text-yellow-300 border-l-yellow-400 shadow-lg' : 'text-gray-200 border-l-transparent hover:border-l-red-400'
+                                                    `relative cursor-pointer select-none py-2 px-4 transition-all duration-150 border-l-2 ${active ? 'bg-gradient-to-r from-purple-800/60 to-pink-800/40 text-yellow-300 border-l-yellow-400 shadow-lg' : 'text-gray-200 border-l-transparent hover:border-l-purple-400'
                                                     }`
                                                 }
                                             >
@@ -148,13 +188,13 @@ function HotelFilter() {
                                                     >
                                                         <div className="flex items-center space-x-3">
                                                             <motion.span
-                                                                className="text-lg filter drop-shadow-lg text-red-400"
+                                                                className="text-lg filter drop-shadow-lg text-pink-400"
                                                                 whileHover={{ scale: 1.3, rotate: 10 }}
                                                                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                                             >
                                                                 <FontAwesomeIcon icon={city.icon} />
                                                             </motion.span>
-                                                            <span className={`block truncate font-medium ${isSelected ? 'text-yellow-400' : ''}`} style={{ textShadow: isSelected ? '0 0 5px rgba(251, 191, 36, 0.5)' : '0 0 3px rgba(255, 255, 255, 0.2)' }}>
+                                                            <span className={`block truncate font-medium ${isSelected ? 'text-yellow-400' : ''}`} style={{ textShadow: isSelected ? '0 0 8px rgba(251, 191, 36, 0.6)' : '0 0 5px rgba(255, 255, 255, 0.3)' }}>
                                                                 {city.name}
                                                             </span>
                                                         </div>
@@ -185,8 +225,8 @@ function HotelFilter() {
                             <FontAwesomeIcon icon={faStar} className="mr-2" />主题
                         </label>
                         <Listbox value={selectedThemes} onChange={handleThemeChange} multiple disabled={themesLoading}>
-                            <div className="relative flex-1">
-                                <Listbox.Button disabled={themesLoading} className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-gray-900/80 to-red-900/20 border-2 border-red-500/40 py-2 pl-4 pr-10 text-left shadow-lg hover:border-yellow-400/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm" style={{ boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)' }}>
+                            <div className="relative flex-1 z-[200]">
+                                <Listbox.Button disabled={themesLoading} className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-purple-900/60 to-blue-900/40 border-2 border-purple-500/50 py-2 pl-4 pr-10 text-left shadow-lg hover:border-yellow-400/80 hover:from-purple-800/70 hover:to-pink-800/50 focus:outline-none focus:ring-2 focus:ring-yellow-400/70 focus:border-yellow-400 transition-all duration-300 group backdrop-blur-sm" style={{ boxShadow: '0 0 20px rgba(147, 51, 234, 0.4), inset 0 0 15px rgba(0, 0, 0, 0.3)' }}>
                                     {themesLoading ? (
                                         <span className="text-gray-400">加载中...</span>
                                     ) : (
@@ -196,13 +236,13 @@ function HotelFilter() {
                                             transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                         >
                                             <motion.span
-                                                className="text-lg filter drop-shadow-lg text-red-400"
+                                                className="text-lg filter drop-shadow-lg text-pink-400"
                                                 whileHover={{ scale: 1.1 }}
                                                 transition={{ type: "spring", stiffness: 500, damping: 25 }}
                                             >
                                                 <FontAwesomeIcon icon={faStar} />
                                             </motion.span>
-                                            <span className="block truncate font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
+                                            <span className="block truncate font-medium text-white group-hover:text-yellow-300 transition-colors" style={{ textShadow: '0 0 8px rgba(255, 255, 255, 0.4)' }}>
                                                 {selectedThemes.length === 0 ? '选择主题' : 
                                                  selectedThemes.some(t => t.id === 'all') ? '全部' :
                                                  selectedThemes.length === 1 ? selectedThemes[0].name :
@@ -215,8 +255,8 @@ function HotelFilter() {
                                             animate={{ rotate: 0 }}
                                             whileHover={{ rotate: 180 }}
                                             transition={{ duration: 0.2 }}
-                                            className="h-4 w-4 text-red-400 group-hover:text-yellow-400"
-                                            style={{ filter: 'drop-shadow(0 0 3px rgba(220, 38, 38, 0.7))' }}
+                                            className="h-4 w-4 text-pink-400 group-hover:text-yellow-300"
+                                            style={{ filter: 'drop-shadow(0 0 5px rgba(236, 72, 153, 0.8))' }}
                                         >
                                             <FontAwesomeIcon icon={faChevronDown} className="h-4 w-4" />
                                         </motion.div>
@@ -231,7 +271,7 @@ function HotelFilter() {
                                     leaveFrom="transform scale-100 opacity-100"
                                     leaveTo="transform scale-95 opacity-0"
                                 >
-                                    <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-gradient-to-b from-gray-900 to-black py-2 shadow-xl border-2 border-red-500/30 focus:outline-none backdrop-blur-lg" style={{ boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)' }}>
+                                    <Listbox.Options className="absolute z-[999] mt-2 max-h-60 w-full overflow-auto rounded-xl bg-gradient-to-b from-purple-900/95 to-blue-900/90 py-2 shadow-xl border-2 border-purple-400/40 focus:outline-none backdrop-blur-lg" style={{ boxShadow: '0 0 30px rgba(147, 51, 234, 0.6)' }}>
                                         {themeOptions.map((theme, themeIdx) => {
                                             const isSelected = selectedThemes.some(t => t.id === theme.id)
                                             return (
@@ -240,7 +280,7 @@ function HotelFilter() {
                                                     value={theme}
                                                     className={({ active }) =>
                                                         `relative cursor-pointer select-none py-2 px-4 transition-all duration-150 border-l-2 ${
-                                                            active ? 'bg-gradient-to-r from-red-900/50 to-red-800/30 text-yellow-300 border-l-yellow-400 shadow-lg' : 'text-gray-200 border-l-transparent hover:border-l-red-400'
+                                                            active ? 'bg-gradient-to-r from-purple-800/60 to-pink-800/40 text-yellow-300 border-l-yellow-400 shadow-lg' : 'text-gray-200 border-l-transparent hover:border-l-purple-400'
                                                         }`
                                                     }
                                                 >
@@ -254,7 +294,7 @@ function HotelFilter() {
                                                             <div className="flex items-center space-x-3">
                                                                 <motion.span
                                                                     className={`text-lg filter drop-shadow-lg transition-colors ${
-                                                                        isSelected ? 'text-yellow-400' : 'text-red-400'
+                                                                        isSelected ? 'text-yellow-400' : 'text-pink-400'
                                                                     }`}
                                                                     whileHover={{ scale: 1.3 }}
                                                                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -263,7 +303,7 @@ function HotelFilter() {
                                                                         icon={isSelected ? faCheckSquare : faSquare} 
                                                                     />
                                                                 </motion.span>
-                                                                <span className={`block truncate font-medium ${isSelected ? 'text-yellow-400' : ''}`} style={{ textShadow: isSelected ? '0 0 5px rgba(251, 191, 36, 0.5)' : '0 0 3px rgba(255, 255, 255, 0.2)' }}>
+                                                                <span className={`block truncate font-medium ${isSelected ? 'text-yellow-400' : ''}`} style={{ textShadow: isSelected ? '0 0 8px rgba(251, 191, 36, 0.6)' : '0 0 5px rgba(255, 255, 255, 0.3)' }}>
                                                                     {theme.name}
                                                                 </span>
                                                             </div>
@@ -283,10 +323,10 @@ function HotelFilter() {
                         <motion.button
                             onClick={handleSearch}
                             disabled={loading}
-                            className={`relative cursor-pointer rounded-xl bg-gradient-to-r from-red-900/80 to-yellow-900/60 border-2 border-red-500/60 px-6 py-2 text-left shadow-lg hover:border-yellow-400/80 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            style={{ boxShadow: '0 0 20px rgba(220, 38, 38, 0.4), inset 0 0 15px rgba(251, 191, 36, 0.1)' }}
-                            whileHover={!loading ? { scale: 1.02 } : {}}
-                            whileTap={!loading ? { scale: 0.98 } : {}}
+                            className={`relative cursor-pointer rounded-xl bg-gradient-to-r from-purple-900/80 to-pink-900/70 border-2 border-purple-500/60 px-6 py-2 text-left shadow-lg hover:border-yellow-400/90 hover:from-purple-800/90 hover:to-pink-800/80 focus:outline-none focus:ring-2 focus:ring-yellow-400/70 focus:border-yellow-400 transition-all duration-300 group backdrop-blur-sm ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            style={{ boxShadow: '0 0 25px rgba(147, 51, 234, 0.5), inset 0 0 20px rgba(251, 191, 36, 0.1)' }}
+                            whileHover={!loading ? { scale: 1.03 } : {}}
+                            whileTap={!loading ? { scale: 0.97 } : {}}
                             transition={{ type: "spring", stiffness: 400, damping: 25 }}
                         >
                             <motion.div 
@@ -299,19 +339,21 @@ function HotelFilter() {
                                     whileHover={!loading ? { scale: 1.2, rotate: 15 } : {}}
                                     transition={{ type: "spring", stiffness: 500, damping: 25 }}
                                     animate={loading ? { rotate: 360 } : { rotate: 0 }}
+                                    style={{ filter: 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.8))' }}
                                 >
                                     <FontAwesomeIcon icon={faSearch} />
                                 </motion.span>
-                                <span className="font-medium text-white group-hover:text-yellow-300 transition-colors whitespace-nowrap" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
+                                <span className="font-medium text-white group-hover:text-yellow-200 transition-colors whitespace-nowrap" style={{ textShadow: '0 0 8px rgba(255, 255, 255, 0.4)' }}>
                                     {loading ? '搜索中...' : '搜索'}
                                 </span>
                             </motion.div>
                         </motion.button>
                     </div>
                 </div>
-            </div>
-        </motion.div>
-    )
+            </motion.div>
+        </div>
+    </motion.div>
+)
 }
 
 export default HotelFilter
