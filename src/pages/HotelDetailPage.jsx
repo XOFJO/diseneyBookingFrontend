@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import RoomForm from '../components/room/RoomForm'
 import HotelDetailHeader from '../components/room/HotelDetailHeader'
@@ -8,9 +8,10 @@ import useHotelStore from '../store/hotelStore'
 import useSearchStore from '../store/searchStore'
 
 function HotelDetailPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { selectedHotelId, setSelectedHotelId } = useHotelStore();
   const { checkIn, checkOut, rooms: roomCount, setDateRange, setRooms } = useSearchStore();
+  const [hasInitialLoad, setHasInitialLoad] = useState(false);
   
   // 从URL参数获取数据
   const hotelIdFromUrl = searchParams.get('hotelId');
@@ -33,19 +34,55 @@ function HotelDetailPage() {
       if (roomsFromUrl) {
         setRooms(parseInt(roomsFromUrl));
       }
+      
+      // 标记已初始化，触发首次数据加载
+      setHasInitialLoad(true);
     };
 
     initializeFromUrl();
   }, []); // 空依赖数组，确保只在组件挂载时执行一次
   
-  // 使用useRooms hook获取房间数据
-  const { rooms: roomsData, loading: roomsLoading, error: roomsError, refetchRooms } = useRooms(
+  // 使用useRooms hook - 不自动获取数据，由搜索触发
+  const { rooms: roomsData, loading: roomsLoading, error: roomsError, searchRooms } = useRooms(
     selectedHotelId || hotelIdFromUrl,
     checkIn || checkInFromUrl,
     checkOut || checkOutFromUrl,
     roomCount || parseInt(roomsFromUrl) || 1,
-    !!(selectedHotelId || hotelIdFromUrl) && !!(checkIn || checkInFromUrl) && !!(checkOut || checkOutFromUrl)
+    false // 不自动获取数据
   );
+  
+  // 首次加载时获取数据
+  useEffect(() => {
+    if (hasInitialLoad && (selectedHotelId || hotelIdFromUrl) && (checkIn || checkInFromUrl) && (checkOut || checkOutFromUrl)) {
+      searchRooms(
+        selectedHotelId || hotelIdFromUrl,
+        checkIn || checkInFromUrl,
+        checkOut || checkOutFromUrl,
+        roomCount || parseInt(roomsFromUrl) || 1
+      );
+    }
+  }, [hasInitialLoad]);
+  
+  // 更新URL参数的函数
+  const updateUrlParams = () => {
+    const newParams = new URLSearchParams(searchParams);
+    if (selectedHotelId) newParams.set('hotelId', selectedHotelId);
+    if (checkIn) newParams.set('checkIn', checkIn);
+    if (checkOut) newParams.set('checkOut', checkOut);
+    if (roomCount) newParams.set('rooms', roomCount.toString());
+    setSearchParams(newParams);
+  };
+  
+  // 搜索处理函数
+  const handleSearch = () => {
+    // 更新URL参数
+    updateUrlParams();
+    
+    // 触发房间搜索
+    if (selectedHotelId && checkIn && checkOut && roomCount) {
+      searchRooms(selectedHotelId, checkIn, checkOut, roomCount);
+    }
+  };
   
   console.log('HotelDetailPage - Rooms Data:', { roomsData, roomsLoading, roomsError });
   return (
@@ -63,7 +100,7 @@ function HotelDetailPage() {
             roomsData={roomsData}
             roomsLoading={roomsLoading}
             roomsError={roomsError}
-            onRefetchRooms={refetchRooms}
+            onSearch={handleSearch}
           />
         </div>
       </div>

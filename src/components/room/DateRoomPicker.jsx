@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDays, faUser, faChevronDown, faMinus, faPlus, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import useSearchStore from '../../store/searchStore'
 
-function DateRoomPicker() {
+function DateRoomPicker({ onSearch }) {
   const { 
     checkIn, 
     checkOut, 
@@ -345,6 +345,7 @@ function DateRoomPicker() {
       <motion.button 
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        onClick={onSearch}
         className="ml-4 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-colors shadow-lg"
       >
         Search
