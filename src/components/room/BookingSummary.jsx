@@ -10,7 +10,7 @@ const BookingSummary = ({
   formatDateForDisplay
 }) => {
   return (
-    <div className="w-80 bg-gray-50 p-6">
+    <div className="w-80 bg-gray-50 p-6 rounded-lg">
       <div className="bg-white p-4 rounded-lg shadow">
         <h3 className="font-bold text-gray-800 mb-4">Your Selection and Price</h3>
         

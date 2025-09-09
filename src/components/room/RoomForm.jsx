@@ -22,7 +22,7 @@ const RoomForm = () => {
     {
       id: 1,
       name: "Fairytale Dream Room",
-      price: 0.0,
+      price: 2594.0,
       image:
         "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       description: "Views of Garden",
@@ -32,6 +32,48 @@ const RoomForm = () => {
         "Sleeps up to 2 Adults and 1 Child aged 3-11 years old (both inclusive)",
       available: 5,
       category: "deluxe",
+    },
+    {
+      id: 2,
+      name: "Deluxe Lake View",
+      price: 2800.0,
+      image:
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      description: "Views of Lake",
+      bedInfo:
+        "2 Double Beds",
+      occupancy:
+        "Sleeps up to 3 Adults",
+      available: 3,
+      category: "deluxe",
+    },
+    {
+      id: 3,
+      name: "Deluxe Park View",
+      price: 2980.0,
+      image:
+        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      description: "Views of Park",
+      bedInfo:
+        "2 Double Beds",
+      occupancy:
+        "Sleeps up to 3 Adults",
+      available: 2,
+      category: "deluxe",
+    },
+    {
+      id: 4,
+      name: "Mickey Mouse Suite",
+      price: 3500.0,
+      image:
+        "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      description: "Mickey Mouse themed suite",
+      bedInfo:
+        "1 King Bed and 1 Sofa Bed",
+      occupancy:
+        "Sleeps up to 4 Adults",
+      available: 1,
+      category: "suite",
     },
   ];
 
@@ -117,28 +159,12 @@ const RoomForm = () => {
           </div>
 
           {/* Room Selection - Scrollable */}
-          <div className="bg-white">
+          <div className="bg-white rounded-lg">
             <RoomDetails
               mockRooms={mockRooms}
               onViewDetails={handleViewDetails}
               onBookNow={handleBookNow}
             />
-                        <RoomDetails
-              mockRooms={mockRooms}
-              onViewDetails={handleViewDetails}
-              onBookNow={handleBookNow}
-            />
-                        <RoomDetails
-              mockRooms={mockRooms}
-              onViewDetails={handleViewDetails}
-              onBookNow={handleBookNow}
-            />
-                        <RoomDetails
-              mockRooms={mockRooms}
-              onViewDetails={handleViewDetails}
-              onBookNow={handleBookNow}
-            />
-
           </div>
         </div>
 
