@@ -145,7 +145,7 @@ function DateRangePicker() {
           >
             <FontAwesomeIcon icon={faMagic} className="text-pink-300" />
           </motion.div>
-          ✨ Check In Date
+          Check In Date
         </label>
         
         <Popover className="relative">
@@ -157,7 +157,7 @@ function DateRangePicker() {
             }}
           >
             <div className="flex items-center justify-between">
-              <span>{checkIn ? new Date(checkIn).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : '🌟 Select magical check-in date'}</span>
+              <span>{checkIn ? new Date(checkIn).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : 'Select magical check-in date'}</span>
               <motion.div
                 whileHover={{ scale: 1.2, rotate: 10 }}
                 transition={{ type: "spring", stiffness: 400 }}
@@ -203,7 +203,7 @@ function DateRangePicker() {
                   style={{ textShadow: '0 0 15px rgba(196, 181, 253, 0.6)' }}
                   whileHover={{ scale: 1.05 }}
                 >
-                  🌙 {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                  {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </motion.h3>
                 <motion.button
                   whileHover={{ scale: 1.2, x: 2 }}
@@ -267,7 +267,7 @@ function DateRangePicker() {
             >
               <FontAwesomeIcon icon={faMoon} className="text-pink-300" />
             </motion.div>
-            🌙 Check Out Date
+            Check Out Date
           </label>
           {nights > 0 && checkIn && checkOut && (
             <motion.span 
@@ -295,7 +295,7 @@ function DateRangePicker() {
             }}
           >
             <div className="flex items-center justify-between">
-              <span>{checkOut ? new Date(checkOut).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : '🌙 Select magical check-out date'}</span>
+              <span>{checkOut ? new Date(checkOut).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : ' Select magical check-out date'}</span>
               <motion.div
                 whileHover={{ scale: 1.2, rotate: 10 }}
                 transition={{ type: "spring", stiffness: 400 }}
@@ -341,7 +341,7 @@ function DateRangePicker() {
                   style={{ textShadow: '0 0 15px rgba(196, 181, 253, 0.6)' }}
                   whileHover={{ scale: 1.05 }}
                 >
-                  🌙 {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                  {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </motion.h3>
                 <motion.button
                   whileHover={{ scale: 1.2, x: 2 }}

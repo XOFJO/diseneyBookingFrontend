@@ -27,9 +27,8 @@ function SelectHotel() {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="mr-2"
           >
-            <FontAwesomeIcon icon={faHotel} className="text-pink-300" />
           </motion.div>
-          🏰 Choose Your Magical Castle
+          Choose Your Magical Castles
         </label>
         <div className="text-red-400 p-4 rounded-xl bg-red-900/20 border border-red-500/40">
           Error loading hotels. Please try again later.
@@ -55,7 +54,7 @@ function SelectHotel() {
         >
           <FontAwesomeIcon icon={faHotel} className="text-pink-300" />
         </motion.div>
-        🏰 Choose Your Magical Castle
+        Choose Your Magical Castle
       </label>
       
       <Listbox value={selected} onChange={setSelectedHotel}>
@@ -83,7 +82,7 @@ function SelectHotel() {
               </motion.span>
               <span className="block truncate font-medium text-yellow-400 group-hover:text-yellow-200 transition-colors" 
                 style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
-                {loading ? '✨ Loading magical castles...' : `🏰 ${selected.name || 'Select Your Castle'}`}
+                {loading ? ' Loading magical castles...' : ` ${selected.name || 'Select Your Castle'}`}
               </span>
             </motion.div>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">

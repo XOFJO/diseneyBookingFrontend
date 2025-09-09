@@ -182,7 +182,7 @@ function SearchForm() {
             }}
           >
             <FontAwesomeIcon icon={faSearch} className="mr-3" />
-            ✨ Begin Your Magical Journey ✨
+            Search
           </motion.span>
           </motion.button>
         </motion.div>
