@@ -78,7 +78,13 @@ const RoomCard = ({ room, onViewDetails, onBookNow }) => {
           <div className="flex-1 p-6">
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h4 className="text-xl font-bold text-gray-800 mb-1">{room.name}</h4>
+                <div className="flex items-center space-x-3 mb-2">
+                  <h4 className="text-xl font-bold text-gray-800">{room.name}</h4>
+                  {/* Rating Score */}
+                  <div className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-sm font-semibold">
+                    {room.rating || '4.2'}
+                  </div>
+                </div>
                 <p className="text-2xl font-bold text-blue-600">${room.price.toFixed(2)}</p>
               </div>
               
