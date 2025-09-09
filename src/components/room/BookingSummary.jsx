@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PriceCalculator from './PriceCalculator'
+
 const BookingSummary = ({
   checkIn,
   checkOut,
@@ -7,9 +8,16 @@ const BookingSummary = ({
   guests,
   children,
   calculateNights,
-  formatDateForDisplay
+  formatDateForDisplay,
+  showPriceDetail = false, // 新增props来控制价格明细显示
+  onBookNowClick // 新增回调函数
 }) => {
-  const [showDetail] = useState(true); // 保留字段但始终展开
+  const [showDetail, setShowDetail] = useState(showPriceDetail);
+
+  // 当外部的showPriceDetail变化时，更新内部状态
+  React.useEffect(() => {
+    setShowDetail(showPriceDetail);
+  }, [showPriceDetail]);
 
   return (
     <div className="w-80 bg-gray-50 p-6 rounded-lg">

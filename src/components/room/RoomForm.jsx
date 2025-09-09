@@ -21,6 +21,7 @@ const RoomForm = () => {
 
   // State for room results
   const [activeTab, setActiveTab] = useState("standard");
+  const [showPriceDetail, setShowPriceDetail] = useState(false); // 控制价格明细显示状态
 
   // Disney themed room data
   const mockRooms = [
@@ -90,6 +91,8 @@ const RoomForm = () => {
 
   const handleBookNow = (roomId) => {
     console.log("Booking room:", roomId);
+    // 展开价格明细，一旦展开就不会再关闭
+    setShowPriceDetail(true);
   };
 
   const handleViewDetails = (roomId) => {
@@ -162,6 +165,7 @@ const RoomForm = () => {
               children={children}
               calculateNights={calculateNights}
               formatDateForDisplay={formatDateForDisplay}
+              showPriceDetail={showPriceDetail}
             />
           </div>
         </div>
