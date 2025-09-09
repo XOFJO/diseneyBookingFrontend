@@ -4,6 +4,7 @@ import GuestSelector from "./GuestSelector";
 import DateRoomPicker from "./DateRoomPicker";
 import RoomDetails from "./RoomDetails";
 import BookingSummary from "./BookingSummary";
+import ThemeSelector from "./ThemeSelector";
 
 const RoomForm = () => {
   // State for booking preferences
@@ -21,7 +22,7 @@ const RoomForm = () => {
     {
       id: 1,
       name: "Fairytale Dream Room",
-      price: 0.0,
+      price: 2594.0,
       image:
         "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       description: "Views of Garden",
@@ -31,6 +32,48 @@ const RoomForm = () => {
         "Sleeps up to 2 Adults and 1 Child aged 3-11 years old (both inclusive)",
       available: 5,
       category: "deluxe",
+    },
+    {
+      id: 2,
+      name: "Deluxe Lake View",
+      price: 2800.0,
+      image:
+        "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      description: "Views of Lake",
+      bedInfo:
+        "2 Double Beds",
+      occupancy:
+        "Sleeps up to 3 Adults",
+      available: 3,
+      category: "deluxe",
+    },
+    {
+      id: 3,
+      name: "Deluxe Park View",
+      price: 2980.0,
+      image:
+        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      description: "Views of Park",
+      bedInfo:
+        "2 Double Beds",
+      occupancy:
+        "Sleeps up to 3 Adults",
+      available: 2,
+      category: "deluxe",
+    },
+    {
+      id: 4,
+      name: "Mickey Mouse Suite",
+      price: 3500.0,
+      image:
+        "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      description: "Mickey Mouse themed suite",
+      bedInfo:
+        "1 King Bed and 1 Sofa Bed",
+      occupancy:
+        "Sleeps up to 4 Adults",
+      available: 1,
+      category: "suite",
     },
   ];
 
@@ -63,6 +106,10 @@ const RoomForm = () => {
     console.log("Viewing details for room:", roomId);
   };
 
+  const handleThemeFilter = (theme) => {
+    console.log("Filtering by theme:", theme);
+  };
+
   // Helper function to format date for display
   const formatDateForDisplay = (dateStr) => {
     if (!dateStr) return "";
@@ -88,38 +135,53 @@ const RoomForm = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto p-4">
-      {/* Header Section */}
-      <div className="bg-white rounded-t-lg p-6 border-b">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center space-x-4"></div>
-          <div className="flex items-start justify-between gap-6"></div>
-        </div>
-        <div>
-          <DateRoomPicker />
-        </div>
-      </div>
+      <div className="flex min-h-screen">
+        {/* Left Side - Main Content */}
+        <div className="flex-1 mr-6">
+          {/* Header Section */}
+          <div className="bg-white rounded-t-lg p-6 border-b">
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center space-x-4"></div>
+              <div className="flex items-start justify-between gap-6"></div>
+            </div>
+            <div>
+              <DateRoomPicker />
+            </div>
+          </div>
 
-      {/* Main Content */}
-      <div className="flex bg-white">
-        {/* Left Side - Room Selection */}
-        <RoomDetails
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          mockRooms={mockRooms}
-          onViewDetails={handleViewDetails}
-          onBookNow={handleBookNow}
-        />
+          {/* Theme Selector */}
+          <div className="bg-white p-6">
+            <ThemeSelector
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              onThemeFilter={handleThemeFilter}
+            />
+          </div>
 
-        {/* Right Side - Booking Summary */}
-        <BookingSummary
-          checkIn={checkIn}
-          checkOut={checkOut}
-          rooms={rooms}
-          guests={guests}
-          children={children}
-          calculateNights={calculateNights}
-          formatDateForDisplay={formatDateForDisplay}
-        />
+          {/* Room Selection - Scrollable */}
+          <div className="bg-white rounded-lg">
+            <RoomDetails
+              mockRooms={mockRooms}
+              onViewDetails={handleViewDetails}
+              onBookNow={handleBookNow}
+            />
+          </div>
+        </div>
+
+        {/* Right Side - Sticky Booking Summary */}
+        <div className="w-96">
+          <div className="fixed top-25">
+            <BookingSummary
+              checkIn={checkIn}
+              checkOut={checkOut}
+              rooms={rooms}
+              guests={guests}
+              children={children}
+              calculateNights={calculateNights}
+              formatDateForDisplay={formatDateForDisplay}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
