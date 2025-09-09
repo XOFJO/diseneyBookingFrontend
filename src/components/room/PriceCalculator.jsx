@@ -8,10 +8,11 @@ import useSearchStore from '../../store/searchStore';
  * @param {boolean} show - 是否显示明细
  * @param {Object} selectedRoom - 选中的房间信息
  * @param {Function} onPriceUpdate - 价格更新回调函数
+ * @param {number} roomCount - 预订的房间数量（从BookingSummary传入）
  */
-function PriceCalculator({ show = false, selectedRoom, onPriceUpdate }) {
-  // 从 zustand store 获取入住日期和房间数
-  const { checkIn, checkOut, rooms } = useSearchStore();
+function PriceCalculator({ show = false, selectedRoom, onPriceUpdate, roomCount }) {
+  // 从 zustand store 获取入住日期
+  const { checkIn, checkOut } = useSearchStore();
   
   // 生成价格列表数据 - 基于实际的入住天数和选中房间的价格
   const generatePriceList = (startDate, endDate, roomPrice) => {
@@ -40,7 +41,7 @@ function PriceCalculator({ show = false, selectedRoom, onPriceUpdate }) {
     ],
     startDate: checkIn || '2025-09-09',
     endDate: checkOut || '2025-09-11',
-    roomCount: rooms || 1,
+    rooms: roomCount || 1, // 重命名为 rooms 避免冲突
     roomName: selectedRoom?.name || '花园景观房'
   };
 
@@ -48,19 +49,20 @@ function PriceCalculator({ show = false, selectedRoom, onPriceUpdate }) {
   React.useEffect(() => {
     if (show) {
       console.log("PriceCalculator - selectedRoom:", selectedRoom);
+      console.log("PriceCalculator - roomCount:", roomCount);
       console.log("PriceCalculator - roomName:", mockData.roomName);
     }
-  }, [selectedRoom, show]);
+  }, [selectedRoom, show, roomCount]);
 
-  const { roomPriceList, startDate, endDate, roomCount, roomName } = mockData;
-  const { detail, totalPrice } = calculatePriceDetail(roomPriceList, startDate, endDate, roomCount);
+  const { roomPriceList, startDate, endDate, rooms, roomName } = mockData;
+  const { detail, totalPrice } = calculatePriceDetail(roomPriceList, startDate, endDate, rooms);
 
   // 当总价变化时，通知父组件
   React.useEffect(() => {
     if (onPriceUpdate && show) {
       onPriceUpdate(totalPrice);
     }
-  }, [totalPrice, onPriceUpdate, show]);
+  }, [totalPrice, onPriceUpdate, show, roomCount]); // 添加roomCount作为依赖
 
   return (
     <AnimatePresence>

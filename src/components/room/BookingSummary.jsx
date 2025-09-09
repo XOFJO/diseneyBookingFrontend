@@ -9,7 +9,9 @@ import {
   faUsers,
   faChevronDown,
   faCreditCard,
-  faInfoCircle
+  faInfoCircle,
+  faPlus,
+  faMinus
 } from '@fortawesome/free-solid-svg-icons'
 import PriceCalculator from './PriceCalculator'
 import useHotelStore from '../../store/hotelStore'
@@ -29,6 +31,8 @@ const BookingSummary = ({
   const [showDetail, setShowDetail] = useState(showPriceDetail);
   const [totalPrice, setTotalPrice] = useState(0); // 新增总价状态
   const [hotelName, setHotelName] = useState('Loading...'); // 新增酒店名称状态
+  const [bookingRooms, setBookingRooms] = useState(rooms || 1); // 实际预订的房间数
+  const [maxRooms, setMaxRooms] = useState(rooms || 1); // 最大可预订房间数
   
   const { selectedHotelId } = useHotelStore();
   const { selectedHotel } = useSearchStore();
@@ -73,6 +77,30 @@ const BookingSummary = ({
   React.useEffect(() => {
     setShowDetail(showPriceDetail);
   }, [showPriceDetail]);
+
+  // 当搜索房间数变化时，更新本地状态
+  useEffect(() => {
+    setBookingRooms(rooms || 1);
+    setMaxRooms(rooms || 1);
+  }, [rooms]);
+
+  // 当选中房间变化时，更新最大房间数
+  useEffect(() => {
+    if (selectedRoom && selectedRoom.available) {
+      console.log('BookingSummary - Updating max rooms from selected room:', selectedRoom.available);
+      setMaxRooms(selectedRoom.available);
+      // 如果当前预订房间数超过了可用房间数，调整到最大可用数
+      if (bookingRooms > selectedRoom.available) {
+        setBookingRooms(selectedRoom.available);
+      }
+    }
+  }, [selectedRoom, bookingRooms]);
+
+  // 房间数调节函数
+  const adjustRooms = (increment) => {
+    const newRooms = Math.max(1, Math.min(maxRooms, bookingRooms + increment));
+    setBookingRooms(newRooms);
+  };
 
   // 处理价格更新的回调函数
   const handlePriceUpdate = (price) => {
@@ -153,9 +181,36 @@ const BookingSummary = ({
                           <div className="bg-purple-100 p-2 rounded-full">
                             <FontAwesomeIcon icon={faBed} className="text-purple-600 text-sm" />
                           </div>
-                          <div className="text-sm">
-                            <div className="font-medium text-gray-800">{rooms}</div>
-                            <div className="text-xs text-gray-500">Room{rooms > 1 ? 's' : ''}</div>
+                          <div className="flex items-center space-x-2 flex-1">
+                            <div className="text-sm">
+                              <div className="text-xs text-gray-500 mb-1">Rooms</div>
+                              <div className="flex items-center space-x-2">
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                  onClick={() => adjustRooms(-1)}
+                                  disabled={bookingRooms <= 1}
+                                  className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                >
+                                  <FontAwesomeIcon icon={faMinus} className="h-2 w-2 text-gray-500" />
+                                </motion.button>
+                                <span className="font-medium text-gray-800 w-8 text-center">{bookingRooms}</span>
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                  onClick={() => adjustRooms(1)}
+                                  disabled={bookingRooms >= maxRooms}
+                                  className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                >
+                                  <FontAwesomeIcon icon={faPlus} className="h-2 w-2 text-gray-500" />
+                                </motion.button>
+                              </div>
+                              {selectedRoom && (
+                                <div className="text-xs text-gray-400 mt-1">
+                                  Max: {maxRooms} available
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                         
@@ -179,7 +234,12 @@ const BookingSummary = ({
           </Disclosure>
 
           {/* Price Calculator */}
-          <PriceCalculator show={showDetail} selectedRoom={selectedRoom} onPriceUpdate={handlePriceUpdate} />
+          <PriceCalculator 
+            show={showDetail} 
+            selectedRoom={selectedRoom} 
+            onPriceUpdate={handlePriceUpdate}
+            roomCount={bookingRooms}
+          />
 
           {/* Total Section */}
           <div className="border-t border-gray-200 mt-6 pt-6">
