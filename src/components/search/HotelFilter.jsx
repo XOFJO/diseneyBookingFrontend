@@ -4,28 +4,14 @@ import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt, faStar, faChevronDown, faCheck, faSearch, faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons'
 import useHotels from '../../hooks/useHotels'
-
-const cities = [
-    { id: 'all', name: '全部', icon: faMapMarkerAlt },
-    { id: 'shanghai', name: '上海市', icon: faMapMarkerAlt },
-    { id: 'tokyo', name: '东京', icon: faMapMarkerAlt },
-    { id: 'hongkong', name: '香港特别行政区', icon: faMapMarkerAlt },
-]
-
-const themes = [
-    { id: 'all', name: '全部', icon: faStar, apiName: 'all' },
-    { id: 'ironman', name: '钢铁侠', icon: faStar, apiName: 'Iron Man Adventure' },
-    { id: 'caribbean', name: '加勒比海盗', icon: faStar, apiName: 'Pirates of the Caribbean' },
-    { id: 'toy', name: '玩具总动员', icon: faStar, apiName: 'Toy Story Land' },
-    { id: 'donald', name: '唐老鸭', icon: faStar, apiName: 'Donald Duck Dreams' },
-    { id: 'frozen', name: '冰雪奇缘', icon: faStar, apiName: 'Frozen Magic' },
-    { id: 'galaxy', name: '星球大战', icon: faStar, apiName: "Galaxy's Edge" },
-]
-
+import useCities from '../../hooks/useCities'
+import useThemes from '../../hooks/useThemes'
 
 function HotelFilter() {
-    const [selectedCity, setSelectedCity] = useState(cities[0])
-    const [selectedThemes, setSelectedThemes] = useState([]) // 默认不选任何主题
+    const { cityOptions, loading: citiesLoading } = useCities();
+    const { themeOptions, loading: themesLoading } = useThemes();
+    const [selectedCity, setSelectedCity] = useState(cityOptions[0]);
+    const [selectedThemes, setSelectedThemes] = useState([]);
     const { searchHotels, loading } = useHotels()
 
     const handleThemeChange = (newSelectedThemes) => {
@@ -40,7 +26,7 @@ function HotelFilter() {
         
         if (addedTheme?.id === 'all') {
             // 如果新增的是"全部"，选择所有主题
-            setSelectedThemes([...themes])
+            setSelectedThemes([...themeOptions])
         } else if (removedThemeId === 'all') {
             // 如果手动取消"全部"，清空所有选择
             setSelectedThemes([])
@@ -53,10 +39,10 @@ function HotelFilter() {
             const withoutAll = newSelectedThemes.filter(t => t.id !== 'all')
             
             // 检查是否选择了除"全部"外的所有选项
-            const nonAllThemes = themes.filter(t => t.id !== 'all')
+            const nonAllThemes = themeOptions.filter(t => t.id !== 'all')
             if (withoutAll.length === nonAllThemes.length) {
                 // 如果选择了所有非"全部"选项，自动添加"全部"
-                setSelectedThemes([...themes])
+                setSelectedThemes([...themeOptions])
             } else {
                 setSelectedThemes(withoutAll)
             }
@@ -99,25 +85,29 @@ function HotelFilter() {
                         <label className="text-sm font-medium text-yellow-400 whitespace-nowrap" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
                             <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />城市
                         </label>
-                        <Listbox value={selectedCity} onChange={setSelectedCity}>
+                        <Listbox value={selectedCity} onChange={setSelectedCity} disabled={citiesLoading}>
                             <div className="relative flex-1">
-                                <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-gray-900/80 to-red-900/20 border-2 border-red-500/40 py-2 pl-4 pr-10 text-left shadow-lg hover:border-yellow-400/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm" style={{ boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)' }}>
-                                    <motion.div
-                                        className="flex items-center space-x-3"
-                                        whileHover={{ x: 2 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                                    >
-                                        <motion.span
-                                            className="text-lg filter drop-shadow-lg text-red-400"
-                                            whileHover={{ scale: 1.1 }}
-                                            transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                                <Listbox.Button disabled={citiesLoading} className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-gray-900/80 to-red-900/20 border-2 border-red-500/40 py-2 pl-4 pr-10 text-left shadow-lg hover:border-yellow-400/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm" style={{ boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)' }}>
+                                    {citiesLoading ? (
+                                        <span className="text-gray-400">加载中...</span>
+                                    ) : (
+                                        <motion.div
+                                            className="flex items-center space-x-3"
+                                            whileHover={{ x: 2 }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                         >
-                                            <FontAwesomeIcon icon={selectedCity.icon} />
-                                        </motion.span>
-                                        <span className="block truncate font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
-                                            {selectedCity.name}
-                                        </span>
-                                    </motion.div>
+                                            <motion.span
+                                                className="text-lg filter drop-shadow-lg text-red-400"
+                                                whileHover={{ scale: 1.1 }}
+                                                transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                                            >
+                                                <FontAwesomeIcon icon={selectedCity.icon} />
+                                            </motion.span>
+                                            <span className="block truncate font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
+                                                {selectedCity.name}
+                                            </span>
+                                        </motion.div>
+                                    )}
                                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
                                         <motion.div
                                             animate={{ rotate: 0 }}
@@ -140,7 +130,7 @@ function HotelFilter() {
                                     leaveTo="transform scale-95 opacity-0"
                                 >
                                     <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-gradient-to-b from-gray-900 to-black py-2 shadow-xl border-2 border-red-500/30 focus:outline-none backdrop-blur-lg" style={{ boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)' }}>
-                                        {cities.map((city, cityIdx) => (
+                                        {cityOptions.map((city, cityIdx) => (
                                             <Listbox.Option
                                                 key={city.id}
                                                 value={city}
@@ -194,29 +184,32 @@ function HotelFilter() {
                         <label className="text-sm font-medium text-yellow-400 whitespace-nowrap" style={{ textShadow: '0 0 10px rgba(251, 191, 36, 0.5)' }}>
                             <FontAwesomeIcon icon={faStar} className="mr-2" />主题
                         </label>
-                        <Listbox value={selectedThemes} onChange={handleThemeChange} multiple>
+                        <Listbox value={selectedThemes} onChange={handleThemeChange} multiple disabled={themesLoading}>
                             <div className="relative flex-1">
-                                <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-gray-900/80 to-red-900/20 border-2 border-red-500/40 py-2 pl-4 pr-10 text-left shadow-lg hover:border-yellow-400/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm" style={{ boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)' }}>
-                                    <motion.div
-                                        className="flex items-center space-x-3"
-                                        whileHover={{ x: 2 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                                    >
-                                        <motion.span
-                                            className="text-lg filter drop-shadow-lg text-red-400"
-                                            whileHover={{ scale: 1.1 }}
-                                            transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                                <Listbox.Button disabled={themesLoading} className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-gray-900/80 to-red-900/20 border-2 border-red-500/40 py-2 pl-4 pr-10 text-left shadow-lg hover:border-yellow-400/60 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-all duration-200 group backdrop-blur-sm" style={{ boxShadow: '0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.5)' }}>
+                                    {themesLoading ? (
+                                        <span className="text-gray-400">加载中...</span>
+                                    ) : (
+                                        <motion.div
+                                            className="flex items-center space-x-3"
+                                            whileHover={{ x: 2 }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                         >
-                                            <FontAwesomeIcon icon={faStar} />
-                                        </motion.span>
-                                        {/* 这里是搜索框内的文字逻辑 */}
-                                        <span className="block truncate font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
-                                            {selectedThemes.length === 0 ? '选择主题' : 
-                                             selectedThemes.some(t => t.id === 'all') ? '全部' :
-                                             selectedThemes.length === 1 ? selectedThemes[0].name :
-                                             `已选择 ${selectedThemes.length} 个主题`}
-                                        </span>
-                                    </motion.div>
+                                            <motion.span
+                                                className="text-lg filter drop-shadow-lg text-red-400"
+                                                whileHover={{ scale: 1.1 }}
+                                                transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                                            >
+                                                <FontAwesomeIcon icon={faStar} />
+                                            </motion.span>
+                                            <span className="block truncate font-medium text-white group-hover:text-yellow-400 transition-colors" style={{ textShadow: '0 0 5px rgba(255, 255, 255, 0.3)' }}>
+                                                {selectedThemes.length === 0 ? '选择主题' : 
+                                                 selectedThemes.some(t => t.id === 'all') ? '全部' :
+                                                 selectedThemes.length === 1 ? selectedThemes[0].name :
+                                                 `已选择 ${selectedThemes.length} 个主题`}
+                                            </span>
+                                        </motion.div>
+                                    )}
                                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
                                         <motion.div
                                             animate={{ rotate: 0 }}
@@ -239,7 +232,7 @@ function HotelFilter() {
                                     leaveTo="transform scale-95 opacity-0"
                                 >
                                     <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-xl bg-gradient-to-b from-gray-900 to-black py-2 shadow-xl border-2 border-red-500/30 focus:outline-none backdrop-blur-lg" style={{ boxShadow: '0 0 30px rgba(220, 38, 38, 0.4)' }}>
-                                        {themes.map((theme, themeIdx) => {
+                                        {themeOptions.map((theme, themeIdx) => {
                                             const isSelected = selectedThemes.some(t => t.id === theme.id)
                                             return (
                                                 <Listbox.Option

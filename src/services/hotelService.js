@@ -1,4 +1,4 @@
-import { getHotelNames, searchHotels } from "./api";
+import { getHotelNames, searchHotels,getHotelCities,getHotelThemes } from "./api";
 import { faHotel, faBuilding, faShield, faUmbrella, faBolt } from '@fortawesome/free-solid-svg-icons';
 
 const defaultIcons = [faBuilding, faShield, faUmbrella, faBolt];
@@ -54,5 +54,25 @@ export const getAllHotels = async (searchParams = {}) => {
   } catch (error) {
     console.error('Failed to fetch all hotels:', error);
     throw error;
+  }
+};
+
+export const getCities = async () => {
+  //  参考adaptHotelData和getHotels，但获取到的cities应该是一个字符串数组
+  try {
+    const rawData = await getHotelCities();
+    return Array.isArray(rawData) ? rawData : [];
+  } catch (error) {
+    console.error('Failed to fetch cities:', error);
+    return [];
+  }
+};
+export const getThemes = async () => {
+  try {
+    const rawData = await getHotelThemes();
+    return Array.isArray(rawData) ? rawData : [];
+  } catch (error) {
+    console.error('Failed to fetch themes:', error);
+    return [];
   }
 };
