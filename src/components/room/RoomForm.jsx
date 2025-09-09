@@ -24,7 +24,7 @@ const RoomForm = () => {
     {
       id: 1,
       name: "Fairytale Dream Room",
-      price: 0.0,
+      price: 1000.0,
       image:
         "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       description: "Views of Garden",
@@ -38,7 +38,7 @@ const RoomForm = () => {
         {
       id: 2,
       name: "Fairytale Dream Room",
-      price: 0.0,
+      price: 2000.0,
       image:
         "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       description: "Views of Garden",
