@@ -5,19 +5,14 @@ import DateRoomPicker from "./DateRoomPicker";
 import RoomDetails from "./RoomDetails";
 import BookingSummary from "./BookingSummary";
 import ThemeSelector from "./ThemeSelector";
-import useSearchStore from '../../store/searchStore'
 
 const RoomForm = () => {
-  // Get search data from zustand store
-  const { 
-    checkIn, 
-    checkOut, 
-    guests, 
-    children, 
-    rooms, 
-    nights,
-    getSearchData 
-  } = useSearchStore()
+  // State for booking preferences
+  const [checkIn, setCheckIn] = useState("2025-09-09");
+  const [checkOut, setCheckOut] = useState("2025-09-10");
+  const [guests, setGuests] = useState(2);
+  const [children, setChildren] = useState(0);
+  const [rooms, setRooms] = useState(1);
 
   // State for room results
   const [activeTab, setActiveTab] = useState("standard");
@@ -27,7 +22,7 @@ const RoomForm = () => {
     {
       id: 1,
       name: "Fairytale Dream Room",
-      price: 2594.0,
+      price: 0.0,
       image:
         "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       description: "Views of Garden",
@@ -38,54 +33,55 @@ const RoomForm = () => {
       available: 5,
       category: "deluxe",
     },
-    {
+        {
       id: 2,
-      name: "Deluxe Lake View",
-      price: 2800.0,
+      name: "Fairytale Dream Room",
+      price: 0.0,
       image:
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      description: "Views of Lake",
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      description: "Views of Garden",
       bedInfo:
-        "2 Double Beds",
+        "2 Double Beds and 1 Child Murphy Bed • Murphy bed sized 1.64m x 0.95m",
       occupancy:
-        "Sleeps up to 3 Adults",
-      available: 3,
+        "Sleeps up to 2 Adults and 1 Child aged 3-11 years old (both inclusive)",
+      available: 5,
       category: "deluxe",
     },
-    {
+        {
       id: 3,
-      name: "Deluxe Park View",
-      price: 2980.0,
+      name: "Fairytale Dream Room",
+      price: 0.0,
       image:
-        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      description: "Views of Park",
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      description: "Views of Garden",
       bedInfo:
-        "2 Double Beds",
+        "2 Double Beds and 1 Child Murphy Bed • Murphy bed sized 1.64m x 0.95m",
       occupancy:
-        "Sleeps up to 3 Adults",
-      available: 2,
+        "Sleeps up to 2 Adults and 1 Child aged 3-11 years old (both inclusive)",
+      available: 5,
       category: "deluxe",
-    },
-    {
-      id: 4,
-      name: "Mickey Mouse Suite",
-      price: 3500.0,
-      image:
-        "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      description: "Mickey Mouse themed suite",
-      bedInfo:
-        "1 King Bed and 1 Sofa Bed",
-      occupancy:
-        "Sleeps up to 4 Adults",
-      available: 1,
-      category: "suite",
     },
   ];
 
+  const handleDateChange = (newCheckIn, newCheckOut) => {
+    setCheckIn(newCheckIn);
+    setCheckOut(newCheckOut);
+  };
+
+  const handleGuestChange = (newGuests, newChildren, newRooms) => {
+    setGuests(newGuests);
+    setChildren(newChildren);
+    setRooms(newRooms);
+  };
 
   const handleSearch = () => {
-    const searchData = getSearchData()
-    console.log("Searching with:", searchData);
+    console.log("Searching with:", {
+      checkIn,
+      checkOut,
+      guests,
+      children,
+      rooms,
+    });
   };
 
   const handleBookNow = (roomId) => {
@@ -111,9 +107,16 @@ const RoomForm = () => {
     });
   };
 
-  // Calculate nights from zustand store
+  // Calculate nights
   const calculateNights = () => {
-    return nights > 0 ? nights : 1;
+    if (checkIn && checkOut) {
+      const checkInDate = new Date(checkIn);
+      const checkOutDate = new Date(checkOut);
+      const diffTime = checkOutDate - checkInDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays > 0 ? diffDays : 1;
+    }
+    return 1;
   };
 
   return (
