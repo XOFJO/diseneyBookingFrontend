@@ -10,7 +10,7 @@ import useSearchStore from '../../store/searchStore'
 
 function SearchForm() {
   const navigate = useNavigate()
-  const { getSearchData, isSearchValid, selectedHotel } = useSearchStore()
+  const { getSearchData, selectedHotel } = useSearchStore()
 
   const handleSearch = () => {
     const searchData = getSearchData()
