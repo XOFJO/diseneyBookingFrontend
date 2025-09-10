@@ -1,4 +1,5 @@
 
+import { useState } from 'react'
 import {  Menu, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,12 +12,23 @@ import {
   faUsers,
   faLeaf
 } from '@fortawesome/free-solid-svg-icons'
+import RoomReview from './RoomReview'
 
 const RoomCard = ({ room, onBookNow }) => {
+  const [isReviewOpen, setIsReviewOpen] = useState(false)
+  
   // Debug log
   const handleBookNowClick = () => {
     console.log("RoomCard - Book Now clicked for room:", { id: room.id, name: room.name });
     onBookNow?.(room.id);
+  };
+
+  const handleClientReviewClick = () => {
+    setIsReviewOpen(true)
+  };
+
+  const handleCloseReview = () => {
+    setIsReviewOpen(false)
   };
 
   return (
@@ -174,6 +186,7 @@ const RoomCard = ({ room, onBookNow }) => {
                 Book Now
               </motion.button>
               <motion.button
+                onClick={handleClientReviewClick}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-6 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 rounded-lg font-semibold transition-colors"
@@ -185,6 +198,11 @@ const RoomCard = ({ room, onBookNow }) => {
         </div>
       </motion.div>
 
+      {/* Room Review Modal */}
+      <RoomReview 
+        isOpen={isReviewOpen} 
+        onClose={handleCloseReview} 
+      />
     </>
   )
 }
