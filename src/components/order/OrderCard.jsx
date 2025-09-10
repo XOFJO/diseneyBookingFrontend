@@ -72,9 +72,9 @@ function OrderCard({ order, index }) {
                 {/* Collapsed View - Always Visible */}
                 <div className="flex justify-between items-start">
                     <div className="flex-1">
-                        <div className="flex justify-between items-start mb-2">
+                        <div className="flex justify-between items-start mb-0.5">
                             <div>
-                                <div className="text-xs text-purple-300/80 mb-1">
+                                <div className="text-xs text-purple-300/80 mb-0.5">
                                     {order.orderDate}
                                 </div>
                                 <div className="flex items-center space-x-2">
@@ -83,7 +83,7 @@ function OrderCard({ order, index }) {
                                         {order.hotelName}
                                     </h3>
                                 </div>
-                                <div className="text-purple-200 text-sm mt-1">{order.roomName}</div>
+                                <div className="text-purple-200 text-sm mt-0.5">{order.roomName}</div>
                             </div>
                             
                             <div className="text-right">
