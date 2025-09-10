@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHotel } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 import OrderCard from './OrderCard';
 import useOrderStore from '../../store/orderStore';
 
@@ -65,7 +66,17 @@ function OrderList() {
                 >
                     <FontAwesomeIcon icon={faHotel} className="text-6xl text-purple-400/50 mb-4" />
                     <p className="text-purple-200 text-lg" style={{ fontFamily: 'Georgia, serif' }}>
-                        暂无{activeFilter === 'ALL' ? '' : activeFilter === 'CONFIRMED' ? '已确认' : '已取消'}订单记录
+                        暂无订单，
+                        <Link 
+                            to="/" 
+                            className="text-yellow-400 hover:text-yellow-300 underline transition-colors duration-200"
+                            style={{ 
+                                fontFamily: 'Georgia, serif',
+                                textShadow: "0 0 10px rgba(251, 191, 36, 0.5)"
+                            }}
+                        >
+                            点击订房
+                        </Link>
                     </p>
                 </motion.div>
             )}
