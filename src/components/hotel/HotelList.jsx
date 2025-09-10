@@ -66,7 +66,7 @@ function HotelList() {
         <div key={hotel.id} className="mb-4">
           <HotelCard
             id={hotel.id}
-            image={hotel.images && hotel.images.length > 0 ? hotel.images[0] : "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"}
+            image={hotel.images && hotel.images.length > 0 ? hotel.images : "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"}
             name={hotel.name || '未知酒店'}
             address={hotel.address || '地址未知'}
             description={hotel.description || '暂无描述'}
