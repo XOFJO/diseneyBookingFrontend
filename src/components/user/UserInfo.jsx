@@ -32,16 +32,17 @@ const UserInfo = () => {
                 damping: 15
             }
         },
-    };
+    }; return (
+        <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl mb-8 w-full text-white relative overflow-hidden">
+            {/* Magical glow effects */}
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/10 to-blue-500/5 opacity-50 animate-pulse pointer-events-none rounded-2xl"></div>
 
-    return (
-        <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg mb-6 w-full text-white relative overflow-hidden">
-            <h2 className="text-xl font-bold mb-6 text-center tracking-wider bg-gradient-to-r from-red-400 to-yellow-400 bg-clip-text text-transparent">
-                User Information
+            <h2 className="text-2xl font-bold mb-8 text-center tracking-wider bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                ✨ User Information ✨
             </h2>
 
             <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -50,57 +51,61 @@ const UserInfo = () => {
                 {userData.map((item, index) => (
                     <motion.div
                         key={index}
-                        className="group relative bg-gradient-to-br from-gray-900/60 to-red-900/30 border border-red-500/20 hover:border-yellow-400/50 rounded-lg p-4 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20"
+                        className="group relative bg-gradient-to-br from-indigo-900/50 via-purple-900/40 to-pink-900/30 border border-purple-400/30 hover:border-yellow-400/60 rounded-xl p-6 backdrop-blur-sm transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/30 hover:scale-105"
                         variants={itemVariants}
-                        whileHover={{ scale: 1.02 }}
+                        whileHover={{ y: -5 }}
                         whileTap={{ scale: 0.98 }}
                     >
                         {/* Icon and Label */}
-                        <div className="flex items-center mb-2">
-                            <span className="text-2xl mr-3 group-hover:scale-110 transition-transform duration-300">
+                        <div className="flex items-center mb-3">
+                            <span className="text-3xl mr-4 group-hover:scale-125 transition-transform duration-300 filter drop-shadow-lg">
                                 {item.icon}
                             </span>
-                            <span className="text-sm text-gray-300 group-hover:text-yellow-300 transition-colors font-medium">
+                            <span className="text-sm text-purple-200 group-hover:text-yellow-300 transition-colors font-medium tracking-wide">
                                 {item.label}
                             </span>
                         </div>
 
                         {/* Value */}
-                        <div className="pl-11">
-                            <span className="text-white font-semibold group-hover:text-yellow-100 transition-colors">
+                        <div className="pl-14">
+                            <span className="text-white font-semibold group-hover:text-yellow-100 transition-colors text-lg">
                                 {item.value}
                             </span>
                         </div>
 
-                        {/* Hover Effect */}
+                        {/* Magical sparkle effect */}
                         <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/5 to-transparent pointer-events-none rounded-lg"
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/10 to-transparent pointer-events-none rounded-xl"
                             initial={{ x: '-100%' }}
                             whileHover={{ x: '100%' }}
-                            transition={{ duration: 0.6, ease: "easeInOut" }}
+                            transition={{ duration: 0.8, ease: "easeInOut" }}
                         />
 
-                        {/* Bottom Accent Line */}
+                        {/* Bottom magical line */}
                         <motion.div
-                            className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-red-500 to-yellow-400"
+                            className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-purple-500 via-pink-400 to-yellow-400 rounded-full"
                             initial={{ width: 0 }}
                             whileInView={{ width: "100%" }}
                             viewport={{ once: true }}
                             transition={{
-                                duration: 0.8,
+                                duration: 1.2,
                                 ease: "easeOut",
-                                delay: index * 0.1
+                                delay: index * 0.15
                             }}
                         />
+
+                        {/* Floating particles effect */}
+                        <div className="absolute top-2 right-2 w-2 h-2 bg-yellow-400 rounded-full opacity-60 animate-ping"></div>
+                        <div className="absolute bottom-3 left-3 w-1 h-1 bg-purple-400 rounded-full opacity-40 animate-pulse"></div>
                     </motion.div>
                 ))}
             </motion.div>
 
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-5 pointer-events-none">
-                <div className="absolute top-4 right-4 w-8 h-8 border border-yellow-400 rounded-full"></div>
-                <div className="absolute bottom-4 left-4 w-6 h-6 border border-red-400 rounded-full"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-yellow-400/20 rounded-full"></div>
+            {/* Background magical elements */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+                <div className="absolute top-6 right-6 w-12 h-12 border border-yellow-400 rounded-full animate-spin-slow"></div>
+                <div className="absolute bottom-6 left-6 w-8 h-8 border border-purple-400 rounded-full animate-bounce"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 border border-pink-400/20 rounded-full animate-pulse"></div>
             </div>
         </div>
     );
