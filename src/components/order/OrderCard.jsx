@@ -72,9 +72,9 @@ function OrderCard({ order, index }) {
                 {/* Collapsed View - Always Visible */}
                 <div className="flex justify-between items-start">
                     <div className="flex-1">
-                        <div className="flex justify-between items-start mb-2">
+                        <div className="flex justify-between items-start mb-0.5">
                             <div>
-                                <div className="text-xs text-purple-300/80 mb-1">
+                                <div className="text-xs text-purple-300/80 mb-0.5">
                                     {order.orderDate}
                                 </div>
                                 <div className="flex items-center space-x-2">
@@ -83,7 +83,7 @@ function OrderCard({ order, index }) {
                                         {order.hotelName}
                                     </h3>
                                 </div>
-                                <div className="text-purple-200 text-sm mt-1">{order.roomName}</div>
+                                <div className="text-purple-200 text-sm mt-0.5">{order.roomName}</div>
                             </div>
                             
                             <div className="text-right">
@@ -174,93 +174,149 @@ function OrderCard({ order, index }) {
 
                 {/* Comment Input - Always Visible */}
                 <div className="border-t border-yellow-400/20 mt-3 pt-3" onClick={(e) => e.stopPropagation()}>
-                    {/* Rating Section */}
-                    <div className="flex items-center space-x-2 mb-2">
-                        <span className="text-xs text-purple-200" style={{ fontFamily: 'Georgia, serif' }}>评分：</span>
-                        <div className="flex items-center space-x-1">
-                            {[1, 2, 3, 4, 5].map((starIndex) => {
-                                const currentRating = hoverRating || rating;
-                                const isFull = currentRating >= starIndex;
-                                const isHalf = currentRating >= starIndex - 0.5 && currentRating < starIndex;
-                                
-                                return (
-                                    <div key={starIndex} className="relative inline-block">
-                                        <motion.button
-                                            onClick={(e) => handleStarClick(starIndex, e)}
-                                            onMouseMove={(e) => handleStarHover(starIndex, e)}
-                                            onMouseLeave={() => setHoverRating(0)}
-                                            className="focus:outline-none bg-transparent border-none p-0 relative block"
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
-                                            style={{ background: 'none' }}
-                                        >
-                                            {/* Background star (gray) */}
-                                            <FontAwesomeIcon 
-                                                icon={faStar}
-                                                className="text-sm text-gray-500 transition-colors duration-200 block"
-                                                style={{ background: 'transparent' }}
-                                            />
-                                            
-                                            {/* Foreground star (yellow) - full or half */}
-                                            {(isFull || isHalf) && (
+                    {/* Check if order has any existing rating/comment data */}
+                    {order.rating || order.comment || order.ratingDate ? (
+                        // Display existing rating and comment
+                        <div>
+                            {/* Existing Rating Section */}
+                            <div className="flex items-center space-x-2 mb-2">
+                                <span className="text-xs text-purple-200" style={{ fontFamily: 'Georgia, serif' }}>评分：</span>
+                                <div className="flex items-center space-x-1">
+                                    {[1, 2, 3, 4, 5].map((starIndex) => {
+                                        const isFull = (order.rating || 0) >= starIndex;
+                                        const isHalf = (order.rating || 0) >= starIndex - 0.5 && (order.rating || 0) < starIndex;
+                                        
+                                        return (
+                                            <div key={starIndex} className="relative inline-block">
+                                                {/* Background star (gray) */}
                                                 <FontAwesomeIcon 
                                                     icon={faStar}
-                                                    className="text-sm text-yellow-400 transition-colors duration-200 absolute inset-0"
-                                                    style={{ 
-                                                        background: 'transparent',
-                                                        clipPath: isHalf ? 'inset(0 50% 0 0)' : 'none'
-                                                    }}
+                                                    className="text-sm text-gray-500 block"
                                                 />
-                                            )}
-                                        </motion.button>
-                                    </div>
-                                );
-                            })}
-                            {rating > 0 && (
-                                <span className="text-xs text-purple-200 ml-2" style={{ fontFamily: 'Georgia, serif' }}>
-                                    {rating.toFixed(1)}
-                                </span>
-                            )}
+                                                
+                                                {/* Foreground star (yellow) - full or half */}
+                                                {(isFull || isHalf) && (
+                                                    <FontAwesomeIcon 
+                                                        icon={faStar}
+                                                        className="text-sm text-yellow-400 absolute inset-0"
+                                                        style={{ 
+                                                            clipPath: isHalf ? 'inset(0 50% 0 0)' : 'none'
+                                                        }}
+                                                    />
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                    <span className="text-xs text-purple-200 ml-2" style={{ fontFamily: 'Georgia, serif' }}>
+                                        {order.rating ? order.rating.toFixed(1) : '未评分'}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            {/* Existing Comment */}
+                            <div className="flex justify-between items-start">
+                                <div className="flex-1">
+                                    <p className="text-xs text-purple-200 bg-black/20 rounded-lg px-3 py-2" style={{ fontFamily: 'Georgia, serif' }}>
+                                        {order.comment || '暂无评论'}
+                                    </p>
+                                </div>
+                                <div className="ml-3 text-xs text-purple-300/70" style={{ fontFamily: 'Georgia, serif' }}>
+                                    {order.ratingDate || ''}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    {/* Comment Input */}
-                    <div className="flex items-start space-x-3">
-                        <div className="flex-1 relative">
-                            <textarea
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                onKeyPress={handleKeyPress}
-                                placeholder="添加评论..."
-                                className="w-full bg-black/30 backdrop-blur-sm border border-purple-400/30 rounded-lg px-3 py-2 text-purple-200 placeholder-purple-300/50 resize-none focus:outline-none focus:border-yellow-400/50 focus:ring-1 focus:ring-yellow-400/50 transition-all duration-200 text-xs"
-                                style={{
-                                    fontFamily: 'Georgia, serif',
-                                    height: '36px',
-                                    overflow: 'hidden'
-                                }}
-                                rows={1}
-                            />
+                    ) : (
+                        // Show input form for new rating/comment
+                        <div>
+                            {/* Rating Section */}
+                            <div className="flex items-center space-x-2 mb-2">
+                                <span className="text-xs text-purple-200" style={{ fontFamily: 'Georgia, serif' }}>评分：</span>
+                                <div className="flex items-center space-x-1">
+                                    {[1, 2, 3, 4, 5].map((starIndex) => {
+                                        const currentRating = hoverRating || rating;
+                                        const isFull = currentRating >= starIndex;
+                                        const isHalf = currentRating >= starIndex - 0.5 && currentRating < starIndex;
+                                        
+                                        return (
+                                            <div key={starIndex} className="relative inline-block">
+                                                <motion.button
+                                                    onClick={(e) => handleStarClick(starIndex, e)}
+                                                    onMouseMove={(e) => handleStarHover(starIndex, e)}
+                                                    onMouseLeave={() => setHoverRating(0)}
+                                                    className="focus:outline-none bg-transparent border-none p-0 relative block"
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                    style={{ background: 'none' }}
+                                                >
+                                                    {/* Background star (gray) */}
+                                                    <FontAwesomeIcon 
+                                                        icon={faStar}
+                                                        className="text-sm text-gray-500 transition-colors duration-200 block"
+                                                        style={{ background: 'transparent' }}
+                                                    />
+                                                    
+                                                    {/* Foreground star (yellow) - full or half */}
+                                                    {(isFull || isHalf) && (
+                                                        <FontAwesomeIcon 
+                                                            icon={faStar}
+                                                            className="text-sm text-yellow-400 transition-colors duration-200 absolute inset-0"
+                                                            style={{ 
+                                                                background: 'transparent',
+                                                                clipPath: isHalf ? 'inset(0 50% 0 0)' : 'none'
+                                                            }}
+                                                        />
+                                                    )}
+                                                </motion.button>
+                                            </div>
+                                        );
+                                    })}
+                                    {rating > 0 && (
+                                        <span className="text-xs text-purple-200 ml-2" style={{ fontFamily: 'Georgia, serif' }}>
+                                            {rating.toFixed(1)}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                            
+                            {/* Comment Input */}
+                            <div className="flex items-start space-x-3">
+                                <div className="flex-1 relative">
+                                    <textarea
+                                        value={comment}
+                                        onChange={(e) => setComment(e.target.value)}
+                                        onKeyPress={handleKeyPress}
+                                        placeholder="添加评论..."
+                                        className="w-full bg-black/30 backdrop-blur-sm border border-purple-400/30 rounded-lg px-3 py-2 text-purple-200 placeholder-purple-300/50 resize-none focus:outline-none focus:border-yellow-400/50 focus:ring-1 focus:ring-yellow-400/50 transition-all duration-200 text-xs"
+                                        style={{
+                                            fontFamily: 'Georgia, serif',
+                                            height: '36px',
+                                            overflow: 'hidden'
+                                        }}
+                                        rows={1}
+                                    />
+                                </div>
+                                <motion.button
+                                    onClick={handleSendComment}
+                                    disabled={!comment.trim()}
+                                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center ${
+                                        comment.trim() 
+                                            ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-500 hover:to-pink-500 shadow-lg' 
+                                            : 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
+                                    }`}
+                                    style={{
+                                        fontFamily: 'Georgia, serif',
+                                        height: '36px',
+                                        width: '44px',
+                                        boxShadow: comment.trim() ? "0 0 15px rgba(251, 191, 36, 0.3)" : "none"
+                                    }}
+                                    whileHover={comment.trim() ? { scale: 1.05 } : {}}
+                                    whileTap={comment.trim() ? { scale: 0.95 } : {}}
+                                >
+                                    <FontAwesomeIcon icon={faPaperPlane} className="text-sm" />
+                                </motion.button>
+                            </div>
                         </div>
-                        <motion.button
-                            onClick={handleSendComment}
-                            disabled={!comment.trim()}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center ${
-                                comment.trim() 
-                                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-500 hover:to-pink-500 shadow-lg' 
-                                    : 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
-                            }`}
-                            style={{
-                                fontFamily: 'Georgia, serif',
-                                height: '36px',
-                                width: '44px',
-                                boxShadow: comment.trim() ? "0 0 15px rgba(251, 191, 36, 0.3)" : "none"
-                            }}
-                            whileHover={comment.trim() ? { scale: 1.05 } : {}}
-                            whileTap={comment.trim() ? { scale: 0.95 } : {}}
-                        >
-                            <FontAwesomeIcon icon={faPaperPlane} className="text-sm" />
-                        </motion.button>
-                    </div>
+                    )}
                 </div>
             </div>
         </motion.div>
