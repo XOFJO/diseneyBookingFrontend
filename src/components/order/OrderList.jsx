@@ -43,7 +43,10 @@ function OrderList() {
             orderRemark: '',
             status: 'CANCELLED',
             totalPrice: 2680,
-            orderDate: '2025-09-08 14:22:15'
+            orderDate: '2025-09-08 14:22:15',
+            comment: '',
+            rating: null,
+            ratingDate: ''
         }
     ];
 

@@ -174,8 +174,8 @@ function OrderCard({ order, index }) {
 
                 {/* Comment Input - Always Visible */}
                 <div className="border-t border-yellow-400/20 mt-3 pt-3" onClick={(e) => e.stopPropagation()}>
-                    {/* Check if order has existing rating/comment */}
-                    {order.rating && order.comment && order.ratingDate ? (
+                    {/* Check if order has any existing rating/comment data */}
+                    {order.rating || order.comment || order.ratingDate ? (
                         // Display existing rating and comment
                         <div>
                             {/* Existing Rating Section */}
@@ -183,8 +183,8 @@ function OrderCard({ order, index }) {
                                 <span className="text-xs text-purple-200" style={{ fontFamily: 'Georgia, serif' }}>评分：</span>
                                 <div className="flex items-center space-x-1">
                                     {[1, 2, 3, 4, 5].map((starIndex) => {
-                                        const isFull = order.rating >= starIndex;
-                                        const isHalf = order.rating >= starIndex - 0.5 && order.rating < starIndex;
+                                        const isFull = (order.rating || 0) >= starIndex;
+                                        const isHalf = (order.rating || 0) >= starIndex - 0.5 && (order.rating || 0) < starIndex;
                                         
                                         return (
                                             <div key={starIndex} className="relative inline-block">
@@ -208,7 +208,7 @@ function OrderCard({ order, index }) {
                                         );
                                     })}
                                     <span className="text-xs text-purple-200 ml-2" style={{ fontFamily: 'Georgia, serif' }}>
-                                        {order.rating.toFixed(1)}
+                                        {order.rating ? order.rating.toFixed(1) : '未评分'}
                                     </span>
                                 </div>
                             </div>
@@ -217,11 +217,11 @@ function OrderCard({ order, index }) {
                             <div className="flex justify-between items-start">
                                 <div className="flex-1">
                                     <p className="text-xs text-purple-200 bg-black/20 rounded-lg px-3 py-2" style={{ fontFamily: 'Georgia, serif' }}>
-                                        {order.comment}
+                                        {order.comment || '暂无评论'}
                                     </p>
                                 </div>
                                 <div className="ml-3 text-xs text-purple-300/70" style={{ fontFamily: 'Georgia, serif' }}>
-                                    {order.ratingDate}
+                                    {order.ratingDate || ''}
                                 </div>
                             </div>
                         </div>
