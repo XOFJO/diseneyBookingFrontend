@@ -80,6 +80,12 @@ const RoomCard = ({ room, onBookNow }) => {
               <div>
                 <div className="flex items-center space-x-3 mb-2">
                   <h4 className="text-xl font-bold text-gray-800">{room.name}</h4>
+                  {/* Theme Label */}
+                  {room.themeName && (
+                    <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">
+                      {room.themeName}
+                    </div>
+                  )}
                   {/* Rating Score */}
                   <div className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-sm font-semibold">
                     {room.rating || '4.2'}
