@@ -1,18 +1,11 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { useState, Fragment } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 const RoomReview = ({ isOpen, onClose }) => {
   const [reviews] = useState([
-    {
-      id: 1,
-      userName: "Sarah Johnson",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b647?w=150&h=150&fit=crop&crop=face",
-      rating: 4.5,
-      date: "2024-12-15",
-      comment: "The room was absolutely wonderful! Clean, comfortable, and perfectly located. The staff was incredibly helpful and the amenities exceeded our expectations. Would definitely stay here again!"
-    },
     {
       id: 2,
       userName: "Michael Chen",
@@ -132,103 +125,107 @@ const RoomReview = ({ isOpen, onClose }) => {
   }
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-50"
-            onClick={onClose}
-          />
+    <Transition appear show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-50" onClose={onClose}>
+        {/* Backdrop */}
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black/50" />
+        </Transition.Child>
 
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-4 bg-white rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-w-3xl max-h-[67vh] mx-auto my-auto"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <h2 className="text-xl font-bold text-gray-800">Customer Reviews</h2>
-              <motion.button
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={onClose}
-                className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <FontAwesomeIcon icon={faTimes} className="text-xl" />
-              </motion.button>
-            </div>
-
-            {/* Reviews Content */}
-            <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(67vh - 140px)' }}>
-              <div className="space-y-3">
-                {reviews.map((review, index) => (
-                  <motion.div
-                    key={review.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors"
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <Dialog.Panel className="w-full max-w-3xl max-h-[67vh] transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-2xl transition-all flex flex-col">
+                {/* Header */}
+                <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                  <Dialog.Title as="h2" className="text-xl font-bold text-gray-800">
+                    Customer Reviews
+                  </Dialog.Title>
+                  <motion.button
+                    whileHover={{ scale: 1.1, rotate: 90 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={onClose}
+                    className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   >
-                    <div className="flex items-start space-x-4">
-                      {/* Avatar */}
-                      <motion.img
-                        whileHover={{ scale: 1.05 }}
-                        src={review.avatar}
-                        alt={review.userName}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
-                      />
-                      
-                      {/* Review Content */}
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <div>
-                            <h4 className="text-base font-semibold text-gray-800 mb-1">
-                              {review.userName}
-                            </h4>
-                            {renderStars(review.rating)}
-                          </div>
-                          <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
-                            {review.date}
-                          </span>
-                        </div>
-                        
-                        <p className="text-gray-700 leading-relaxed text-sm">
-                          {review.comment}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="border-t border-gray-200 p-4">
-              <div className="flex items-center justify-between">
-                <div className="text-gray-600">
-                  {reviews.length} total reviews
+                    <FontAwesomeIcon icon={faTimes} className="text-xl" />
+                  </motion.button>
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium"
-                >
-                  <span>Load More</span>
-                  <FontAwesomeIcon icon={faChevronRight} className="text-sm" />
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+
+                {/* Reviews Content */}
+                <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(67vh - 140px)' }}>
+                  <div className="space-y-3">
+                    {reviews.map((review, index) => (
+                      <motion.div
+                        key={review.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2"
+                        tabIndex={0}
+                      >
+                        <div className="flex items-start space-x-4">
+                          {/* Avatar */}
+                          <motion.img
+                            whileHover={{ scale: 1.05 }}
+                            src={review.avatar}
+                            alt={`${review.userName}'s avatar`}
+                            className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
+                          />
+                          
+                          {/* Review Content */}
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between mb-2">
+                              <div>
+                                <h4 className="text-base font-semibold text-gray-800 mb-1">
+                                  {review.userName}
+                                </h4>
+                                {renderStars(review.rating)}
+                              </div>
+                              <time className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
+                                {review.date}
+                              </time>
+                            </div>
+                            
+                            <p className="text-gray-700 leading-relaxed text-sm">
+                              {review.comment}
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="border-t border-gray-200 p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="text-gray-600 text-sm">
+                      {reviews.length} total reviews
+                    </div>
+                  </div>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition>
   )
 }
 
