@@ -4,6 +4,8 @@ import UserInfo from "../components/user/UserInfo";
 import ChangePassword from "../components/user/ChangePassword";
 import MyFootprints from "../components/user/MyFootprints";
 import MyAchievements from "../components/user/MyAchievements";
+import HotelDetailHeader from "../components/room/HotelDetailHeader";
+import DisneyBackground from "../components/common/DisneyBackground";
 import "../styles/components.css";
 
 const UserPage = () => {
@@ -27,32 +29,34 @@ const UserPage = () => {
                 ease: "easeOut",
             },
         },
-    };
+    }; return (
+        <div>
+            <HotelDetailHeader />
+            <DisneyBackground />
 
-    return (
-        <>
-            {/* 背景层 */}
-            <div className="fixed inset-0 w-full min-h-screen bg-gradient-to-r from-gray-900/95 via-red-900/90 to-gray-900/95 backdrop-blur-lg -z-10 pointer-events-none" />
-            <motion.div
-                className="max-w-2xl w-full px-4 py-12 mx-auto mt-24 (6rem)"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                <motion.div variants={itemVariants}>
-                    <UserInfo />
+            <div className="min-h-screen w-full flex items-start justify-center p-8 pt-24 relative overflow-hidden">
+                {/* Center content area */}
+                <motion.div
+                    className="relative z-10 w-full max-w-4xl"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    <motion.div variants={itemVariants}>
+                        <UserInfo />
+                    </motion.div>
+                    <motion.div variants={itemVariants}>
+                        <ChangePassword />
+                    </motion.div>
+                    <motion.div variants={itemVariants}>
+                        <MyFootprints />
+                    </motion.div>
+                    <motion.div variants={itemVariants}>
+                        <MyAchievements />
+                    </motion.div>
                 </motion.div>
-                <motion.div variants={itemVariants}>
-                    <ChangePassword />
-                </motion.div>
-                <motion.div variants={itemVariants}>
-                    <MyFootprints />
-                </motion.div>
-                <motion.div variants={itemVariants}>
-                    <MyAchievements />
-                </motion.div>
-            </motion.div>
-        </>
+            </div>
+        </div>
     );
 };
 

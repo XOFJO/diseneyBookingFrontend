@@ -32,16 +32,20 @@ const MyAchievements = () => {
             diamond: "from-cyan-400 to-blue-600"
         };
         return colors[level] || colors.bronze;
-    };    const getLevelIcon = (level) => {
+    }; const getLevelIcon = (level) => {
         const icons = {
             bronze: "👦", silver: "👧", gold: "🧒", platinum: "👨", diamond: "👩"
         };
         return icons[level] || icons.bronze;
-    };
+    }; return (
+        <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl w-full text-white relative overflow-hidden">
+            {/* Magical glow effects */}
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/10 to-blue-500/5 opacity-50 animate-pulse pointer-events-none rounded-2xl"></div>
 
-    return (
-        <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg w-full text-white relative overflow-hidden">
-            <h2 className="text-xl font-bold mb-6 text-center tracking-wider">My Achievements</h2>
+            <h2 className="text-2xl font-bold mb-8 text-center tracking-wider bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                🏆 My Achievements 🏆
+            </h2>
+
             <motion.div
                 className="relative"
                 variants={containerVariants}
@@ -50,9 +54,8 @@ const MyAchievements = () => {
                 viewport={{ once: true, amount: 0.3 }}
             >
                 {/* 横向时间轴容器 - 无滚动条，自适应 */}
-                <div className="relative flex items-start justify-between gap-3 md:gap-4 lg:gap-6 px-2">
-                    {/* 主轴线 */}
-                    <div className="absolute left-0 right-0 top-12 h-0.5 bg-gradient-to-r from-red-500/40 via-yellow-400/60 to-purple-500/40" />
+                <div className="relative flex items-start justify-between gap-3 md:gap-4 lg:gap-6 px-2">                    {/* 主轴线 */}
+                    <div className="absolute left-0 right-0 top-12 h-0.5 bg-gradient-to-r from-purple-500/40 via-pink-400/60 to-yellow-400/40" />
 
                     {achievements.map((achievement, idx) => (
                         <motion.div
