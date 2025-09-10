@@ -27,8 +27,8 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
     id: themeRoom.sampleRoom.roomId ? `${themeRoom.sampleRoom.roomId}_${index}` : `room_${index + 1}`,
     name: themeRoom.sampleRoom.roomName,
     price: themeRoom.sampleRoom.price,
-    image: themeRoom.sampleRoom.imageUrls && themeRoom.sampleRoom.imageUrls !== "[]" 
-      ? JSON.parse(themeRoom.sampleRoom.imageUrls)[0] || "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+    image: themeRoom.sampleRoom.imageUrls && themeRoom.sampleRoom.imageUrls !== "" 
+      ? themeRoom.sampleRoom.imageUrls || "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
       : "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
     description: themeRoom.sampleRoom.description,
     bedInfo: themeRoom.sampleRoom.description,
