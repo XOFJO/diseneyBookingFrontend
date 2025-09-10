@@ -312,7 +312,7 @@ function DateRoomPicker({ onSearch }) {
       <Popover className="relative">
         <Popover.Button className="flex items-center px-4 py-2 text-left hover:bg-gray-50 border-l border-gray-200 focus:outline-none">
           <div>
-            <div className="text-xs font-medium text-gray-600">Room and Guest</div>
+            <div className="text-xs font-medium text-gray-600">Room</div>
             <div className="text-sm font-semibold text-gray-900 flex items-center">
               <FontAwesomeIcon icon={faUser} className="mr-2 text-gray-400" />
               {localRooms} Room{localRooms > 1 ? 's' : ''}

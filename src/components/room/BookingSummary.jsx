@@ -14,6 +14,7 @@ import {
   faMinus
 } from '@fortawesome/free-solid-svg-icons'
 import PriceCalculator from './PriceCalculator'
+import PayMethod from './PayMethod'
 import useHotelStore from '../../store/hotelStore'
 import useSearchStore from '../../store/searchStore'
 import { getHotels } from '../../services/hotelService'
@@ -33,6 +34,7 @@ const BookingSummary = ({
   const [hotelName, setHotelName] = useState('Loading...'); // 新增酒店名称状态
   const [bookingRooms, setBookingRooms] = useState(rooms || 1); // 实际预订的房间数
   const [maxRooms, setMaxRooms] = useState(rooms || 1); // 最大可预订房间数
+  const [showPayMethod, setShowPayMethod] = useState(false); // 支付方式弹窗状态
   
   const { selectedHotelId } = useHotelStore();
   const { selectedHotel } = useSearchStore();
@@ -140,7 +142,7 @@ const BookingSummary = ({
           {/* Hotel Info Section */}
           <Disclosure defaultOpen>
             {({ open }) => (
-              <>
+              <div>
                 <Disclosure.Button className="flex w-full justify-between items-center py-3 px-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200 mb-4">
                   <div className="flex items-center space-x-3">
                     <FontAwesomeIcon icon={faHotel} className="text-blue-600" />
@@ -238,7 +240,7 @@ const BookingSummary = ({
                     </div>
                   </Disclosure.Panel>
                 </Transition>
-              </>
+              </div>
             )}
           </Disclosure>
 
@@ -256,7 +258,8 @@ const BookingSummary = ({
           <div className="border-t border-gray-200 p-6 bg-white">
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 rounded-lg text-white"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 rounded-lg text-white cursor-pointer"
+              onClick={() => setShowPayMethod(true)}
             >
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2">
@@ -270,6 +273,13 @@ const BookingSummary = ({
           </div>
         </motion.div>
       </div>
+      
+      {/* PayMethod Modal */}
+      <PayMethod 
+        isOpen={showPayMethod}
+        onClose={() => setShowPayMethod(false)}
+        totalPrice={totalPrice}
+      />
     </motion.div>
   )
 }
