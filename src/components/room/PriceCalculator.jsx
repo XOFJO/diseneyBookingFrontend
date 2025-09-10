@@ -1,4 +1,4 @@
-import React from 'react';
+import {React,useEffect} from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { calculatePriceDetail, formatDate, formatPrice } from '../../utils/priceCalculator';
 import useSearchStore from '../../store/searchStore';
@@ -33,8 +33,8 @@ function PriceCalculator({ show = false, selectedRoom, onPriceUpdate, roomCount 
     return priceList;
   };
 
-  // 生成模拟数据
-  const mockData = {
+  // 生成数据
+  const data = {
     roomPriceList: checkIn && checkOut ? generatePriceList(checkIn, checkOut, selectedRoom?.price) : [
       { date: '2025-09-09', price: selectedRoom?.price || 1360 },
       { date: '2025-09-10', price: selectedRoom?.price || 1360 },
@@ -46,19 +46,19 @@ function PriceCalculator({ show = false, selectedRoom, onPriceUpdate, roomCount 
   };
 
   // Debug log
-  React.useEffect(() => {
+  useEffect(() => {
     if (show) {
       console.log("PriceCalculator - selectedRoom:", selectedRoom);
       console.log("PriceCalculator - roomCount:", roomCount);
-      console.log("PriceCalculator - roomName:", mockData.roomName);
+      console.log("PriceCalculator - roomName:", data.roomName);
     }
   }, [selectedRoom, show, roomCount]);
 
-  const { roomPriceList, startDate, endDate, rooms, roomName } = mockData;
+  const { roomPriceList, startDate, endDate, rooms, roomName } = data;
   const { detail, totalPrice } = calculatePriceDetail(roomPriceList, startDate, endDate, rooms);
 
   // 当总价变化时，通知父组件
-  React.useEffect(() => {
+  useEffect(() => {
     if (onPriceUpdate && show) {
       onPriceUpdate(totalPrice);
     }
