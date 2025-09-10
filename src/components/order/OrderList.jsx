@@ -24,7 +24,10 @@ function OrderList() {
             orderRemark: '蜜月旅行，希望安排高层房间',
             status: 'CONFIRMED',
             totalPrice: 3220,
-            orderDate: '2025-09-10 09:49:41'
+            orderDate: '2025-09-10 09:49:41',
+            comment: '酒店服务很棒，房间很干净，迪士尼主题装饰很用心！',
+            rating: 4.5,
+            ratingDate: '2025-09-01 12:00:00'
         },
         {
             orderId: 2,
