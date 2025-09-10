@@ -3,8 +3,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import AIReviewSummary from '../ai/AIReviewSummary'
 
-const RoomReview = ({ isOpen, onClose }) => {
+const RoomReview = ({ isOpen, onClose, roomId, roomTheme }) => {
   const [reviews] = useState([
     {
       id: 2,
@@ -167,8 +168,18 @@ const RoomReview = ({ isOpen, onClose }) => {
                   </motion.button>
                 </div>
 
+                {/* AI Summary Section */}
+                <div className="p-4 bg-gray-50 border-b border-gray-200">
+                  <AIReviewSummary 
+                    roomId={roomId || "demo-room-123"} 
+                    roomTheme={roomTheme || "Disney Theme Room"} 
+                    useStreaming={true}
+                    className="mb-0"
+                  />
+                </div>
+
                 {/* Reviews Content */}
-                <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(67vh - 140px)' }}>
+                <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(67vh - 200px)' }}>
                   <div className="space-y-3">
                     {reviews.map((review, index) => (
                       <motion.div
