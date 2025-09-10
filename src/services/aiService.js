@@ -366,6 +366,7 @@ Please always use the provided tool functions to get the latest review data. Kee
               }
             } catch (e) {
               // Skip invalid JSON
+              console.log(e);
               continue;
             }
           }
