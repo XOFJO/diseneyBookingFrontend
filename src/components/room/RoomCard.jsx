@@ -1,4 +1,5 @@
 
+import { useState } from 'react'
 import {  Menu, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,8 +12,24 @@ import {
   faUsers,
   faLeaf
 } from '@fortawesome/free-solid-svg-icons'
+import RoomReview from './RoomReview'
 
 const RoomCard = ({ room, onBookNow }) => {
+  const [isReviewOpen, setIsReviewOpen] = useState(false)
+  
+  // Debug log
+  const handleBookNowClick = () => {
+    console.log("RoomCard - Book Now clicked for room:", { id: room.id, name: room.name });
+    onBookNow?.(room.id);
+  };
+
+  const handleClientReviewClick = () => {
+    setIsReviewOpen(true)
+  };
+
+  const handleCloseReview = () => {
+    setIsReviewOpen(false)
+  };
 
   return (
     <>
@@ -81,6 +98,14 @@ const RoomCard = ({ room, onBookNow }) => {
                   </div>
                 </div>
                 <p className="text-2xl font-bold text-blue-600">¥{room.price.toFixed(2)}</p>
+                {/* Theme Label - Separate Line */}
+                {room.themeName && (
+                  <div className="mt-2">
+                    <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium inline-block">
+                      {room.themeName}
+                    </div>
+                  </div>
+                )}
               </div>
               
               {/* Action Menu */}
@@ -97,7 +122,7 @@ const RoomCard = ({ room, onBookNow }) => {
                     <Menu.Item>
                       {({ active }) => (
                         <button
-                          onClick={() => onBookNow?.(room.id)}
+                          onClick={handleBookNowClick}
                           className={`${
                             active ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
                           } group flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium transition-colors`}
@@ -153,7 +178,7 @@ const RoomCard = ({ room, onBookNow }) => {
             {/* Action Buttons */}
             <div className="flex space-x-3 mt-4">
               <motion.button
-                onClick={() => onBookNow?.(room.id)}
+                onClick={handleBookNowClick}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors shadow-md"
@@ -161,6 +186,7 @@ const RoomCard = ({ room, onBookNow }) => {
                 Book Now
               </motion.button>
               <motion.button
+                onClick={handleClientReviewClick}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-6 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 rounded-lg font-semibold transition-colors"
@@ -172,6 +198,11 @@ const RoomCard = ({ room, onBookNow }) => {
         </div>
       </motion.div>
 
+      {/* Room Review Modal */}
+      <RoomReview 
+        isOpen={isReviewOpen} 
+        onClose={handleCloseReview} 
+      />
     </>
   )
 }

@@ -5,32 +5,26 @@ import DateRoomPicker from "./DateRoomPicker";
 import RoomDetails from "./RoomDetails";
 import BookingSummary from "./BookingSummary";
 import ThemeSelector from "./ThemeSelector";
-import { useRooms } from "../../hooks/useRooms";
 import useSearchStore from "../../store/searchStore";
+import useHotelStore from "../../store/hotelStore";
 
-const RoomForm = () => {
-  // Get search parameters from zustand store
-  const { checkIn, checkOut, rooms } = useSearchStore()
-  const [guests] = useState(2);
-  const [children] = useState(0);
-  const [hotelId] = useState("1"); // Default hotel ID
-
+const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
+  // 从zustand store获取搜索条件
+  const { checkIn, checkOut, rooms } = useSearchStore();
+  const { selectedHotelId } = useHotelStore();
+  
+  // 本地状态 - 用于显示控制
+  const [guests, setGuests] = useState(2);
+  const [children, setChildren] = useState(0);
+  
   // State for room results
   const [activeTab, setActiveTab] = useState("all");
   const [showPriceDetail, setShowPriceDetail] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
 
-  // Use the useRooms hook to fetch room data
-  const { 
-    rooms: roomsData, 
-    loading: roomsLoading, 
-    error: roomsError, 
-    refetchRooms 
-  } = useRooms(hotelId, checkIn, checkOut, rooms, true);
-
   // Transform backend data to match the component's expected format
-  const transformedRooms = roomsData.map((themeRoom, index) => ({
-    id: themeRoom.sampleRoom.roomId || index + 1,
+  const transformedRooms = (roomsData || []).map((themeRoom, index) => ({
+    id: themeRoom.sampleRoom.roomId ? `${themeRoom.sampleRoom.roomId}_${index}` : `room_${index + 1}`,
     name: themeRoom.sampleRoom.roomName,
     price: themeRoom.sampleRoom.price,
     image: themeRoom.sampleRoom.imageUrls && themeRoom.sampleRoom.imageUrls !== "[]" 
@@ -47,7 +41,15 @@ const RoomForm = () => {
   }));
 
   // Extract unique theme names for the ThemeSelector
-  const availableThemes = [...new Set(roomsData.map(room => room.themeName))];
+  const availableThemes = [...new Set((roomsData || []).map(room => room.themeName))];
+
+  // Debug log for transformed rooms
+  React.useEffect(() => {
+    if (transformedRooms.length > 0) {
+      console.log("Transformed rooms:", transformedRooms);
+      console.log("Room IDs:", transformedRooms.map(r => ({ id: r.id, name: r.name })));
+    }
+  }, [transformedRooms]);
 
   // Filter rooms based on selected theme
   const filteredRooms = activeTab === "all" 
@@ -56,23 +58,30 @@ const RoomForm = () => {
         room.themeName.toLowerCase().replace(/\s+/g, '-') === activeTab
       );
 
+  const handleGuestChange = (newGuests, newChildren) => {
+    setGuests(newGuests);
+    setChildren(newChildren);
+  };
+
   const handleSearch = () => {
     console.log("Searching with:", {
       checkIn,
       checkOut,
-      guests,
-      children,
       rooms,
-      hotelId,
+      selectedHotelId,
     });
-    // Refetch rooms with current parameters
-    refetchRooms();
+    // 调用父组件传递的搜索函数
+    if (onSearch) {
+      onSearch();
+    }
   };
 
   const handleBookNow = (roomId) => {
-    console.log("Booking room:", roomId);
+    console.log("Booking room ID:", roomId);
+    console.log("All available rooms:", filteredRooms);
     // 查找选中的房间
     const room = filteredRooms.find(r => r.id === roomId);
+    console.log("Found room:", room);
     setSelectedRoom(room);
     // 展开价格明细，一旦展开就不会再关闭
     setShowPriceDetail(true);
@@ -97,7 +106,7 @@ const RoomForm = () => {
     });
   };
 
-  // Calculate nights
+  // Calculate nights using zustand store dates
   const calculateNights = () => {
     if (checkIn && checkOut) {
       const checkInDate = new Date(checkIn);
@@ -121,7 +130,7 @@ const RoomForm = () => {
               <div className="flex items-start justify-between gap-6"></div>
             </div>
             <div>
-              <DateRoomPicker />
+              <DateRoomPicker onSearch={handleSearch} />
             </div>
           </div>
 
@@ -143,7 +152,7 @@ const RoomForm = () => {
               <div className="p-6 text-center text-red-500">
                 Error loading rooms: {roomsError}
                 <button 
-                  onClick={refetchRooms}
+                  onClick={onSearch}
                   className="ml-2 px-3 py-1 bg-blue-500 text-white rounded text-sm"
                 >
                   Retry

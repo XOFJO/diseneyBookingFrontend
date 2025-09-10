@@ -7,11 +7,18 @@ import useSearchStore from '../../store/searchStore'
 
 function DateRoomPicker({ onSearch }) {
   // Get initial values from zustand store
-  const { checkIn: storeCheckIn, checkOut: storeCheckOut, rooms: storeRooms } = useSearchStore()
+  const { 
+    checkIn: storeCheckIn, 
+    checkOut: storeCheckOut, 
+    rooms: storeRooms, 
+    setCheckIn, 
+    setCheckOut, 
+    setRooms, 
+  } = useSearchStore()
   
-  // Use local state initialized with zustand store values
-  const [localCheckIn, setLocalCheckIn] = useState(storeCheckIn || "2025-09-09")
-  const [localCheckOut, setLocalCheckOut] = useState(storeCheckOut || "2025-09-10")
+  // Local state - only updates store on search
+  const [localCheckIn, setLocalCheckIn] = useState(storeCheckIn || "")
+  const [localCheckOut, setLocalCheckOut] = useState(storeCheckOut || "")
   const [localRooms, setLocalRooms] = useState(storeRooms || 1)
   const [currentMonth, setCurrentMonth] = useState(new Date())
   
@@ -19,16 +26,13 @@ function DateRoomPicker({ onSearch }) {
   const checkInDate = localCheckIn ? new Date(localCheckIn) : new Date()
   const checkOutDate = localCheckOut ? new Date(localCheckOut) : new Date(Date.now() + 24 * 60 * 60 * 1000)
   
-  // Initialize dates with store values or defaults
+  // Initialize local state with store values or defaults
   useEffect(() => {
-    if (!storeCheckIn || !storeCheckOut) {
+    if (!localCheckIn || !localCheckOut) {
       const today = new Date()
       const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000)
-      setLocalCheckIn(storeCheckIn || formatDateForInput(today))
-      setLocalCheckOut(storeCheckOut || formatDateForInput(tomorrow))
-    }
-    if (storeRooms) {
-      setLocalRooms(storeRooms)
+      if (!localCheckIn) setLocalCheckIn(formatDateForInput(today))
+      if (!localCheckOut) setLocalCheckOut(formatDateForInput(tomorrow))
     }
   }, [])
 
@@ -154,16 +158,14 @@ function DateRoomPicker({ onSearch }) {
     setLocalRooms(newRooms)
   }
 
+  // Handle search - update zustand store and trigger search
   const handleSearch = () => {
-    // Get zustand store functions
-    const { setCheckIn, setCheckOut, setRooms } = useSearchStore.getState()
-    
     // Update zustand store with local values
     setCheckIn(localCheckIn)
     setCheckOut(localCheckOut)
     setRooms(localRooms)
     
-    // Call the search function from parent
+    // Call parent search function
     onSearch?.()
   }
 
@@ -310,7 +312,7 @@ function DateRoomPicker({ onSearch }) {
       <Popover className="relative">
         <Popover.Button className="flex items-center px-4 py-2 text-left hover:bg-gray-50 border-l border-gray-200 focus:outline-none">
           <div>
-            <div className="text-xs font-medium text-gray-600">Room and Guest</div>
+            <div className="text-xs font-medium text-gray-600">Room</div>
             <div className="text-sm font-semibold text-gray-900 flex items-center">
               <FontAwesomeIcon icon={faUser} className="mr-2 text-gray-400" />
               {localRooms} Room{localRooms > 1 ? 's' : ''}

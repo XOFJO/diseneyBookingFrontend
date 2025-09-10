@@ -127,27 +127,51 @@ function HotelDetailHeader() {
 
           {/* Navigation Menu */}
           <nav className="hidden md:flex items-center space-x-8">
-            {[
+            { [
               { name: "My Order", icon: faBolt, emoji: "📋" },
-              { name: "Support", icon: faShield, emoji: "🧙‍♂️" },
+              { name: "Support", icon: faShield, emoji: "🧙‍♂️" }
             ].map((item) => (
-              <motion.a
-                key={item.name}
-                href="#"
-                className="flex items-center space-x-2 text-purple-100 hover:text-yellow-300 transition-colors duration-200 group"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{ 
-                  textShadow: "0 0 5px rgba(255, 255, 255, 0.2)",
-                  fontFamily: 'Georgia, serif'
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={item.icon}
-                  className="text-pink-400 group-hover:text-yellow-300 transition-colors"
-                />
-                <span className="font-medium">{item.name}</span>
-              </motion.a>
+              item.name === "My Order" ? (
+                <motion.div
+                  key={item.name}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ 
+                    textShadow: "0 0 5px rgba(255, 255, 255, 0.2)",
+                    fontFamily: 'Georgia, serif'
+                  }}
+                  className="flex items-center"
+                >
+                  <Link
+                    to="/order"
+                    className="flex items-center space-x-2 text-purple-100 hover:text-yellow-300 transition-colors duration-200 group no-underline"
+                  >
+                    <FontAwesomeIcon
+                      icon={item.icon}
+                      className="text-pink-400 group-hover:text-yellow-300 transition-colors"
+                    />
+                    <span className="font-medium">{item.name}</span>
+                  </Link>
+                </motion.div>
+              ) : (
+                <motion.a
+                  key={item.name}
+                  href="#"
+                  className="flex items-center space-x-2 text-purple-100 hover:text-yellow-300 transition-colors duration-200 group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ 
+                    textShadow: "0 0 5px rgba(255, 255, 255, 0.2)",
+                    fontFamily: 'Georgia, serif'
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={item.icon}
+                    className="text-pink-400 group-hover:text-yellow-300 transition-colors"
+                  />
+                  <span className="font-medium">{item.name}</span>
+                </motion.a>
+              )
             ))}
           </nav>
 
