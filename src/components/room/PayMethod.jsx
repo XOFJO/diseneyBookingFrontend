@@ -24,13 +24,13 @@ const PayMethod = ({ isOpen, onClose, totalPrice }) => {
     {
       id: 'wechat',
       name: 'WeChat Pay',
-      icon: '💬',
+      icon: '/assets/wechat-logo-svgrepo-com.svg',
       recommended: true
     },
     {
       id: 'alipay',
       name: 'Alipay',
-      icon: '🅰️',
+      icon: '/assets/alipay-svgrepo-com.svg',
       recommended: false
     }
   ];
@@ -73,7 +73,7 @@ const PayMethod = ({ isOpen, onClose, totalPrice }) => {
                       whileHover={{ scale: 1.1, rotate: 90 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={onClose}
-                      className="p-2 text-white hover:text-gray-200 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+                      className="p-2 text-white bg-white/10 backdrop-blur-sm hover:bg-white/20 hover:backdrop-blur-md rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
                     >
                       <FontAwesomeIcon icon={faTimes} className="text-xl" />
                     </motion.button>
@@ -134,7 +134,11 @@ const PayMethod = ({ isOpen, onClose, totalPrice }) => {
                               )}
                             </div>
                             
-                            <div className="text-3xl">{method.icon}</div>
+                            <img
+                              src={method.icon}
+                              alt={`${method.name} logo`}
+                              className="w-8 h-8 object-contain"
+                            />
                             
                             <div className="flex-1">
                               <span className="font-medium text-gray-800">{method.name}</span>
