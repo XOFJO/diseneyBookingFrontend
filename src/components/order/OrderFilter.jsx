@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
+import useOrderStore from "../../store/orderStore";
 
 function OrderFilter() {
-    const [activeFilter, setActiveFilter] = useState('全部');
+    const { activeFilter, setActiveFilter } = useOrderStore();
     
     const filterOptions = [
-        { label: '全部', value: 'all' },
-        { label: '已付款', value: 'paid' },
-        { label: '已取消', value: 'cancelled' }
+        { label: 'ALL', value: 'all' },
+        { label: 'CONFIRMED', value: 'confirmed' },
+        { label: 'CANCELLED', value: 'cancelled' }
     ];
 
     const handleFilterChange = (filter) => {
         setActiveFilter(filter.label);
-        // 这里可以添加筛选逻辑
         console.log('Filter changed to:', filter.value);
     };
 
