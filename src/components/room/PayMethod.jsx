@@ -9,12 +9,15 @@ const PayMethod = ({ isOpen, onClose, totalPrice }) => {
 
   const handlePayment = () => {
     toast.success('Payment successful!', {
-      position: "top-center",
+      position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
+      style: {
+        top: '30%'
+      }
     });
     onClose();
   };
@@ -43,7 +46,7 @@ const PayMethod = ({ isOpen, onClose, totalPrice }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4"
             onClick={onClose}
           >
             {/* Modal */}
@@ -143,7 +146,7 @@ const PayMethod = ({ isOpen, onClose, totalPrice }) => {
                   <div className="flex items-start space-x-2">
                     <div className="text-blue-500 mt-0.5">ℹ️</div>
                     <div className="text-xs text-gray-600">
-                      After clicking Pay Now, you will be redirected to a third-party website to complete the payment. All personal information you fill in on the third-party website (such as bank card numbers and other payment information) will be collected and processed directly by the third-party website.
+                      For your account security, please do not disclose your payment password to anyone. DisneyBooking will never ask you for your password.
                     </div>
                   </div>
                 </div>
