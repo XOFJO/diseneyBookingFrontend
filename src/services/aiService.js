@@ -156,10 +156,10 @@ export const summarizeRoomReviews = async (roomId, roomTheme = '') => {
 1. Get user review data for the room
 2. Analyze overall sentiment of reviews
 3. Extract key pros and cons
-4. Generate a concise summary report
+4. Generate a concise summary report in MAXIMUM 50 WORDS
 5. Reply in English with a friendly and professional tone
 
-Please always use the provided tool functions to get the latest review data.`
+Please always use the provided tool functions to get the latest review data. Keep your response under 50 words.`
       },
       {
         role: "user",
@@ -246,10 +246,10 @@ export const streamingSummarizeReviews = async (roomId, roomTheme = '', onChunk)
 1. Get user review data for the room
 2. Analyze overall sentiment of reviews
 3. Extract key pros and cons
-4. Generate a concise summary report
+4. Generate a concise summary report in MAXIMUM 50 WORDS
 5. Reply in English with a friendly and professional tone
 
-Please always use the provided tool functions to get the latest review data.`
+Please always use the provided tool functions to get the latest review data. Keep your response under 50 words.`
       },
       {
         role: "user",
@@ -273,10 +273,6 @@ Please always use the provided tool functions to get the latest review data.`
 
     // If AI decides to call tools
     if (message.tool_calls) {
-      if (onChunk) {
-        onChunk('Retrieving review data...', 'Retrieving review data...');
-      }
-
       const toolResults = [];
       
       for (const toolCall of message.tool_calls) {
@@ -291,10 +287,6 @@ Please always use the provided tool functions to get the latest review data.`
           role: "tool",
           content: JSON.stringify(result)
         });
-      }
-
-      if (onChunk) {
-        onChunk('\n\nAnalyzing reviews...', 'Retrieving review data...\n\nAnalyzing reviews...');
       }
       
       // Now make streaming call with tool results
@@ -321,7 +313,7 @@ Please always use the provided tool functions to get the latest review data.`
 
       const reader = streamResponse.body.getReader();
       const decoder = new TextDecoder();
-      let fullText = 'Retrieving review data...\n\nAnalyzing reviews...';
+      let fullText = '';
 
       while (true) {
         const { done, value } = await reader.read();
@@ -340,6 +332,7 @@ Please always use the provided tool functions to get the latest review data.`
               const content = parsed.choices[0]?.delta?.content || '';
               if (content) {
                 fullText += content;
+                // Debounce updates for better performance
                 if (onChunk) {
                   onChunk(content, fullText);
                 }

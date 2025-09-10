@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { summarizeRoomReviews, streamingSummarizeReviews } from '../../services/aiService';
 
 const AIReviewSummary = ({ roomId, roomTheme, useStreaming = false, className = '' }) => {
@@ -6,6 +6,15 @@ const AIReviewSummary = ({ roomId, roomTheme, useStreaming = false, className = 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
+  const debounceRef = useRef(null);
+
+  // Debounced update function for better performance
+  const debouncedSetSummary = useCallback((text) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      setSummary(text);
+    }, 50); // 50ms debounce
+  }, []);
 
   const generateSummary = async () => {
     if (!roomId) return;
@@ -17,12 +26,12 @@ const AIReviewSummary = ({ roomId, roomTheme, useStreaming = false, className = 
 
     try {
       if (useStreaming) {
-        // Streaming output
+        // Streaming output with debounced updates
         const result = await streamingSummarizeReviews(
           roomId, 
           roomTheme, 
           (chunk, fullText) => {
-            setSummary(fullText);
+            debouncedSetSummary(fullText);
           }
         );
 
@@ -128,7 +137,7 @@ const AIReviewSummary = ({ roomId, roomTheme, useStreaming = false, className = 
             </div>
           </div>
           {isStreaming && (
-            <div className="inline-block w-2 h-4 bg-blue-600 animate-pulse ml-1"></div>
+            <span className="inline-block w-0.5 h-4 bg-blue-600 ml-1 animate-pulse"></span>
           )}
         </div>
       )}
