@@ -179,33 +179,35 @@ function HotelDetailHeader() {
           <div className="flex items-center space-x-4">
 
             {/* User Profile */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-xl border border-yellow-400/30 transition-all duration-200 relative"
-              style={{
-                boxShadow: "0 0 20px rgba(251, 191, 36, 0.4)",
-                textShadow: "0 0 8px rgba(255, 255, 255, 0.3)",
-                fontFamily: 'Georgia, serif'
-              }}
-            >
-              <FontAwesomeIcon icon={faUser} className="w-4 h-4" />
-              <span className="hidden sm:inline font-medium">Account</span>
-              <motion.div
-                className="absolute -top-2 -right-2"
-                animate={{
-                  rotate: [0, 360],
-                  scale: [0.8, 1.2, 0.8]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
+            <Link to="/user" className="no-underline">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-xl border border-yellow-400/30 transition-all duration-200 relative"
+                style={{
+                  boxShadow: "0 0 20px rgba(251, 191, 36, 0.4)",
+                  textShadow: "0 0 8px rgba(255, 255, 255, 0.3)",
+                  fontFamily: 'Georgia, serif'
                 }}
               >
-                <FontAwesomeIcon icon={faGem} className="text-yellow-300 text-xs" />
-              </motion.div>
-            </motion.button>
+                <FontAwesomeIcon icon={faUser} className="w-4 h-4" />
+                <span className="hidden sm:inline font-medium">Account</span>
+                <motion.div
+                  className="absolute -top-2 -right-2"
+                  animate={{
+                    rotate: [0, 360],
+                    scale: [0.8, 1.2, 0.8]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <FontAwesomeIcon icon={faGem} className="text-yellow-300 text-xs" />
+                </motion.div>
+              </motion.button>
+            </Link>
           </div>
 
         </div>
