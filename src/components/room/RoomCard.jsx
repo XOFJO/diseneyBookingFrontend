@@ -201,7 +201,9 @@ const RoomCard = ({ room, onBookNow }) => {
       {/* Room Review Modal */}
       <RoomReview 
         isOpen={isReviewOpen} 
-        onClose={handleCloseReview} 
+        onClose={handleCloseReview}
+        roomId={room.id}
+        roomTheme={room.themeName}
       />
     </>
   )

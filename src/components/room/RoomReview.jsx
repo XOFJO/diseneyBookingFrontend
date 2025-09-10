@@ -1,109 +1,115 @@
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
+import useHotelStore from '../../store/hotelStore'
 import AIReviewSummary from '../ai/AIReviewSummary'
 
 const RoomReview = ({ isOpen, onClose, roomId, roomTheme }) => {
-  const [reviews] = useState([
-    {
-      id: 2,
-      userName: "Michael Chen",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      rating: 5.0,
-      date: "2024-12-10",
-      comment: "Amazing experience! The room was spacious and beautifully decorated. Great value for money and the location couldn't be better. The booking process was smooth and check-in was quick."
-    },
-    {
-      id: 3,
-      userName: "Emma Rodriguez",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      rating: 4.8,
-      date: "2024-12-08",
-      comment: "Fantastic accommodation with modern facilities and excellent service. The room was spotless and the bed was incredibly comfortable. Perfect for both business and leisure travelers."
-    },
-    {
-      id: 4,
-      userName: "David Thompson",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-      rating: 4.2,
-      date: "2024-12-05",
-      comment: "Great location and friendly staff. The room was clean and had all the necessary amenities. The only minor issue was the air conditioning, but overall a pleasant stay."
-    },
-    {
-      id: 5,
-      userName: "Lisa Park",
-      avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face",
-      rating: 4.9,
-      date: "2024-12-02",
-      comment: "Exceeded all expectations! The room was luxurious, the view was breathtaking, and the service was impeccable. The breakfast was delicious and the spa facilities were top-notch."
-    },
-    {
-      id: 6,
-      userName: "James Wilson",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      rating: 4.6,
-      date: "2024-11-28",
-      comment: "Wonderful stay for our anniversary. The room was romantic and beautifully appointed. The concierge helped us plan perfect evening activities. Highly recommend for couples."
-    },
-    {
-      id: 7,
-      userName: "Maria Garcia",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
-      rating: 4.4,
-      date: "2024-11-25",
-      comment: "Perfect for business travel. Fast wifi, comfortable workspace, and excellent room service. The location made it easy to reach all my meetings. Will definitely book again."
-    },
-    {
-      id: 8,
-      userName: "Robert Kim",
-      avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop&crop=face",
-      rating: 3.8,
-      date: "2024-11-20",
-      comment: "Decent stay overall. The room was comfortable and the location was convenient. Staff was helpful though check-in took longer than expected. Good value for the price."
-    },
-    {
-      id: 9,
-      userName: "Jennifer Lee",
-      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face",
-      rating: 4.7,
-      date: "2024-11-18",
-      comment: "Lovely hotel with beautiful architecture. The room was spacious and well-designed. The restaurant had excellent food and the staff went above and beyond to make our stay special."
-    },
-    {
-      id: 10,
-      userName: "Alex Turner",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      rating: 4.3,
-      date: "2024-11-15",
-      comment: "Good location and clean facilities. The room had everything we needed for our short stay. The front desk staff was particularly helpful with local recommendations."
-    },
-    {
-      id: 11,
-      userName: "Sophie Martin",
-      avatar: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=150&h=150&fit=crop&crop=face",
-      rating: 4.8,
-      date: "2024-11-12",
-      comment: "Outstanding service and beautiful accommodations. The room was pristine and the amenities were first-class. The pool and fitness center were excellent. Highly recommended!"
-    },
-    {
-      id: 12,
-      userName: "Carlos Santos",
-      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
-      rating: 4.1,
-      date: "2024-11-08",
-      comment: "Nice hotel in a great location. The room was comfortable and the staff was friendly. The only downside was some noise from the street, but the quality of service made up for it."
-    },
-    {
-      id: 13,
-      userName: "Rachel Davis",
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
-      rating: 4.9,
-      date: "2024-11-05",
-      comment: "Absolutely perfect stay! The room was immaculate, the bed was incredibly comfortable, and the bathroom was luxurious. The hotel staff anticipated every need. Can't wait to return!"
+  const [reviews, setReviews] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const { selectedHotelId } = useHotelStore()
+
+  // Generate default avatar based on userName
+  const generateAvatar = (userName) => {
+    const avatars = [
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop&crop=face"
+    ];
+    const hash = userName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return avatars[hash % avatars.length];
+  }
+
+  // Format date from backend format
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
+  }
+
+  // Fetch reviews from backend
+  const fetchReviews = async () => {
+    // Use selectedHotelId from store, or fallback to 1 for testing
+    const hotelIdToUse = selectedHotelId || 1;
+    
+    if (!hotelIdToUse || !roomTheme) {
+      console.log('Missing required data:', { hotelIdToUse, roomTheme, selectedHotelId });
+      return;
     }
-  ])
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await axios.get(
+        `https://disneybookingbackend-production.up.railway.app/api/comments`,
+        {
+          params: {
+            hotelId: hotelIdToUse,
+            themeName: roomTheme
+          }
+        }
+      );
+
+      console.log('API call made with params:', { hotelId: hotelIdToUse, themeName: roomTheme });
+
+      console.log('API Response:', response.data);
+
+      // Filter out invalid comments and transform data
+      const validComments = response.data.filter(comment => 
+        comment.comment && 
+        comment.rating && 
+        comment.userName && 
+        comment.ratingDate
+      );
+
+      const transformedReviews = validComments.map((comment, index) => ({
+        id: index + 1,
+        userName: comment.userName,
+        avatar: generateAvatar(comment.userName),
+        rating: parseFloat(comment.rating),
+        date: formatDate(comment.ratingDate),
+        comment: comment.comment
+      }));
+
+      console.log('Transformed Reviews:', transformedReviews);
+      setReviews(transformedReviews);
+    } catch (err) {
+      console.error('Error fetching reviews:', err);
+      setError('Failed to load reviews');
+      // Fallback to empty array
+      setReviews([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Fetch reviews when modal opens and we have the required data
+  useEffect(() => {
+    if (isOpen) {
+      console.log('RoomReview opened with:', { 
+        roomId, 
+        roomTheme, 
+        selectedHotelId,
+        hasRequiredData: !!(selectedHotelId && roomTheme)
+      });
+      
+      if (roomTheme) {
+        fetchReviews();
+      } else {
+        console.warn('Missing required data for API call:', { selectedHotelId, roomTheme });
+      }
+    }
+  }, [isOpen, selectedHotelId, roomTheme]);
+
 
   const renderStars = (rating) => {
     return (
@@ -180,47 +186,83 @@ const RoomReview = ({ isOpen, onClose, roomId, roomTheme }) => {
 
                 {/* Reviews Content */}
                 <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: 'calc(67vh - 200px)' }}>
-                  <div className="space-y-3">
-                    {reviews.map((review, index) => (
-                      <motion.div
-                        key={review.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                        className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2"
-                        tabIndex={0}
-                      >
-                        <div className="flex items-start space-x-4">
-                          {/* Avatar */}
-                          <motion.img
-                            whileHover={{ scale: 1.05 }}
-                            src={review.avatar}
-                            alt={`${review.userName}'s avatar`}
-                            className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
-                          />
-                          
-                          {/* Review Content */}
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between mb-2">
-                              <div>
-                                <h4 className="text-base font-semibold text-gray-800 mb-1">
-                                  {review.userName}
-                                </h4>
-                                {renderStars(review.rating)}
-                              </div>
-                              <time className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
-                                {review.date}
-                              </time>
-                            </div>
+                  {loading && (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                      <span className="ml-3 text-gray-600">Loading reviews...</span>
+                    </div>
+                  )}
+
+                  {error && (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="text-center">
+                        <div className="text-red-500 mb-2">⚠️</div>
+                        <p className="text-red-600 text-sm">{error}</p>
+                        <button
+                          onClick={fetchReviews}
+                          className="mt-2 text-blue-600 hover:text-blue-800 text-sm underline"
+                        >
+                          Try again
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {!loading && !error && reviews.length === 0 && (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="text-center">
+                        <div className="text-gray-400 mb-2">💬</div>
+                        <p className="text-gray-500 text-sm">No reviews available for this room theme</p>
+                        <p className="text-gray-400 text-xs mt-1">
+                          Hotel: {selectedHotelId || 1}, Theme: {roomTheme}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {!loading && !error && reviews.length > 0 && (
+                    <div className="space-y-3">
+                      {reviews.map((review, index) => (
+                        <motion.div
+                          key={review.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                          className="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2"
+                          tabIndex={0}
+                        >
+                          <div className="flex items-start space-x-4">
+                            {/* Avatar */}
+                            <motion.img
+                              whileHover={{ scale: 1.05 }}
+                              src={review.avatar}
+                              alt={`${review.userName}'s avatar`}
+                              className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
+                            />
                             
-                            <p className="text-gray-700 leading-relaxed text-sm">
-                              {review.comment}
-                            </p>
+                            {/* Review Content */}
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div>
+                                  <h4 className="text-base font-semibold text-gray-800 mb-1">
+                                    {review.userName}
+                                  </h4>
+                                  {renderStars(review.rating)}
+                                </div>
+                                <time className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
+                                  {review.date}
+                                </time>
+                              </div>
+                              
+                              <p className="text-gray-700 leading-relaxed text-sm">
+                                {review.comment}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Footer */}
