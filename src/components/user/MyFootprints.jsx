@@ -30,9 +30,7 @@ const MyFootprints = () => {
                 viewport={{ once: true, amount: 0.3 }}
             >
                 {/* 主时间线 */}
-                <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500/60 via-yellow-400/40 to-red-500/60" />
-
-                {footprints.map((footprint, idx) => (
+                <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500/60 via-yellow-400/40 to-red-500/60" />                {footprints.map((footprint) => (
                     <motion.div
                         key={footprint.city}
                         className="relative mb-8 group last:mb-2"
@@ -40,8 +38,8 @@ const MyFootprints = () => {
                     >
                         {/* 时间线节点 */}
                         <div className={`absolute -left-3 top-3 w-6 h-6 rounded-full shadow-lg ring-4 ring-gray-800 flex items-center justify-center transition-all duration-300 ${footprint.status === 'current'
-                                ? 'bg-gradient-to-br from-yellow-400 to-orange-500 group-hover:scale-125'
-                                : 'bg-gradient-to-br from-red-500 to-pink-600 group-hover:scale-110'
+                            ? 'bg-gradient-to-br from-yellow-400 to-orange-500 group-hover:scale-125'
+                            : 'bg-gradient-to-br from-red-500 to-pink-600 group-hover:scale-110'
                             }`}>
                             <div className={`w-2 h-2 rounded-full ${footprint.status === 'current' ? 'bg-white animate-pulse' : 'bg-white/90'
                                 }`} />
@@ -50,19 +48,19 @@ const MyFootprints = () => {
                         {/* 箭头指向内容 */}
                         <div className="ml-6 relative">
                             <div className={`absolute -left-8 top-6 w-0 h-0 border-y-6 border-y-transparent border-r-8 transition-colors ${footprint.status === 'current'
-                                    ? 'border-r-yellow-500/80 group-hover:border-r-yellow-400'
-                                    : 'border-r-gray-700/80 group-hover:border-r-red-500/70'
+                                ? 'border-r-yellow-500/80 group-hover:border-r-yellow-400'
+                                : 'border-r-gray-700/80 group-hover:border-r-red-500/70'
                                 }`} />
 
                             {/* 内容卡片 */}
                             <div className={`bg-gradient-to-r from-gray-900/70 to-red-900/30 border rounded-lg px-5 py-4 shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:shadow-xl relative overflow-hidden ${footprint.status === 'current'
-                                    ? 'border-yellow-400/60 group-hover:border-yellow-300'
-                                    : 'border-red-500/30 group-hover:border-red-400/50'
+                                ? 'border-yellow-400/60 group-hover:border-yellow-300'
+                                : 'border-red-500/30 group-hover:border-red-400/50'
                                 }`}>
                                 <div className="flex items-center justify-between mb-2">
                                     <span className={`text-xs font-mono px-2 py-1 rounded border ${footprint.status === 'current'
-                                            ? 'text-yellow-200 bg-yellow-400/20 border-yellow-400/30'
-                                            : 'text-red-200 bg-red-400/20 border-red-400/30'
+                                        ? 'text-yellow-200 bg-yellow-400/20 border-yellow-400/30'
+                                        : 'text-red-200 bg-red-400/20 border-red-400/30'
                                         }`}>
                                         {footprint.date}
                                     </span>
