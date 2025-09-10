@@ -5,6 +5,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import Layout from "./components/layout/Layout";
 import HotelDetailPage from "./pages/HotelDetailPage";
 import UserPage from "./pages/UserPage";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/hotels" element={<HotelListPage />} />
           <Route path="/rooms" element={<HotelDetailPage />} />
           <Route path="/user" element={<UserPage />} />
+          <Route path="/order" element={<OrderPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
