@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHotel, faCalendarAlt, faUser, faPhone, faBed, faFileText, faIdCard, faChevronDown, faChevronUp, faMagic, faPaperPlane, faStar, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 import useComments from '../../hooks/useComments';
 import { useCancelOrder } from '../../hooks/useCancelOrder';
+import CancelOrderModal from './CancelOrderModal';
 
 function OrderCard({ order, index, onRefreshOrders }) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [comment, setComment] = useState('');
     const [rating, setRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
+    const [showCancelModal, setShowCancelModal] = useState(false);
 
     // 使用评论hook
     const { submitComment, loading, error } = useComments();
@@ -23,6 +26,8 @@ function OrderCard({ order, index, onRefreshOrders }) {
                 return 'text-green-400 bg-green-400/20 border-green-400/30';
             case 'CANCELLED':
                 return 'text-red-400 bg-red-400/20 border-red-400/30';
+            case 'COMPLETED':
+                return 'text-blue-400 bg-blue-400/20 border-blue-400/30';
             default:
                 return 'text-yellow-400 bg-yellow-400/20 border-yellow-400/30';
         }
@@ -36,7 +41,17 @@ function OrderCard({ order, index, onRefreshOrders }) {
             });
 
             if (success) {
-                // 发送成功，清空输入框
+                // 发送成功，显示成功提示
+                toast.success('评论发送成功!', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+                
+                // 清空输入框
                 setComment('');
                 setRating(0);
                 // 刷新订单列表获取最新数据
@@ -51,22 +66,35 @@ function OrderCard({ order, index, onRefreshOrders }) {
         }
     };
 
-    const handleCancelOrder = async (e) => {
+    const handleCancelOrder = (e) => {
         e.stopPropagation();
+        setShowCancelModal(true);
+    };
 
-        if (window.confirm('确定要取消这个订单吗？取消后不可恢复。')) {
-            const success = await cancelOrderById(order.orderId);
+    const handleConfirmCancel = async () => {
+        const success = await cancelOrderById(order.orderId);
 
-            if (success) {
-                // 取消成功，刷新订单列表
-                if (onRefreshOrders) {
-                    onRefreshOrders();
-                }
-                alert('订单已成功取消');
-            } else {
-                // 取消失败，显示错误信息
-                alert(cancelError || '取消订单失败，请重试');
+        if (success) {
+            // 取消成功，显示成功提示
+            toast.success('订单已成功取消!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+            
+            // 关闭模态框
+            setShowCancelModal(false);
+            
+            // 刷新订单列表
+            if (onRefreshOrders) {
+                onRefreshOrders();
             }
+        } else {
+            // 取消失败，显示错误信息
+            alert(cancelError || '取消订单失败，请重试');
         }
     };
 
@@ -244,8 +272,8 @@ function OrderCard({ order, index, onRefreshOrders }) {
                     )}
                 </AnimatePresence>
 
-                {/* Comment Input - Only show for CONFIRMED orders */}
-                {order.status === 'CONFIRMED' && (
+                {/* Comment Input - Only show for COMPLETED orders */}
+                {order.status === 'COMPLETED' && (
                     <div className="border-t border-yellow-400/20 mt-3 pt-3" onClick={(e) => e.stopPropagation()}>
                         {/* Check if order has any existing rating/comment data */}
                         {order.rating || order.comment || order.ratingDate ? (
@@ -395,6 +423,15 @@ function OrderCard({ order, index, onRefreshOrders }) {
                     </div>
                 )}
             </div>
+            
+            {/* Cancel Order Modal */}
+            <CancelOrderModal
+                isOpen={showCancelModal}
+                onClose={() => setShowCancelModal(false)}
+                onConfirm={handleConfirmCancel}
+                orderInfo={order}
+                isLoading={isCanceling}
+            />
         </motion.div>
     );
 }

@@ -8,7 +8,8 @@ function OrderFilter() {
     const filterOptions = [
         { label: 'ALL', value: 'all' },
         { label: 'CONFIRMED', value: 'confirmed' },
-        { label: 'CANCELLED', value: 'cancelled' }
+        { label: 'CANCELLED', value: 'cancelled' },
+        { label: 'COMPLETED', value: 'completed' }
     ];
 
     const handleFilterChange = (filter) => {
