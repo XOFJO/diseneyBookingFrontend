@@ -1,7 +1,17 @@
 import React from "react";
 import { motion } from "framer-motion";
+import useUserStore from "../../store/userStore";
 
 const MyAchievements = () => {
+    // Zustand store access (prepared for future use)
+    const {
+        achievements: storeAchievements,
+        achievementsLoading,
+        achievementsError,
+        fetchAchievements
+    } = useUserStore();
+
+    // Static data (current implementation - to be replaced later)
     const allAchievements = [
         { title: "Fantasy Land", date: "2024-01", desc: "Magical castle themed experience", level: "bronze" },
         { title: "Adventure Island", date: "2024-03", desc: "Pirate & treasure hunting theme", level: "silver" },
@@ -12,6 +22,10 @@ const MyAchievements = () => {
 
     // 只显示最新4个成就，自适应屏幕
     const achievements = allAchievements.slice(-4);
+
+    // Future implementation will use:
+    // const achievements = storeAchievements.slice(-4);
+    // useEffect(() => { fetchAchievements(1); }, []);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -62,10 +76,9 @@ const MyAchievements = () => {
                             key={achievement.title}
                             className="relative flex flex-col items-center flex-1 group min-w-0"
                             variants={itemVariants}
-                        >
-                            {/* 顶部节点 */}
-                            <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${getLevelColor(achievement.level)} shadow-lg ring-4 ring-gray-800 flex items-center justify-center relative group-hover:scale-110 transition-all duration-300`}>
-                                <span className="text-lg group-hover:scale-110 transition-transform">
+                        >                            {/* 顶部节点 */}
+                            <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${getLevelColor(achievement.level)} shadow-xl ring-4 ring-indigo-900/50 flex items-center justify-center relative group-hover:scale-110 transition-all duration-300`}>
+                                <span className="text-lg group-hover:scale-110 transition-transform filter drop-shadow-lg">
                                     {getLevelIcon(achievement.level)}
                                 </span>
                                 {/* 向下箭头 */}
@@ -76,27 +89,27 @@ const MyAchievements = () => {
                             </div>
 
                             {/* 成就卡片 */}
-                            <div className="mt-12 bg-gradient-to-b from-gray-900/80 to-red-900/40 border border-red-500/30 group-hover:border-yellow-400/60 rounded-lg px-3 py-4 w-full text-center shadow-lg backdrop-blur-sm relative transition-all duration-300 group-hover:shadow-xl min-h-[120px] flex flex-col justify-between">
+                            <div className="mt-12 bg-gradient-to-b from-indigo-900/80 to-purple-900/40 border border-purple-500/30 group-hover:border-yellow-400/60 rounded-xl px-4 py-5 w-full text-center shadow-xl backdrop-blur-sm relative transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-purple-500/20 min-h-[140px] flex flex-col justify-between">
                                 {/* 日期标签 */}
-                                <div className="mb-2">
-                                    <span className={`text-xs font-mono px-2 py-1 rounded border bg-gradient-to-r ${getLevelColor(achievement.level)} text-white border-opacity-50`}>
+                                <div className="mb-3">
+                                    <span className={`text-xs font-mono px-3 py-1.5 rounded-full border bg-gradient-to-r ${getLevelColor(achievement.level)} text-white border-opacity-50`}>
                                         {achievement.date}
                                     </span>
                                 </div>
 
                                 {/* 标题 */}
-                                <h3 className="text-sm font-bold tracking-wide group-hover:text-yellow-300 transition-colors mb-2 line-clamp-2">
+                                <h3 className="text-sm font-bold tracking-wide group-hover:text-yellow-300 transition-colors mb-3 line-clamp-2">
                                     {achievement.title}
                                 </h3>
 
                                 {/* 描述 */}
-                                <p className="text-xs text-gray-300 leading-snug group-hover:text-gray-200 transition-colors line-clamp-2 flex-1">
+                                <p className="text-xs text-purple-200 leading-snug group-hover:text-purple-100 transition-colors line-clamp-2 flex-1">
                                     {achievement.desc}
                                 </p>
 
                                 {/* 进度光效 */}
                                 <motion.div
-                                    className={`absolute left-0 bottom-0 h-1 bg-gradient-to-r ${getLevelColor(achievement.level)} rounded-b-lg`}
+                                    className={`absolute left-0 bottom-0 h-1 bg-gradient-to-r ${getLevelColor(achievement.level)} rounded-b-xl`}
                                     initial={{ width: 0 }}
                                     whileInView={{ width: "100%" }}
                                     viewport={{ once: true }}
@@ -105,11 +118,15 @@ const MyAchievements = () => {
 
                                 {/* 悬停光效 */}
                                 <motion.div
-                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/10 to-transparent pointer-events-none rounded-lg"
+                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/15 to-transparent pointer-events-none rounded-xl"
                                     initial={{ x: '-100%' }}
                                     whileHover={{ x: '100%' }}
                                     transition={{ duration: 0.8, ease: "easeInOut" }}
                                 />
+
+                                {/* Floating particles */}
+                                <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-60 animate-ping"></div>
+                                <div className="absolute bottom-2 left-2 w-1 h-1 bg-purple-400 rounded-full opacity-40 animate-pulse"></div>
                             </div>
                         </motion.div>
                     ))}

@@ -1,0 +1,92 @@
+{
+    "用户页面API接口设计": {
+        "1. 获取用户信息": {
+            "url": "GET /api/users/1",
+            "description": "获取指定用户的基本信息",
+            "response": {
+                "username": "JohnDoe",
+                "phone": "+1 234-567-8900",
+                "email": "john.doe@oocl.com"
+            }
+        },
+        "2. 修改密码": {
+            "url": "PUT /api/users/1/password",
+            "description": "修改用户密码",
+            "requestBody": {
+                "oldPassword": "旧密码",
+                "newPassword": "新密码"
+            },
+            "response": {
+                "status": 200,
+                "message": "Password changed successfully",
+                "success": true
+            }
+        },
+        "3. 获取用户足迹": {
+            "url": "GET /api/users/1/footprints",
+            "description": "获取用户的旅行足迹记录",
+            "response": [
+                {
+                    "city": "Shanghai",
+                    "date": "2024-03"
+                },
+                {
+                    "city": "Beijing",
+                    "date": "2024-05"
+                },
+                {
+                    "city": "Guangzhou",
+                    "date": "2024-08"
+                },
+                {
+                    "city": "Shenzhen",
+                    "date": "2024-10"
+                }
+            ]
+        },
+        "4. 获取用户成就": {
+            "url": "GET /api/users/1/achievements",
+            "description": "获取用户的主题房间体验成就",
+            "response": [
+                {
+                    "theme": "Fantasy Castle Theme",
+                    "date": "2024-01"
+                },
+                {
+                    "theme": "Pirate Adventure Theme",
+                    "date": "2024-03"
+                },
+                {
+                    "theme": "Space Exploration Theme",
+                    "date": "2024-06"
+                },
+                {
+                    "theme": "Ocean Adventure Theme",
+                    "date": "2024-09"
+                },
+                {
+                    "theme": "Royal Palace Theme",
+                    "date": "2024-12"
+                }
+            ]
+        }
+    },
+    "错误响应格式": {
+        "description": "当请求失败时的统一错误响应格式",
+        "response": {
+            "status": 400,
+            "error": "Bad Request",
+            "message": "具体的错误信息描述",
+            "timestamp": "2025-09-11T12:00:00Z"
+        }
+    },
+    "注意事项": [
+        "所有请求的userId都固定使用1，直接在URL路径中体现",
+        "修改密码接口使用PUT方法，需要验证旧密码是否正确",
+        "足迹数据只返回city和date，note和status将在前端组件渲染时随机生成",
+        "成就数据只返回theme和date，title、desc、level将在前端组件渲染时随机生成",
+        "所有日期格式统一使用YYYY-MM格式",
+        "响应状态码200表示成功，4xx表示客户端错误，5xx表示服务端错误",
+        "遵循RESTful API设计原则，URL中不包含动词，使用HTTP方法表示操作"
+    ]
+}

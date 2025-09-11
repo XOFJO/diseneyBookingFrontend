@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import useUserStore from "../../store/userStore";
 
 const UserInfo = () => {
+    // Zustand store access
+    const {
+        userInfo,
+        userInfoLoading,
+        userInfoError,
+        fetchUserInfo
+    } = useUserStore();
+
+    // Fetch user info on component mount
+    useEffect(() => {
+        fetchUserInfo(1);
+    }, [fetchUserInfo]);
+
+    // Create userData array from API response or use fallback
     const userData = [
-        { label: "Username", value: "JohnDoe", icon: "👤" },
-        { label: "Phone", value: "+1 234-567-8900", icon: "📱" },
-        { label: "Email", value: "john.doe@oocl.com", icon: "📧" },
-        { label: "Member Since", value: "Jan 2024", icon: "🎖️" }
+        { label: "Username", value: userInfo.username || "Loading...", icon: "👤" },
+        { label: "Phone", value: userInfo.phone || "Loading...", icon: "📱" },
+        { label: "Email", value: userInfo.email || "Loading...", icon: "📧" },
+        { label: "Member Since", value: userInfo.memberSince, icon: "🎖️" }
     ];
 
     const containerVariants = {
@@ -32,7 +47,42 @@ const UserInfo = () => {
                 damping: 15
             }
         },
-    }; return (
+    };
+
+    // Loading state
+    if (userInfoLoading) {
+        return (
+            <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl mb-8 w-full text-white relative overflow-hidden">
+                <div className="flex items-center justify-center h-48">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div>
+                    <span className="ml-4 text-lg">Loading user information...</span>
+                </div>
+            </div>
+        );
+    }
+
+    // Error state
+    if (userInfoError) {
+        return (
+            <div className="bg-gradient-to-br from-red-900/40 via-gray-900/30 to-red-900/40 backdrop-blur-lg border border-red-500/30 p-8 rounded-2xl shadow-2xl mb-8 w-full text-white relative overflow-hidden">
+                <div className="flex items-center justify-center h-48">
+                    <div className="text-center">
+                        <div className="text-4xl mb-4">❌</div>
+                        <h3 className="text-xl font-bold mb-2">Error Loading User Info</h3>
+                        <p className="text-red-300">{userInfoError}</p>
+                        <button
+                            onClick={() => fetchUserInfo(1)}
+                            className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+                        >
+                            Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
         <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl mb-8 w-full text-white relative overflow-hidden">
             {/* Magical glow effects */}
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/10 to-blue-500/5 opacity-50 animate-pulse pointer-events-none rounded-2xl"></div>

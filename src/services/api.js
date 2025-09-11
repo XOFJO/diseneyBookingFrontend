@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://disneybookingbackend-production.up.railway.app", 
+  baseURL: "https://disneybookingbackend-production.up.railway.app",
   timeout: 10000,
 });
 
@@ -38,7 +38,7 @@ export const searchRooms = async (hotelId, checkIn, checkOut, availableRoomNumbe
   return response.data;
 };
 
-export const getOrders=async()=>{
+export const getOrders = async () => {
   const response = await apiClient.get('api/users/1/orders');
   return response.data;
 };
@@ -66,5 +66,29 @@ export const cancelOrder = async (orderId) => {
   const response = await apiClient.patch(`/api/orders/${orderId}/cancel`);
   return response; // 返回完整的 response 对象，包含 status
 }
+
+// User API functions
+export const getUserInfo = async (userId = 1) => {
+  const response = await apiClient.get(`/api/users/${userId}`);
+  return response.data;
+};
+
+export const changeUserPassword = async (userId = 1, oldPassword, newPassword) => {
+  const response = await apiClient.put(`/api/users/${userId}/password`, {
+    oldPassword,
+    newPassword
+  });
+  return response.data;
+};
+
+export const getUserFootprints = async (userId = 1) => {
+  const response = await apiClient.get(`/api/users/${userId}/footprints`);
+  return response.data;
+};
+
+export const getUserAchievements = async (userId = 1) => {
+  const response = await apiClient.get(`/api/users/${userId}/achievements`);
+  return response.data;
+};
 
 export default apiClient;
