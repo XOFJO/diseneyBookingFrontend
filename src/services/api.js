@@ -43,6 +43,30 @@ export const getOrders = async () => {
   return response.data;
 };
 
+export const sentComments = async (orderId, commentData) => {
+  const response = await apiClient.post(`/api/orders/${orderId}/comments`, {
+    rating: commentData.rating,
+    comment: commentData.comment
+  });
+  return response; // 返回完整的 response 对象，包含 status
+};
+// 获取房间评论
+export const getRoomComments = async (hotelId, themeName) => {
+  const response = await apiClient.get('/api/comments', {
+    params: {
+      hotelId,
+      themeName
+    }
+  });
+  return response.data;
+};
+
+
+export const cancelOrder = async (orderId) => {
+  const response = await apiClient.patch(`/api/orders/${orderId}/cancel`);
+  return response; // 返回完整的 response 对象，包含 status
+}
+
 // User API functions
 export const getUserInfo = async (userId = 1) => {
   const response = await apiClient.get(`/api/users/${userId}`);
@@ -68,4 +92,3 @@ export const getUserAchievements = async (userId = 1) => {
 };
 
 export default apiClient;
-

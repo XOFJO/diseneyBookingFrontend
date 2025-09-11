@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { summarizeRoomReviews, streamingSummarizeReviews } from '../../services/aiService';
+import { streamingSummarizeReviews } from '../../services/aiService';
+import useHotelStore from '../../store/hotelStore';
 
-const AIReviewSummary = ({ roomId, roomTheme, useStreaming = false, className = '' }) => {
+const AIReviewSummary = ({ roomTheme, className = '' }) => {
   const [summary, setSummary] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
   const debounceRef = useRef(null);
+  const { selectedHotelId } = useHotelStore();
 
   // Debounced update function for better performance
   const debouncedSetSummary = useCallback((text) => {
@@ -17,38 +19,28 @@ const AIReviewSummary = ({ roomId, roomTheme, useStreaming = false, className = 
   }, []);
 
   const generateSummary = async () => {
-    if (!roomId) return;
+    const hotelId = selectedHotelId || 1;
+    if (!hotelId || !roomTheme) return;
 
     setLoading(true);
     setError('');
     setSummary('');
-    setIsStreaming(useStreaming);
+    setIsStreaming(true);
 
     try {
-      if (useStreaming) {
-        // Streaming output with debounced updates
-        const result = await streamingSummarizeReviews(
-          roomId, 
-          roomTheme, 
-          (chunk, fullText) => {
-            debouncedSetSummary(fullText);
-          }
-        );
+      // Always use streaming output
+      const result = await streamingSummarizeReviews(
+        hotelId, 
+        roomTheme, 
+        (chunk, fullText) => {
+          debouncedSetSummary(fullText);
+        }
+      );
 
-        if (!result.success) {
-          setError(result.error || 'Failed to generate summary');
-        }
-        setIsStreaming(false);
-      } else {
-        // Regular output
-        const result = await summarizeRoomReviews(roomId, roomTheme);
-        
-        if (result.success) {
-          setSummary(result.summary);
-        } else {
-          setError(result.error || 'Failed to generate summary');
-        }
+      if (!result.success) {
+        setError(result.error || 'Failed to generate summary');
       }
+      setIsStreaming(false);
     } catch (err) {
       console.error('AI summary error:', err);
       setError('Network error, please try again');
@@ -59,16 +51,16 @@ const AIReviewSummary = ({ roomId, roomTheme, useStreaming = false, className = 
   };
 
   useEffect(() => {
-    if (roomId) {
+    if (selectedHotelId && roomTheme) {
       generateSummary();
     }
-  }, [roomId, roomTheme]);
+  }, [selectedHotelId, roomTheme]);
 
   const handleRefresh = () => {
     generateSummary();
   };
 
-  if (!roomId) {
+  if (!selectedHotelId || !roomTheme) {
     return null;
   }
 
