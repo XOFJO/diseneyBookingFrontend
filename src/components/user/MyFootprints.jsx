@@ -9,12 +9,10 @@ const MyFootprints = () => {
         footprintsLoading,
         footprintsError,
         fetchFootprints
-    } = useUserStore();
-
-    // Fetch footprints on component mount
+    } = useUserStore();    // Fetch footprints on component mount
     useEffect(() => {
         fetchFootprints(1);
-    }, [fetchFootprints]);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Random note generator
     const generateRandomNote = (city) => {

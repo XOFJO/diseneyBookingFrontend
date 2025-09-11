@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { getUserInfo, changeUserPassword, getUserFootprints, getUserAchievements } from '../services/api';
 
-const useUserStore = create((set) => ({
+const useUserStore = create((set, get) => ({
     // User Info State
     userInfo: {
         userId: 1,
@@ -26,9 +26,27 @@ const useUserStore = create((set) => ({
     // My Achievements State
     achievements: [],
     achievementsLoading: false,
-    achievementsError: null,    // User Info Actions
+    achievementsError: null,
+
+    // Request tracking to prevent duplicate calls
+    _requestsInProgress: new Set(),
+
+    // User Info Actions
     fetchUserInfo: async (userId = 1) => {
-        set({ userInfoLoading: true, userInfoError: null });
+        const state = get();
+        const requestKey = `userInfo-${userId}`;
+        
+        // Prevent duplicate requests
+        if (state._requestsInProgress.has(requestKey) || state.userInfoLoading) {
+            return;
+        }
+
+        set((state) => ({
+            _requestsInProgress: new Set([...state._requestsInProgress, requestKey]),
+            userInfoLoading: true,
+            userInfoError: null
+        }));
+
         try {
             const data = await getUserInfo(userId);
             set((state) => ({
@@ -39,14 +57,16 @@ const useUserStore = create((set) => ({
                     email: data.email,
                 },
                 userInfoLoading: false,
+                _requestsInProgress: new Set([...state._requestsInProgress].filter(key => key !== requestKey))
             }));
         } catch (error) {
-            set({
+            set((state) => ({
                 userInfoError: error.response?.data?.message || error.message || 'Failed to fetch user info',
                 userInfoLoading: false,
-            });
+                _requestsInProgress: new Set([...state._requestsInProgress].filter(key => key !== requestKey))
+            }));
         }
-    },    // Change Password Actions
+    },// Change Password Actions
     changePassword: async (userId = 1, oldPassword, newPassword) => {
         set({
             changePasswordLoading: true,
@@ -79,35 +99,67 @@ const useUserStore = create((set) => ({
                 changePasswordLoading: false,
             });
         }
-    },// My Footprints Actions
+    },    // My Footprints Actions
     fetchFootprints: async (userId = 1) => {
-        set({ footprintsLoading: true, footprintsError: null });
+        const state = get();
+        const requestKey = `footprints-${userId}`;
+        
+        // Prevent duplicate requests
+        if (state._requestsInProgress.has(requestKey) || state.footprintsLoading) {
+            return;
+        }
+
+        set((state) => ({
+            _requestsInProgress: new Set([...state._requestsInProgress, requestKey]),
+            footprintsLoading: true,
+            footprintsError: null
+        }));
+
         try {
             const data = await getUserFootprints(userId);
-            set({
+            set((state) => ({
                 footprints: data,
                 footprintsLoading: false,
-            });
+                _requestsInProgress: new Set([...state._requestsInProgress].filter(key => key !== requestKey))
+            }));
         } catch (error) {
-            set({
+            set((state) => ({
                 footprintsError: error.response?.data?.message || error.message || 'Failed to fetch footprints',
                 footprintsLoading: false,
-            });
+                _requestsInProgress: new Set([...state._requestsInProgress].filter(key => key !== requestKey))
+            }));
         }
-    },    // My Achievements Actions
+    },
+
+    // My Achievements Actions
     fetchAchievements: async (userId = 1) => {
-        set({ achievementsLoading: true, achievementsError: null });
+        const state = get();
+        const requestKey = `achievements-${userId}`;
+        
+        // Prevent duplicate requests
+        if (state._requestsInProgress.has(requestKey) || state.achievementsLoading) {
+            return;
+        }
+
+        set((state) => ({
+            _requestsInProgress: new Set([...state._requestsInProgress, requestKey]),
+            achievementsLoading: true,
+            achievementsError: null
+        }));
+
         try {
             const data = await getUserAchievements(userId);
-            set({
+            set((state) => ({
                 achievements: data,
                 achievementsLoading: false,
-            });
+                _requestsInProgress: new Set([...state._requestsInProgress].filter(key => key !== requestKey))
+            }));
         } catch (error) {
-            set({
+            set((state) => ({
                 achievementsError: error.response?.data?.message || error.message || 'Failed to fetch achievements',
                 achievementsLoading: false,
-            });
+                _requestsInProgress: new Set([...state._requestsInProgress].filter(key => key !== requestKey))
+            }));
         }
     },
 
@@ -118,9 +170,7 @@ const useUserStore = create((set) => ({
             changePasswordError: null,
             changePasswordSuccess: false,
         });
-    },
-
-    resetUserStore: () => {
+    },    resetUserStore: () => {
         set({
             userInfo: {
                 userId: 1,
@@ -140,6 +190,7 @@ const useUserStore = create((set) => ({
             achievements: [],
             achievementsLoading: false,
             achievementsError: null,
+            _requestsInProgress: new Set(),
         });
     },
 }));

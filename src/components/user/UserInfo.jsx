@@ -9,12 +9,10 @@ const UserInfo = () => {
         userInfoLoading,
         userInfoError,
         fetchUserInfo
-    } = useUserStore();
-
-    // Fetch user info on component mount
+    } = useUserStore();    // Fetch user info on component mount
     useEffect(() => {
         fetchUserInfo(1);
-    }, [fetchUserInfo]);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Create userData array from API response or use fallback
     const userData = [

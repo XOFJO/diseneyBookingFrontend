@@ -9,38 +9,31 @@ const MyAchievements = () => {
         achievementsLoading,
         achievementsError,
         fetchAchievements
-    } = useUserStore();
-
-    // Fetch achievements on component mount
+    } = useUserStore();    // Fetch achievements on component mount
     useEffect(() => {
         fetchAchievements(1);
-    }, [fetchAchievements]);
-
-    // Random title generator
-    const generateRandomTitle = (roomTheme, index) => {
-        const titleTemplates = [
-            "Fantasy Land", "Adventure Island", "Sci-Fi Station", "Ocean World",
-            "Royal Palace", "Mystic Forest", "Dragon Castle", "Starlight Villa",
-            "Enchanted Garden", "Crystal Cave", "Golden Tower", "Silver Moon"
-        ];
-        // Use roomTheme and index to generate consistent titles
-        const themeIndex = (roomTheme?.charCodeAt(0) || 0) + index;
-        return titleTemplates[themeIndex % titleTemplates.length];
-    };
-
-    // Random description generator
-    const generateRandomDesc = (roomTheme, title) => {
-        const descTemplates = [
-            "Magical castle themed experience", "Pirate & treasure hunting theme",
-            "Futuristic space exploration", "Underwater marine adventure",
-            "Luxury royal suite experience", "Mystical forest adventure",
-            "Ancient dragon legends", "Celestial stargazing journey",
-            "Fairy tale garden escape", "Crystalline cave exploration",
-            "Golden luxury experience", "Moonlit romantic getaway"
-        ];
-        // Use title length to select description
-        const titleLength = title?.length || 10;
-        return descTemplates[titleLength % descTemplates.length];
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps    // Generate description based on theme
+    const generateThemeDescription = (theme) => {
+        const themeDescriptions = {
+            "Frozen Fantasy": "Ice palace adventure with Elsa & Anna",
+            "Mickey & Friends": "Classic Disney magic with beloved characters",
+            "Pirates of the Caribbean": "Swashbuckling pirate adventure on high seas",
+            "Marvel Superhero": "Epic superhero action with Marvel legends",
+            "Sleeping Beauty": "Enchanted fairytale castle experience",
+            "Toy Story": "Adventure with Woody, Buzz and toy friends",
+            "Lion King": "African savanna pride lands journey",
+            "Little Mermaid": "Underwater kingdom with Ariel & friends",
+            "Aladdin": "Magical Arabian nights adventure",
+            "Beauty and the Beast": "Enchanted rose garden ballroom",
+            "Moana": "Pacific island ocean voyaging adventure",
+            "Star Wars": "Galactic empire space exploration",
+            "Winnie the Pooh": "Hundred Acre Wood honey adventures",
+            "Princess": "Royal palace princess experience",
+            "Fairy Tale": "Magical storybook kingdom"
+        };
+        
+        // Return specific description or generate fallback
+        return themeDescriptions[theme] || `Magical ${theme.toLowerCase()} themed experience`;
     };
 
     // Random level generator
@@ -58,8 +51,8 @@ const MyAchievements = () => {
         .slice(-4) // Only show latest 4 achievements
         .map((achievement, index) => ({
             ...achievement,
-            title: generateRandomTitle(achievement.roomTheme, index),
-            desc: generateRandomDesc(achievement.roomTheme, achievement.title || "Default"),
+            title: achievement.theme, // Use theme as title directly
+            desc: generateThemeDescription(achievement.theme),
             level: generateRandomLevel(achievement.date, index),
         }));
 
