@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { Popover, Transition } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,6 +10,18 @@ function DateRangePicker() {
   const { checkIn, checkOut, nights, setDateRange } = useSearchStore()
 
   const today = new Date()
+
+  // Initialize default dates if none are selected
+  useEffect(() => {
+    if (!checkIn || !checkOut) {
+      const todayStr = formatDate(today)
+      const tomorrow = new Date(today)
+      tomorrow.setDate(tomorrow.getDate() + 1)
+      const tomorrowStr = formatDate(tomorrow)
+      
+      setDateRange(todayStr, tomorrowStr)
+    }
+  }, [])
 
 
   // Calendar helper functions
