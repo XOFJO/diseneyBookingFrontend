@@ -31,8 +31,19 @@ const RoomReview = ({ isOpen, onClose, roomId, roomTheme }) => {
   // Format date from backend format
   const formatDate = (dateString) => {
     if (!dateString) return '';
+    
+    // If it's already in YYYY-MM-DD format, return as is
+    if (typeof dateString === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+      return dateString;
+    }
+    
+    // If it's a full datetime or needs parsing
     const date = new Date(dateString);
-    return date.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
+    // Use getFullYear, getMonth, getDate to avoid timezone issues
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   // Fetch reviews from backend
