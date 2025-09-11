@@ -182,6 +182,7 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
               formatDateForDisplay={formatDateForDisplay}
               showPriceDetail={showPriceDetail}
               selectedRoom={selectedRoom}
+              onRefreshSearch={handleSearch}
             />
           </div>
         </div>

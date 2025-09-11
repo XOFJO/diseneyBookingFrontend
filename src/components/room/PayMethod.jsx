@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import usePayment from '../../hooks/usePayment';
 
-const PayMethod = ({ isOpen, onClose, totalPrice, selectedRoom, actualRoomCount }) => {
+const PayMethod = ({ isOpen, onClose, totalPrice, selectedRoom, actualRoomCount, onPaymentSuccess }) => {
   const { 
     paymentMethod, 
     isProcessing, 
@@ -27,10 +27,10 @@ const PayMethod = ({ isOpen, onClose, totalPrice, selectedRoom, actualRoomCount 
     const success = await handlePayment();
     if (success) {
       onClose();
-      // 延迟刷新页面，让toast有时间显示
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // 触发支付成功后的回调，重新执行搜索
+      if (onPaymentSuccess) {
+        onPaymentSuccess();
+      }
     }
   };
 

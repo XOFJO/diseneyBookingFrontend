@@ -29,7 +29,8 @@ const BookingSummary = ({
   calculateNights,
   formatDateForDisplay,
   showPriceDetail = false, // 新增props来控制价格明细显示
-  selectedRoom // 新增选中的房间信息
+  selectedRoom, // 新增选中的房间信息
+  onRefreshSearch // 新增搜索刷新回调
 }) => {
   const [showDetail, setShowDetail] = useState(showPriceDetail);
   const [totalPrice, setTotalPrice] = useState(0); // 新增总价状态
@@ -347,6 +348,7 @@ const BookingSummary = ({
         totalPrice={totalPrice}
         selectedRoom={selectedRoom}
         actualRoomCount={bookingRooms}
+        onPaymentSuccess={onRefreshSearch}
       />
     </motion.div>
   )
