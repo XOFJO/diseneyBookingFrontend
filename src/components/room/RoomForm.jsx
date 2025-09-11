@@ -36,7 +36,7 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
     available: themeRoom.availableRoomCount,
     category: "deluxe",
     themeName: themeRoom.themeName,
-    rating: themeRoom.sampleRoom.rating,
+    rating: themeRoom.averageRating,
     averageRating: themeRoom.averageRating,
     roomName: themeRoom.sampleRoom.roomName // 添加roomName字段用于排序
   })).sort((a, b) => a.roomName.localeCompare(b.roomName)); // 按房间名字符顺序排序

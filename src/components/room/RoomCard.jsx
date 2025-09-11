@@ -94,7 +94,7 @@ const RoomCard = ({ room, onBookNow }) => {
                   <h4 className="text-xl font-bold text-gray-800">{room.name}</h4>
                   {/* Rating Score */}
                   <div className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-sm font-semibold">
-                    {room.rating || '4.2'}
+                    {room.rating || '0.0'}
                   </div>
                 </div>
                 <p className="text-2xl font-bold text-blue-600">¥{room.price.toFixed(2)}</p>
