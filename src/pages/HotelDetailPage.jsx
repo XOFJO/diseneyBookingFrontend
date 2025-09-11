@@ -64,23 +64,27 @@ function HotelDetailPage() {
   }, [hasInitialLoad]);
   
   // 更新URL参数的函数
-  const updateUrlParams = () => {
+  const updateUrlParams = (newCheckIn, newCheckOut, newRoomCount) => {
     const newParams = new URLSearchParams(searchParams);
     if (selectedHotelId) newParams.set('hotelId', selectedHotelId);
-    if (checkIn) newParams.set('checkIn', checkIn);
-    if (checkOut) newParams.set('checkOut', checkOut);
-    if (roomCount) newParams.set('rooms', roomCount.toString());
+    if (newCheckIn) newParams.set('checkIn', newCheckIn);
+    if (newCheckOut) newParams.set('checkOut', newCheckOut);
+    if (newRoomCount) newParams.set('rooms', newRoomCount.toString());
     setSearchParams(newParams);
   };
   
   // 搜索处理函数
-  const handleSearch = () => {
-    // 更新URL参数
-    updateUrlParams();
+  const handleSearch = (newCheckIn, newCheckOut, newRoomCount) => {
+    // 使用传入的最新值更新URL参数
+    const finalCheckIn = newCheckIn || checkIn;
+    const finalCheckOut = newCheckOut || checkOut;
+    const finalRoomCount = newRoomCount || roomCount;
+    
+    updateUrlParams(finalCheckIn, finalCheckOut, finalRoomCount);
     
     // 触发房间搜索
-    if (selectedHotelId && checkIn && checkOut && roomCount) {
-      searchRooms(selectedHotelId, checkIn, checkOut, roomCount);
+    if (selectedHotelId && finalCheckIn && finalCheckOut && finalRoomCount) {
+      searchRooms(selectedHotelId, finalCheckIn, finalCheckOut, finalRoomCount);
     }
   };
   

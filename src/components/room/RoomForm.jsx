@@ -64,16 +64,16 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
     setChildren(newChildren);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (newCheckIn, newCheckOut, newRooms) => {
     console.log("Searching with:", {
-      checkIn,
-      checkOut,
-      rooms,
+      checkIn: newCheckIn || checkIn,
+      checkOut: newCheckOut || checkOut,
+      rooms: newRooms || rooms,
       selectedHotelId,
     });
     // 调用父组件传递的搜索函数
     if (onSearch) {
-      onSearch();
+      onSearch(newCheckIn, newCheckOut, newRooms);
     }
   };
 

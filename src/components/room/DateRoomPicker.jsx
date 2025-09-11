@@ -39,7 +39,7 @@ function DateRoomPicker({ onSearch }) {
   const today = new Date()
 
   const formatDate = (date) => {
-    return date.toLocaleDateString('en-US', { 
+    return date.toLocaleDateString('zh-CN', { 
       weekday: 'short', 
       month: 'short', 
       day: '2-digit' 
@@ -165,8 +165,8 @@ function DateRoomPicker({ onSearch }) {
     setCheckOut(localCheckOut)
     setRooms(localRooms)
     
-    // Call parent search function
-    onSearch?.()
+    // Call parent search function with current local values
+    onSearch?.(localCheckIn, localCheckOut, localRooms)
   }
 
   return (
