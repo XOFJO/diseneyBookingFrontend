@@ -6,6 +6,7 @@ import MyFootprints from "../components/user/MyFootprints";
 import MyAchievements from "../components/user/MyAchievements";
 import HotelDetailHeader from "../components/room/HotelDetailHeader";
 import DisneyBackground from "../components/common/DisneyBackground";
+import useUserStore from "../store/userStore";
 import "../styles/components.css";
 
 const UserPage = () => {

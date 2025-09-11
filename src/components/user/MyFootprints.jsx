@@ -1,13 +1,27 @@
 import React from "react";
 import { motion } from "framer-motion";
+import useUserStore from "../../store/userStore";
 
 const MyFootprints = () => {
+    // Zustand store access (prepared for future use)
+    const {
+        footprints: storeFootprints,
+        footprintsLoading,
+        footprintsError,
+        fetchFootprints
+    } = useUserStore();
+
+    // Static data (current implementation - to be replaced later)
     const footprints = [
         { city: "Shanghai", date: "2024-03", note: "Business conference & meetings", status: "completed" },
         { city: "Beijing", date: "2024-05", note: "Cultural exploration & leisure", status: "completed" },
         { city: "Guangzhou", date: "2024-08", note: "Trade fair & networking", status: "completed" },
         { city: "Shenzhen", date: "2024-10", note: "Tech summit & innovation tour", status: "current" },
     ];
+
+    // Future implementation will use:
+    // const footprints = storeFootprints;
+    // useEffect(() => { fetchFootprints(1); }, []);
 
     const containerVariants = {
         hidden: { opacity: 0 },

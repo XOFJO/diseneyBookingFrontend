@@ -1,11 +1,23 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import useUserStore from "../../store/userStore";
 
 const ChangePassword = () => {
+  // Zustand store access (prepared for future use)
+  const {
+    changePassword,
+    changePasswordLoading,
+    changePasswordError,
+    changePasswordSuccess,
+    resetChangePasswordState
+  } = useUserStore();
+
+  // Current state management (to be replaced later)
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
   const handlePasswordChange = () => {
+    // Current implementation (to be replaced with store action)
     if (oldPassword === "correct-password") {
       alert("Password changed successfully!");
       setOldPassword("");
@@ -14,6 +26,9 @@ const ChangePassword = () => {
       alert("Incorrect old password!");
       setOldPassword("");
     }
+
+    // Future implementation will use:
+    // changePassword(1, oldPassword, newPassword);
   };
 
   return (
