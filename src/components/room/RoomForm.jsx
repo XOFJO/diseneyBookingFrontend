@@ -37,8 +37,9 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
     category: "deluxe",
     themeName: themeRoom.themeName,
     rating: themeRoom.sampleRoom.rating,
-    averageRating: themeRoom.averageRating
-  }));
+    averageRating: themeRoom.averageRating,
+    roomName: themeRoom.sampleRoom.roomName // 添加roomName字段用于排序
+  })).sort((a, b) => a.roomName.localeCompare(b.roomName)); // 按房间名字符顺序排序
 
   // Extract unique theme names for the ThemeSelector
   const availableThemes = [...new Set((roomsData || []).map(room => room.themeName))];
