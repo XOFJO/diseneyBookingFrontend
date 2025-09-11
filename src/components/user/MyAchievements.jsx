@@ -12,7 +12,9 @@ const MyAchievements = () => {
     } = useUserStore();    // Fetch achievements on component mount
     useEffect(() => {
         fetchAchievements(1);
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps    // Generate description based on theme
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Generate description based on theme
     const generateThemeDescription = (theme) => {
         const themeDescriptions = {
             "Frozen Fantasy": "Ice palace adventure with Elsa & Anna",
