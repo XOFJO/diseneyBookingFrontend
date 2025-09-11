@@ -2,7 +2,7 @@ import axios from "axios";
 import { getRoomComments } from "./api";
 
 const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
-const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY;
+const DEEPSEEK_API_KEY =import.meta.env.VITE_DEEPSEEK_API_KEY; 
 
 const fetchRoomReviews = async (hotelId, themeName) => {
   try {

@@ -11,7 +11,8 @@ import {
   faCreditCard,
   faInfoCircle,
   faPlus,
-  faMinus
+  faMinus,
+  faComment
 } from '@fortawesome/free-solid-svg-icons'
 import PriceCalculator from './PriceCalculator'
 import PayMethod from './PayMethod'
@@ -35,6 +36,7 @@ const BookingSummary = ({
   const [bookingRooms, setBookingRooms] = useState(rooms || 1); // 实际预订的房间数
   const [maxRooms, setMaxRooms] = useState(rooms || 1); // 最大可预订房间数
   const [showPayMethod, setShowPayMethod] = useState(false); // 支付方式弹窗状态
+  const [remarks, setRemarks] = useState(''); // 备注信息状态
   
   const { selectedHotelId } = useHotelStore();
   const { selectedHotel } = useSearchStore();
@@ -252,6 +254,71 @@ const BookingSummary = ({
             roomCount={bookingRooms}
           />
             </div>
+          </div>
+
+
+          {/* Remarks Section */}
+          <div className="border-t border-gray-200 p-6 bg-gray-50/50">
+            <Disclosure defaultOpen>
+              {({ open }) => (
+                <div>
+                  <Disclosure.Button className="flex w-full justify-between items-center py-3 px-4 bg-white hover:bg-gray-50 rounded-lg transition-colors duration-200 mb-4 border border-gray-100">
+                    <div className="flex items-center space-x-3">
+                      <div className="bg-gray-100 p-2 rounded-full">
+                        <FontAwesomeIcon icon={faComment} className="text-gray-600 text-sm" />
+                      </div>
+                      <span className="font-semibold text-gray-800">Special Remarks</span>
+                    </div>
+                    <motion.div
+                      animate={{ rotate: open ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <FontAwesomeIcon icon={faChevronDown} className="text-gray-500" />
+                    </motion.div>
+                  </Disclosure.Button>
+                  
+                  <Transition
+                    enter="transition duration-200 ease-out"
+                    enterFrom="transform scale-95 opacity-0"
+                    enterTo="transform scale-100 opacity-100"
+                    leave="transition duration-150 ease-out"
+                    leaveFrom="transform scale-100 opacity-100"
+                    leaveTo="transform scale-95 opacity-0"
+                  >
+                    <Disclosure.Panel>
+                      <div className="bg-white p-4 rounded-lg border border-gray-100">
+                        <label htmlFor="remarks" className="block text-sm font-medium text-gray-700 mb-2">
+                          Add your special requests or remarks
+                        </label>
+                        <textarea
+                          id="remarks"
+                          value={remarks}
+                          onChange={(e) => setRemarks(e.target.value)}
+                          placeholder="e.g., Late check-in, room preferences, special occasions..."
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 resize-none"
+                          rows={3}
+                        />
+                        <div className="flex justify-between items-center mt-2">
+                          <span className="text-xs text-gray-500">
+                            {remarks.length}/200 characters
+                          </span>
+                          {remarks.length > 0 && (
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => setRemarks('')}
+                              className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                              Clear
+                            </motion.button>
+                          )}
+                        </div>
+                      </div>
+                    </Disclosure.Panel>
+                  </Transition>
+                </div>
+              )}
+            </Disclosure>
           </div>
 
           {/* Fixed Total Section */}
