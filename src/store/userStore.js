@@ -60,12 +60,26 @@ const useUserStore = create((set, get) => ({
                 changePasswordSuccess: true,
             });
         } catch (error) {
+            let errorMessage = 'Failed to change password';
+            
+            // Handle specific backend error response
+            if (error.response?.status === 400) {
+                const responseData = error.response.data;
+                if (responseData?.message === 'Password change failed' || responseData?.status === 400) {
+                    errorMessage = 'Password change failed'; // This will trigger "Incorrect old password!" in UI
+                } else {
+                    errorMessage = responseData?.message || errorMessage;
+                }
+            } else {
+                errorMessage = error.response?.data?.message || error.message || errorMessage;
+            }
+            
             set({
-                changePasswordError: error.response?.data?.message || error.message || 'Failed to change password',
+                changePasswordError: errorMessage,
                 changePasswordLoading: false,
             });
         }
-    },    // My Footprints Actions
+    },// My Footprints Actions
     fetchFootprints: async (userId = 1) => {
         set({ footprintsLoading: true, footprintsError: null });
         try {
