@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import useUserStore from "../../store/userStore";
 
 const MyFootprints = () => {
-    // Zustand store access (prepared for future use)
+    // Zustand store access
     const {
         footprints: storeFootprints,
         footprintsLoading,
@@ -11,17 +11,46 @@ const MyFootprints = () => {
         fetchFootprints
     } = useUserStore();
 
-    // Static data (current implementation - to be replaced later)
-    const footprints = [
-        { city: "Shanghai", date: "2024-03", note: "Business conference & meetings", status: "completed" },
-        { city: "Beijing", date: "2024-05", note: "Cultural exploration & leisure", status: "completed" },
-        { city: "Guangzhou", date: "2024-08", note: "Trade fair & networking", status: "completed" },
-        { city: "Shenzhen", date: "2024-10", note: "Tech summit & innovation tour", status: "current" },
-    ];
+    // Fetch footprints on component mount
+    useEffect(() => {
+        fetchFootprints(1);
+    }, [fetchFootprints]);
 
-    // Future implementation will use:
-    // const footprints = storeFootprints;
-    // useEffect(() => { fetchFootprints(1); }, []);
+    // Random note generator
+    const generateRandomNote = (city) => {
+        const noteTemplates = [
+            "Business conference & meetings",
+            "Cultural exploration & leisure", 
+            "Trade fair & networking",
+            "Tech summit & innovation tour",
+            "Family vacation & sightseeing",
+            "Corporate training & workshop",
+            "Academic conference & research",
+            "International exhibition visit",
+            "Team building & company retreat",
+            "Historical sites & museum tour"
+        ];
+        const cityIndex = city.charCodeAt(0) % noteTemplates.length;
+        return noteTemplates[cityIndex];
+    };
+
+    // Random status generator
+    const generateRandomStatus = (date, index) => {
+        // Make the last (most recent) item "current", others "completed"
+        const dateValue = new Date(date + "-01").getTime();
+        const now = new Date().getTime();
+        const isRecent = (now - dateValue) < (90 * 24 * 60 * 60 * 1000); // within 3 months
+        return (index === 0 && isRecent) ? "current" : "completed";
+    };
+
+    // Process API data to add note and status
+    const processedFootprints = storeFootprints
+        .sort((a, b) => new Date(b.date + "-01") - new Date(a.date + "-01")) // Sort by date desc
+        .map((footprint, index) => ({
+            ...footprint,
+            note: generateRandomNote(footprint.city),
+            status: generateRandomStatus(footprint.date, index)
+        }));
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -31,7 +60,57 @@ const MyFootprints = () => {
     const itemVariants = {
         hidden: { opacity: 0, x: -30 },
         visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 100, damping: 12 } },
-    }; return (
+    };
+
+    // Loading state
+    if (footprintsLoading) {
+        return (
+            <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl mb-8 w-full text-white relative overflow-hidden">
+                <div className="flex items-center justify-center h-48">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div>
+                    <span className="ml-4 text-lg">Loading footprints...</span>
+                </div>
+            </div>
+        );
+    }
+
+    // Error state
+    if (footprintsError) {
+        return (
+            <div className="bg-gradient-to-br from-red-900/40 via-gray-900/30 to-red-900/40 backdrop-blur-lg border border-red-500/30 p-8 rounded-2xl shadow-2xl mb-8 w-full text-white relative overflow-hidden">
+                <div className="flex items-center justify-center h-48">
+                    <div className="text-center">
+                        <div className="text-4xl mb-4">❌</div>
+                        <h3 className="text-xl font-bold mb-2">Error Loading Footprints</h3>
+                        <p className="text-red-300">{footprintsError}</p>
+                        <button
+                            onClick={() => fetchFootprints(1)}
+                            className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+                        >
+                            Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // No data state
+    if (!processedFootprints || processedFootprints.length === 0) {
+        return (
+            <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl mb-8 w-full text-white relative overflow-hidden">
+                <div className="flex items-center justify-center h-48">
+                    <div className="text-center">
+                        <div className="text-4xl mb-4">🗺️</div>
+                        <h3 className="text-xl font-bold mb-2">No Footprints Yet</h3>
+                        <p className="text-purple-300">Start your journey to create footprints!</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
         <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl mb-8 w-full text-white relative overflow-hidden">
             {/* Magical glow effects */}
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/10 to-blue-500/5 opacity-50 animate-pulse pointer-events-none rounded-2xl"></div>
@@ -50,9 +129,9 @@ const MyFootprints = () => {
                 {/* 主时间线 */}
                 <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500/60 via-pink-400/40 to-yellow-400/60" />
 
-                {footprints.map((footprint) => (
+                {processedFootprints.map((footprint) => (
                     <motion.div
-                        key={footprint.city}
+                        key={`${footprint.city}-${footprint.date}`}
                         className="relative mb-8 group last:mb-2"
                         variants={itemVariants}
                     >
