@@ -255,10 +255,7 @@ const BookingSummary = ({
             roomCount={bookingRooms}
           />
             </div>
-          </div>
-
-
-          {/* Remarks Section */}
+                      {/* Remarks Section */}
           <div className="border-t border-gray-200 p-6 bg-gray-50/50">
             <Disclosure defaultOpen>
               {({ open }) => (
@@ -321,6 +318,10 @@ const BookingSummary = ({
               )}
             </Disclosure>
           </div>
+          </div>
+
+
+
 
           {/* Fixed Total Section */}
           <div className="border-t border-gray-200 p-6 bg-white">
