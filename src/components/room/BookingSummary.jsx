@@ -79,7 +79,7 @@ const BookingSummary = ({
   }, [selectedHotelId, selectedHotel]);
 
   // 当外部的showPriceDetail变化时，更新内部状态
-  React.useEffect(() => {
+  useEffect(() => {
     setShowDetail(showPriceDetail);
   }, [showPriceDetail]);
 
@@ -320,9 +320,6 @@ const BookingSummary = ({
           </div>
           </div>
 
-
-
-
           {/* Fixed Total Section */}
           <div className="border-t border-gray-200 p-6 bg-white">
             <motion.div 
@@ -349,6 +346,7 @@ const BookingSummary = ({
         onClose={() => setShowPayMethod(false)}
         totalPrice={totalPrice}
         selectedRoom={selectedRoom}
+        actualRoomCount={bookingRooms}
       />
     </motion.div>
   )

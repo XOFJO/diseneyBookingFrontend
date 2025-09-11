@@ -39,7 +39,7 @@ function DateRoomPicker({ onSearch }) {
   const today = new Date()
 
   const formatDate = (date) => {
-    return date.toLocaleDateString('zh-CN', { 
+    return date.toLocaleDateString('en-US', { 
       weekday: 'short', 
       month: 'short', 
       day: '2-digit' 

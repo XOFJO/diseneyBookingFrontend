@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import usePayment from '../../hooks/usePayment';
 
-const PayMethod = ({ isOpen, onClose, totalPrice, selectedRoom }) => {
+const PayMethod = ({ isOpen, onClose, totalPrice, selectedRoom, actualRoomCount }) => {
   const { 
     paymentMethod, 
     isProcessing, 
@@ -18,10 +18,10 @@ const PayMethod = ({ isOpen, onClose, totalPrice, selectedRoom }) => {
   // Initialize order data when modal opens
   useEffect(() => {
     if (isOpen && selectedRoom) {
-      initializeOrderData(selectedRoom);
+      initializeOrderData(selectedRoom, actualRoomCount);
       updatePrice(totalPrice);
     }
-  }, [isOpen, selectedRoom, totalPrice, initializeOrderData, updatePrice]);
+  }, [isOpen, selectedRoom, actualRoomCount, totalPrice, initializeOrderData, updatePrice]);
 
   const handlePaymentClick = async () => {
     const success = await handlePayment();

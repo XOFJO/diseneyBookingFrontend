@@ -25,14 +25,14 @@ const usePayment = () => {
   const { selectedHotelId } = useHotelStore();
 
   // Initialize order data with room and hotel information
-  const initializeOrderData = useCallback((selectedRoom) => {
+  const initializeOrderData = useCallback((selectedRoom, actualRoomCount = null) => {
     const hotelId = selectedHotelId || selectedHotel?.id;
     const themeName = selectedRoom?.themeName || selectedRoom?.theme || '';
     
     setOrderData({
       hotelId: hotelId,
       themeName: themeName,
-      roomCount: rooms,
+      roomCount: actualRoomCount !== null ? actualRoomCount : rooms,
       checkIn: checkIn,
       checkOut: checkOut
     });
