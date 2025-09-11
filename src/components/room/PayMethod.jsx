@@ -1,23 +1,33 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { motion } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import { toast } from 'react-toastify';
+import usePayment from '../../hooks/usePayment';
 
-const PayMethod = ({ isOpen, onClose, totalPrice }) => {
-  const [selectedMethod, setSelectedMethod] = useState('wechat');
+const PayMethod = ({ isOpen, onClose, totalPrice, selectedRoom }) => {
+  const { 
+    paymentMethod, 
+    isProcessing, 
+    updatePaymentMethod, 
+    handlePayment, 
+    initializeOrderData, 
+    updatePrice 
+  } = usePayment();
 
-  const handlePayment = () => {
-    toast.success('Payment successful!', {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-    onClose();
+  // Initialize order data when modal opens
+  useEffect(() => {
+    if (isOpen && selectedRoom) {
+      initializeOrderData(selectedRoom);
+      updatePrice(totalPrice);
+    }
+  }, [isOpen, selectedRoom, totalPrice, initializeOrderData, updatePrice]);
+
+  const handlePaymentClick = async () => {
+    const success = await handlePayment();
+    if (success) {
+      onClose();
+    }
   };
 
   const paymentMethods = [
@@ -113,19 +123,19 @@ const PayMethod = ({ isOpen, onClose, totalPrice }) => {
                           whileHover={{ scale: 1.01 }}
                           whileTap={{ scale: 0.99 }}
                           className={`relative border-2 rounded-lg p-4 cursor-pointer transition-all duration-200 ${
-                            selectedMethod === method.id
+                            paymentMethod === method.id
                               ? 'border-blue-500 bg-blue-50 shadow-md'
                               : 'border-gray-200 hover:border-gray-300 bg-white hover:shadow-sm'
                           }`}
-                          onClick={() => setSelectedMethod(method.id)}
+                          onClick={() => updatePaymentMethod(method.id)}
                         >
                           <div className="flex items-center space-x-4">
                             <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
-                              selectedMethod === method.id
+                              paymentMethod === method.id
                                 ? 'border-blue-500 bg-blue-500'
                                 : 'border-gray-300'
                             }`}>
-                              {selectedMethod === method.id && (
+                              {paymentMethod === method.id && (
                                 <motion.div
                                   initial={{ scale: 0 }}
                                   animate={{ scale: 1 }}
@@ -162,11 +172,12 @@ const PayMethod = ({ isOpen, onClose, totalPrice }) => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={handlePayment}
-                    className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-4 px-6 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                    onClick={handlePaymentClick}
+                    disabled={isProcessing}
+                    className={`w-full ${isProcessing ? 'bg-gray-400' : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700'} text-white font-bold py-4 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed`}
                   >
                     <FontAwesomeIcon icon={faCheckCircle} />
-                    <span>Confirm Payment</span>
+                    <span>{isProcessing ? 'Processing...' : 'Confirm Payment'}</span>
                   </motion.button>
 
                   {/* Security Notice */}

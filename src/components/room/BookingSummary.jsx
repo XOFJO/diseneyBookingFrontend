@@ -18,6 +18,7 @@ import PriceCalculator from './PriceCalculator'
 import PayMethod from './PayMethod'
 import useHotelStore from '../../store/hotelStore'
 import useSearchStore from '../../store/searchStore'
+import usePaymentStore from '../../store/paymentStore'
 import { getHotels } from '../../services/hotelService'
 const BookingSummary = ({
   checkIn,
@@ -36,10 +37,10 @@ const BookingSummary = ({
   const [bookingRooms, setBookingRooms] = useState(rooms || 1); // 实际预订的房间数
   const [maxRooms, setMaxRooms] = useState(rooms || 1); // 最大可预订房间数
   const [showPayMethod, setShowPayMethod] = useState(false); // 支付方式弹窗状态
-  const [remarks, setRemarks] = useState(''); // 备注信息状态
   
   const { selectedHotelId } = useHotelStore();
   const { selectedHotel } = useSearchStore();
+  const { orderRemark, setOrderRemark } = usePaymentStore();
 
   // 获取酒店名称
   useEffect(() => {
@@ -292,21 +293,21 @@ const BookingSummary = ({
                         </label>
                         <textarea
                           id="remarks"
-                          value={remarks}
-                          onChange={(e) => setRemarks(e.target.value)}
+                          value={orderRemark}
+                          onChange={(e) => setOrderRemark(e.target.value)}
                           placeholder="e.g., Late check-in, room preferences, special occasions..."
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 resize-none"
                           rows={3}
                         />
                         <div className="flex justify-between items-center mt-2">
                           <span className="text-xs text-gray-500">
-                            {remarks.length}/200 characters
+                            {orderRemark.length}/200 characters
                           </span>
-                          {remarks.length > 0 && (
+                          {orderRemark.length > 0 && (
                             <motion.button
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
-                              onClick={() => setRemarks('')}
+                              onClick={() => setOrderRemark('')}
                               className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
                             >
                               Clear
@@ -346,6 +347,7 @@ const BookingSummary = ({
         isOpen={showPayMethod}
         onClose={() => setShowPayMethod(false)}
         totalPrice={totalPrice}
+        selectedRoom={selectedRoom}
       />
     </motion.div>
   )
