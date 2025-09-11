@@ -58,6 +58,7 @@ function OrderList() {
                     key={order.orderId} 
                     order={order} 
                     index={index}
+                    onRefreshOrders={refreshOrders}
                 />
             ))}
 
