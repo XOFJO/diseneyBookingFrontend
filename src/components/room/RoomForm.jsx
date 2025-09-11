@@ -125,7 +125,7 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
         {/* Left Side - Main Content */}
         <div className="flex-1 mr-6">
           {/* Header Section */}
-          <div className="bg-white rounded-t-lg p-6 border-b">
+          <div className="bg-white rounded-t-lg p-6">
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center space-x-4"></div>
               <div className="flex items-start justify-between gap-6"></div>
@@ -136,7 +136,7 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
           </div>
 
           {/* Theme Selector */}
-          <div className="bg-white p-6">
+          <div className="bg-white p-6 border-t border-gray-100">
             <ThemeSelector
               activeTab={activeTab}
               setActiveTab={setActiveTab}
@@ -146,7 +146,7 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
           </div>
 
           {/* Room Selection - Scrollable */}
-          <div className="bg-white rounded-lg">
+          <div className="bg-white rounded-b-lg border-t border-gray-100">
             {roomsLoading ? (
               <div className="p-6 text-center">Loading rooms...</div>
             ) : roomsError ? (
