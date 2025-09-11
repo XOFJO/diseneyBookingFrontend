@@ -91,4 +91,19 @@ export const getUserAchievements = async (userId = 1) => {
   return response.data;
 };
 
+// 创建订单
+export const createOrder = async (orderData) => {
+  const response = await apiClient.post('/api/orders', {
+    hotelId: orderData.hotelId,
+    themeName: orderData.themeName,
+    roomCount: orderData.roomCount,
+    checkIn: orderData.checkIn,
+    checkOut: orderData.checkOut,
+    totalPrice: orderData.totalPrice,
+    userId: orderData.userId,
+    orderRemark: orderData.orderRemark
+  });
+  return response.data;
+};
+
 export default apiClient;
