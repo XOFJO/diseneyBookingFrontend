@@ -159,6 +159,25 @@ const RoomForm = ({ roomsData, roomsLoading, roomsError, onSearch }) => {
                   Retry
                 </button>
               </div>
+            ) : filteredRooms.length === 0 ? (
+              <div className="p-12 text-center">
+                <div className="max-w-md mx-auto">
+                  <div className="mb-6">
+                    <div className="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                      <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                      No rooms found
+                    </h3>
+                    <p className="text-gray-500 mb-6">
+                      Sorry, we couldn't find any available rooms for your selected dates and preferences. 
+                      Please try adjusting your search criteria or dates.
+                    </p>
+                  </div>
+                </div>
+              </div>
             ) : (
               <RoomDetails
                 mockRooms={filteredRooms}
