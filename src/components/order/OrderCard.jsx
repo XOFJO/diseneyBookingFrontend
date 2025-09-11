@@ -18,7 +18,7 @@ function OrderCard({ order, index, onRefreshOrders }) {
     const { submitComment, loading, error } = useComments();
 
     // 使用取消订单hook
-    const { cancelOrderById, isLoading: isCanceling, error: cancelError, clearError } = useCancelOrder();
+    const { cancelOrderById, isLoading: isCanceling, error: cancelError } = useCancelOrder();
 
     const getStatusColor = (status) => {
         switch (status) {
