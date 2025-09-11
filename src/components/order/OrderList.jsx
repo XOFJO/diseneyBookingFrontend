@@ -1,57 +1,55 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHotel } from '@fortawesome/free-solid-svg-icons';
+import { faHotel, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import OrderCard from './OrderCard';
 import useOrderStore from '../../store/orderStore';
+import useOrders from '../../hooks/useOrders';
 
 function OrderList() {
     const { activeFilter, getFilteredOrders } = useOrderStore();
-    // 模拟订单数据
-    const mockOrders = [
-        {
-            orderId: 1,
-            hotelName: '上海迪士尼梦幻奇缘酒店',
-            themeName: 'Frozen Magic',
-            roomName: '豪华花园景观房',
-            roomNumbers: '1208',
-            roomCount: 1,
-            checkIn: '2025-08-01',
-            checkOut: '2025-09-01',
-            userName: 'Li Hua',
-            phone: '138****8888',
-            orderRemark: '蜜月旅行，希望安排高层房间',
-            status: 'CONFIRMED',
-            totalPrice: 3220,
-            orderDate: '2025-09-10 09:49:41',
-            comment: '酒店服务很棒，房间很干净，迪士尼主题装饰很用心！',
-            rating: 4.5,
-            ratingDate: '2025-09-01 12:00:00'
-        },
-        {
-            orderId: 2,
-            hotelName: '上海迪士尼梦幻奇缘酒店',
-            themeName: 'Princess Dream',
-            roomName: '标准双床房',
-            roomNumbers: '806;808',
-            roomCount: 2,
-            checkIn: '2025-09-15',
-            checkOut: '2025-09-16',
-            userName: 'Zhang San',
-            phone: '159****6666',
-            orderRemark: '',
-            status: 'CANCELLED',
-            totalPrice: 2680,
-            orderDate: '2025-09-08 14:22:15',
-            comment: '',
-            rating: null,
-            ratingDate: ''
-        }
-    ];
-
+    const { orders: allOrders, loading, error, refreshOrders } = useOrders();
+    
     // 使用store中的筛选方法
-    const filteredOrders = getFilteredOrders(mockOrders, activeFilter);
+    const filteredOrders = getFilteredOrders(allOrders, activeFilter);
+
+    // 加载状态
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center py-16">
+                <FontAwesomeIcon 
+                    icon={faSpinner} 
+                    className="text-4xl text-purple-400 animate-spin" 
+                />
+                <span className="ml-3 text-purple-200 text-lg" style={{ fontFamily: 'Georgia, serif' }}>
+                    正在加载订单...
+                </span>
+            </div>
+        );
+    }
+
+    // 错误状态
+    if (error) {
+        return (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-16"
+            >
+                <div className="text-red-400 text-lg mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+                    {error}
+                </div>
+                <button
+                    onClick={refreshOrders}
+                    className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors duration-200"
+                    style={{ fontFamily: 'Georgia, serif' }}
+                >
+                    重新加载
+                </button>
+            </motion.div>
+        );
+    }
 
     return (
         <div className="space-y-4">

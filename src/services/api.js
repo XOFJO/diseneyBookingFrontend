@@ -38,7 +38,10 @@ export const searchRooms = async (hotelId, checkIn, checkOut, availableRoomNumbe
   return response.data;
 };
 
-
+export const getOrders=async()=>{
+  const response = await apiClient.get('api/users/1/orders');
+  return response.data;
+};
 
 export default apiClient;
 
