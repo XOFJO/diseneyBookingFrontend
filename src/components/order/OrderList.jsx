@@ -13,6 +13,13 @@ function OrderList() {
     
     // 使用store中的筛选方法
     const filteredOrders = getFilteredOrders(allOrders, activeFilter);
+    
+    // 按订单时间排序，最新的在前面
+    const sortedOrders = [...filteredOrders].sort((a, b) => {
+        const timeA = new Date(a.orderDate || 0);
+        const timeB = new Date(b.orderDate || 0);
+        return timeB - timeA; // 降序排列，最新的在前面
+    });
 
     // 加载状态
     if (loading) {
@@ -53,7 +60,7 @@ function OrderList() {
 
     return (
         <div className="space-y-4">
-            {filteredOrders.map((order, index) => (
+            {sortedOrders.map((order, index) => (
                 <OrderCard 
                     key={order.orderId} 
                     order={order} 
@@ -63,7 +70,7 @@ function OrderList() {
             ))}
 
             {/* Empty State */}
-            {filteredOrders.length === 0 && (
+            {sortedOrders.length === 0 && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
