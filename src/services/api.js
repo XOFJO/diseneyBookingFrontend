@@ -50,6 +50,17 @@ export const sentComments = async (orderId, commentData) => {
   });
   return response; // 返回完整的 response 对象，包含 status
 };
+// 获取房间评论
+export const getRoomComments = async (hotelId, themeName) => {
+  const response = await apiClient.get('/api/comments', {
+    params: {
+      hotelId,
+      themeName
+    }
+  });
+  return response.data;
+};
+
 
 export const cancelOrder = async (orderId) => {
   const response = await apiClient.patch(`/api/orders/${orderId}/cancel`);
