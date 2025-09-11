@@ -20,7 +20,7 @@ const MyFootprints = () => {
     const generateRandomNote = (city) => {
         const noteTemplates = [
             "Business conference & meetings",
-            "Cultural exploration & leisure", 
+            "Cultural exploration & leisure",
             "Trade fair & networking",
             "Tech summit & innovation tour",
             "Family vacation & sightseeing",

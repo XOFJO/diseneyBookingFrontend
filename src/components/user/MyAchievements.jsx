@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import useUserStore from "../../store/userStore";
 
 const MyAchievements = () => {
-    // Zustand store access (prepared for future use)
+    // Zustand store access
     const {
         achievements: storeAchievements,
         achievementsLoading,
@@ -11,21 +11,60 @@ const MyAchievements = () => {
         fetchAchievements
     } = useUserStore();
 
-    // Static data (current implementation - to be replaced later)
-    const allAchievements = [
-        { title: "Fantasy Land", date: "2024-01", desc: "Magical castle themed experience", level: "bronze" },
-        { title: "Adventure Island", date: "2024-03", desc: "Pirate & treasure hunting theme", level: "silver" },
-        { title: "Sci-Fi Station", date: "2024-06", desc: "Futuristic space exploration", level: "gold" },
-        { title: "Ocean World", date: "2024-09", desc: "Underwater marine adventure", level: "platinum" },
-        { title: "Royal Palace", date: "2024-12", desc: "Luxury royal suite experience", level: "diamond" },
-    ];
+    // Fetch achievements on component mount
+    useEffect(() => {
+        fetchAchievements(1);
+    }, [fetchAchievements]);
 
-    // 只显示最新4个成就，自适应屏幕
-    const achievements = allAchievements.slice(-4);
+    // Random title generator
+    const generateRandomTitle = (roomTheme, index) => {
+        const titleTemplates = [
+            "Fantasy Land", "Adventure Island", "Sci-Fi Station", "Ocean World",
+            "Royal Palace", "Mystic Forest", "Dragon Castle", "Starlight Villa",
+            "Enchanted Garden", "Crystal Cave", "Golden Tower", "Silver Moon"
+        ];
+        // Use roomTheme and index to generate consistent titles
+        const themeIndex = (roomTheme?.charCodeAt(0) || 0) + index;
+        return titleTemplates[themeIndex % titleTemplates.length];
+    };
 
-    // Future implementation will use:
-    // const achievements = storeAchievements.slice(-4);
-    // useEffect(() => { fetchAchievements(1); }, []);
+    // Random description generator
+    const generateRandomDesc = (roomTheme, title) => {
+        const descTemplates = [
+            "Magical castle themed experience", "Pirate & treasure hunting theme",
+            "Futuristic space exploration", "Underwater marine adventure",
+            "Luxury royal suite experience", "Mystical forest adventure",
+            "Ancient dragon legends", "Celestial stargazing journey",
+            "Fairy tale garden escape", "Crystalline cave exploration",
+            "Golden luxury experience", "Moonlit romantic getaway"
+        ];
+        // Use title length to select description
+        const titleLength = title?.length || 10;
+        return descTemplates[titleLength % descTemplates.length];
+    };
+
+    // Random level generator
+    const generateRandomLevel = (date, index) => {
+        const levels = ["bronze", "silver", "gold", "platinum", "diamond"];
+        // Use date and index to generate consistent levels
+        const dateValue = new Date(date + "-01").getTime();
+        const levelIndex = (Math.floor(dateValue / 1000000000) + index) % levels.length;
+        return levels[levelIndex];
+    };
+
+    // Process API data to add random fields
+    const processedAchievements = storeAchievements
+        .sort((a, b) => new Date(b.date + "-01") - new Date(a.date + "-01")) // Sort by date desc
+        .slice(-4) // Only show latest 4 achievements
+        .map((achievement, index) => ({
+            ...achievement,
+            title: generateRandomTitle(achievement.roomTheme, index),
+            desc: generateRandomDesc(achievement.roomTheme, achievement.title || "Default"),
+            level: generateRandomLevel(achievement.date, index),
+        }));
+
+    // Use processed achievements or fallback to loading state
+    const achievements = processedAchievements;
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -51,7 +90,64 @@ const MyAchievements = () => {
             bronze: "👦", silver: "👧", gold: "🧒", platinum: "👨", diamond: "👩"
         };
         return icons[level] || icons.bronze;
-    }; return (
+    };
+
+    // Loading state
+    if (achievementsLoading) {
+        return (
+            <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl w-full text-white relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/10 to-blue-500/5 opacity-50 animate-pulse pointer-events-none rounded-2xl"></div>
+                <h2 className="text-2xl font-bold mb-8 text-center tracking-wider bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    🏆 My Achievements 🏆
+                </h2>
+                <div className="flex items-center justify-center py-12">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div>
+                    <span className="ml-4 text-purple-200">Loading achievements...</span>
+                </div>
+            </div>
+        );
+    }
+
+    // Error state
+    if (achievementsError) {
+        return (
+            <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl w-full text-white relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/10 to-blue-500/5 opacity-50 animate-pulse pointer-events-none rounded-2xl"></div>
+                <h2 className="text-2xl font-bold mb-8 text-center tracking-wider bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    🏆 My Achievements 🏆
+                </h2>
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <span className="text-red-400 text-4xl mb-4">⚠️</span>
+                    <span className="text-red-300 mb-4">Failed to load achievements</span>
+                    <button
+                        onClick={() => fetchAchievements(1)}
+                        className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-lg transition-all duration-300 text-white font-medium"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Empty state
+    if (!achievements || achievements.length === 0) {
+        return (
+            <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl w-full text-white relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/10 to-blue-500/5 opacity-50 animate-pulse pointer-events-none rounded-2xl"></div>
+                <h2 className="text-2xl font-bold mb-8 text-center tracking-wider bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    🏆 My Achievements 🏆
+                </h2>
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <span className="text-yellow-400 text-4xl mb-4">🎯</span>
+                    <span className="text-purple-200">No achievements yet</span>
+                    <span className="text-purple-300 text-sm mt-2">Start exploring themed rooms to earn achievements!</span>
+                </div>
+            </div>
+        );
+    }
+
+    return (
         <div className="bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-indigo-900/40 backdrop-blur-lg border border-purple-500/30 p-8 rounded-2xl shadow-2xl w-full text-white relative overflow-hidden">
             {/* Magical glow effects */}
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/10 to-blue-500/5 opacity-50 animate-pulse pointer-events-none rounded-2xl"></div>

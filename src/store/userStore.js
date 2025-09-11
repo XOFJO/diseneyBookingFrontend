@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { getUserInfo, changeUserPassword, getUserFootprints, getUserAchievements } from '../services/api';
 
-const useUserStore = create((set, get) => ({
+const useUserStore = create((set) => ({
     // User Info State
     userInfo: {
         userId: 1,
@@ -61,7 +61,7 @@ const useUserStore = create((set, get) => ({
             });
         } catch (error) {
             let errorMessage = 'Failed to change password';
-            
+
             // Handle specific backend error response
             if (error.response?.status === 400) {
                 const responseData = error.response.data;
@@ -73,7 +73,7 @@ const useUserStore = create((set, get) => ({
             } else {
                 errorMessage = error.response?.data?.message || error.message || errorMessage;
             }
-            
+
             set({
                 changePasswordError: errorMessage,
                 changePasswordLoading: false,

@@ -40,7 +40,7 @@ const ChangePassword = () => {
   const handlePasswordChange = async () => {
     // Clear previous validation error
     setValidationError("");
-    
+
     // Validation
     if (!oldPassword.trim()) {
       setValidationError("Please enter your old password");
@@ -129,13 +129,13 @@ const ChangePassword = () => {
             className="bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-400/30 rounded-xl p-4 text-center"
           >
             <div className="text-red-300 font-semibold">
-              ❌ {validationError ? 'Validation Error!' : 
-                    (changePasswordError?.includes('Password change failed') || changePasswordError?.includes('旧密码') ? 'Incorrect old password!' : 'Password change failed!')}
+              ❌ {validationError ? 'Validation Error!' :
+                (changePasswordError?.includes('Password change failed') || changePasswordError?.includes('旧密码') ? 'Incorrect old password!' : 'Password change failed!')}
             </div>
             <div className="text-red-400/70 text-sm mt-1">
               {validationError ? validationError :
-                (changePasswordError?.includes('Password change failed') || changePasswordError?.includes('旧密码') 
-                  ? 'Please check your old password and try again.' 
+                (changePasswordError?.includes('Password change failed') || changePasswordError?.includes('旧密码')
+                  ? 'Please check your old password and try again.'
                   : changePasswordError)}
             </div>
             <button
@@ -154,11 +154,10 @@ const ChangePassword = () => {
         )}
 
         <motion.button
-          className={`w-full p-4 rounded-xl font-bold tracking-wide focus:outline-none focus:ring-2 focus:ring-yellow-400/50 transition-all duration-500 transform relative overflow-hidden ${
-            changePasswordLoading
+          className={`w-full p-4 rounded-xl font-bold tracking-wide focus:outline-none focus:ring-2 focus:ring-yellow-400/50 transition-all duration-500 transform relative overflow-hidden ${changePasswordLoading
               ? 'bg-gradient-to-r from-gray-600 to-gray-700 cursor-not-allowed'
               : 'bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white hover:from-yellow-500 hover:via-pink-500 hover:to-purple-500 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/30'
-          }`}
+            }`}
           onClick={handlePasswordChange}
           disabled={changePasswordLoading}
           whileHover={!changePasswordLoading ? { y: -2 } : {}}
