@@ -177,9 +177,7 @@ const RoomReview = ({ isOpen, onClose, roomId, roomTheme }) => {
                 {/* AI Summary Section */}
                 <div className="p-4 bg-gray-50 border-b border-gray-200">
                   <AIReviewSummary 
-                    roomId={roomId || "demo-room-123"} 
                     roomTheme={roomTheme || "Disney Theme Room"} 
-                    useStreaming={true}
                     className="mb-0"
                   />
                 </div>
