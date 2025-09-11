@@ -27,6 +27,10 @@ const PayMethod = ({ isOpen, onClose, totalPrice, selectedRoom, actualRoomCount 
     const success = await handlePayment();
     if (success) {
       onClose();
+      // 延迟刷新页面，让toast有时间显示
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     }
   };
 
