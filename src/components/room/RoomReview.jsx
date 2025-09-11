@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
+import { getRoomComments } from '../../services/api'
 import useHotelStore from '../../store/hotelStore'
 import AIReviewSummary from '../ai/AIReviewSummary'
 
@@ -49,22 +49,14 @@ const RoomReview = ({ isOpen, onClose, roomId, roomTheme }) => {
     setError('');
 
     try {
-      const response = await axios.get(
-        `https://disneybookingbackend-production.up.railway.app/api/comments`,
-        {
-          params: {
-            hotelId: hotelIdToUse,
-            themeName: roomTheme
-          }
-        }
-      );
+      const response = await getRoomComments(hotelIdToUse, roomTheme);
 
       console.log('API call made with params:', { hotelId: hotelIdToUse, themeName: roomTheme });
 
-      console.log('API Response:', response.data);
+      console.log('API Response:', response);
 
       // Filter out invalid comments and transform data
-      const validComments = response.data.filter(comment => 
+      const validComments = response.filter(comment => 
         comment.comment && 
         comment.rating && 
         comment.userName && 

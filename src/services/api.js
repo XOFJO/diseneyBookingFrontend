@@ -43,5 +43,16 @@ export const getOrders=async()=>{
   return response.data;
 };
 
+// 获取房间评论
+export const getRoomComments = async (hotelId, themeName) => {
+  const response = await apiClient.get('/api/comments', {
+    params: {
+      hotelId,
+      themeName
+    }
+  });
+  return response.data;
+};
+
 export default apiClient;
 
