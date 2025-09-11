@@ -156,7 +156,9 @@ function HotelDetailHeader() {
               ) : (
                 <motion.a
                   key={item.name}
-                  href="#"
+                  href="https://www.shanghaidisneyresort.com/zh-cn/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center space-x-2 text-purple-100 hover:text-yellow-300 transition-colors duration-200 group"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
