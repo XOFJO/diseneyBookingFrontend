@@ -41,16 +41,19 @@ const toolFunctions = {
       const hotelId = args.hotelId || 1;
 
       const data = await fetchRoomReviews(hotelId, themeName);
+      
+      // Filter out reviews with null rating
+      const validReviews = data.filter(review => review.rating !== null && review.rating !== undefined);
 
       return {
         success: true,
         data: {
-          reviews: data,
-          totalReviews: data.length,
-          averageRating: (
-            data.reduce((sum, review) => sum + review.rating || 0, 0) /
-            data.length
-          ).toFixed(1),
+          reviews: validReviews,
+          totalReviews: validReviews.length,
+          averageRating: validReviews.length > 0 ? (
+            validReviews.reduce((sum, review) => sum + review.rating, 0) /
+            validReviews.length
+          ).toFixed(1) : '0.0',
           themeName,
         },
       };
