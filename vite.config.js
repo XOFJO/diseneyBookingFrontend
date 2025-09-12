@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   preview: {
-    allowedHosts: ["disneybookingbackend-production-4ce8.up.railway.app"],
+    allowedHosts: ["diseneybookingfrontend-production.up.railway.app"],
   },
   server: {
     proxy: {
