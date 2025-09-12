@@ -5,12 +5,12 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   preview: {
-    allowedHosts: ["diseneybookingfrontend-production.up.railway.app"],
+    allowedHosts: ["disneybookingbackend-production-4ce8.up.railway.app"],
   },
   server: {
     proxy: {
       "/api": {
-        target: "https://disneybookingbackend-production.up.railway.app",
+        target: "https://disneybookingbackend-production-4ce8.up.railway.app",
         changeOrigin: true,
         secure: true,
         // rewrite: (path) => path.replace(/^\/api/, "/api"),
